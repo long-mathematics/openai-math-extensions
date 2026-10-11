@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "source": "papers/01-heterogeneous-potts-capacity/heterogeneous-potts-capacity.tex",
+      "source_sha256": "44ed8bf65f82e8d7a3743a8fd9a4569d331e54b611e336ef564fcedb391fac00",
+      "pdf": "output/pdf/heterogeneous-potts-capacity.pdf",
+      "pdf_sha256": "8fc5e5257edab203fc33ed28f4e0bd07a4f357ce1f513b62065bd8fcbf2174b0",
+      "pages": 12
+    },
+    {
+      "source": "papers/02-robust-random-k-sat-variance/robust-random-k-sat-variance.tex",
+      "source_sha256": "4cbac1859b1b1152e8cbf947cc8ea95ff5c46f96563670f01cbeec77916c8c66",
+      "pdf": "output/pdf/robust-random-k-sat-variance.pdf",
+      "pdf_sha256": "723aa3d7cf9f442962fc0a3dd92bfdee41ddc26630d4002b0d5eba51875944ef",
+      "pages": 14
+    },
+    {
+      "source": "papers/03-brownian-sampler-stabilization/brownian-sampler-stabilization.tex",
+      "source_sha256": "33e9c3da33f973052abd6622c01ecef5628c37b538ded0b01c16dc9d1fb5c3f4",
+      "pdf": "output/pdf/brownian-sampler-stabilization.pdf",
+      "pdf_sha256": "c48f2be94e1f1692d4316bbcc2ac0bda4b9805efb2355ef4dd2e42c123c09abe",
+      "pages": 12
+    }
+  ]
+}

@@ -4,25 +4,45 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: latex-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        paper:
-          - brownian-stabilization
-          - robust-random-k-sat-variance
-          - heterogeneous-potts-capacity
+    name: Build and check manuscripts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - name: Compile manuscript
-        if: ${{ hashFiles(format('papers/{0}/main.tex', matrix.paper)) != '' }}
-        uses: xu-cheng/latex-action@e2f99d4b3685b0da93f97e1b86ad8fab81105098 # v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Install TeX and verification tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk texlive-latex-extra texlive-fonts-recommended texlive-science \
+            lmodern poppler-utils python3 python3-sympy make
+      - name: Repository tests
+        run: make test
+      - name: Exact symbolic verification
+        run: make verify
+      - name: Rebuild and verify committed PDFs
+        run: make check
+      - name: Upload rebuilt PDFs and logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          root_file: main.tex
-          working_directory: papers/${{ matrix.paper }}
-      - name: Verify Potts expansion
-        if: ${{ matrix.paper == 'heterogeneous-potts-capacity' && hashFiles('papers/heterogeneous-potts-capacity/verify_local_expansion.py') != '' }}
-        run: python papers/heterogeneous-potts-capacity/verify_local_expansion.py
+          name: compiled-manuscripts
+          path: |
+            .build/**/*.pdf
+            .build/**/*.log
+            .build/**/build-console.txt
+            output/pdf/*.pdf
+            output/pdf/manifest.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14

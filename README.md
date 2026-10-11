@@ -1,39 +1,80 @@
 # OpenAI Math Extensions
 
-This repository collects three independent extensions of recent OpenAI mathematical preprints. Each paper is self-contained after a precisely stated input from the corresponding source manuscript. The OpenAI sources are pinned to commit `fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb` of `openai/math`.
+Three independent research manuscripts by **Christopher D. Long** extending recent OpenAI mathematical preprints. The papers share provenance rather than a single mathematical subject. OpenAI source dependencies are pinned to commit `fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb` of `openai/math`.
 
-## Papers
+## Read the papers
 
-### Exact observation-time stabilization for the Brownian factor-of-IID sampler
+| Paper | Manuscript | PDF | LaTeX |
+| --- | --- | --- | --- |
+| **I** | **A Sharp Capacity Criterion for Heterogeneous Four-State Potts Broadcasting on Trees** | [Read PDF](output/pdf/heterogeneous-potts-capacity.pdf) | [Source](papers/01-heterogeneous-potts-capacity/heterogeneous-potts-capacity.tex) |
+| **II** | **A Robust Linear Upper Bound for the Variance of Random $k$-SAT Hitting Times** | [Read PDF](output/pdf/robust-random-k-sat-variance.pdf) | [Source](papers/02-robust-random-k-sat-variance/robust-random-k-sat-variance.tex) |
+| **III** | **Exact Observation-Time Stabilization Laws for the Brownian Factor-of-IID Sampler** | [Read PDF](output/pdf/brownian-sampler-stabilization.pdf) | [Source](papers/03-brownian-sampler-stabilization/brownian-sampler-stabilization.tex) |
 
-The OpenAI Brownian sampler reconstructs a path field with the joint law
+The PDFs are committed snapshots compiled from the linked canonical sources. Intermediate LaTeX files are kept out of the repository. The numbering gives these manuscripts stable identities inside this repository; it is not a logical dependency order.
 
-$$
-Y_i(t)=tX_i+B_i(t).
-$$
+## Paper guide
 
-The paper determines the exact stabilization law of the midpoint decoder. Conditionally on the sampled configuration, the coordinate stabilization marks are independent with law $4\chi_1^2$. It also gives exact finite-set laws, Gumbel asymptotics, heterogeneous clocks, a vector I-MMSE entropy identity, and a Bayes snapshot benchmark. The stabilization parameter is observation time after path reconstruction; it is not a factor coding radius.
+### Paper I — Heterogeneous four-state Potts capacity
 
-Source: [`papers/brownian-stabilization`](papers/brownian-stabilization)
+[Read PDF](output/pdf/heterogeneous-potts-capacity.pdf) · [LaTeX](papers/01-heterogeneous-potts-capacity/heterogeneous-potts-capacity.tex)
 
-### Robust variance bounds for random $k$-SAT hitting times
+For edge-dependent four-state Potts channels satisfying a common strict upper contraction bound, reconstruction on every locally finite deterministic rooted tree is equivalent to positivity of the associated $L^3$ nonlinear capacity. The manuscript removes the bounded-degree and homogeneous-channel assumptions, proves robust reconstruction under every fixed nonzero terminal channel, and obtains two-sided comparison between capacity and quadratic posterior information.
 
-For fixed $k\ge 3$, the paper proves an $O(n)$ upper bound for the variance of the first unsatisfiable prefix in an independent, time-inhomogeneous stream of proper signed $k$-clauses whose laws are uniformly comparable with the uniform law. A stronger local criterion separates the actual inputs used by the proof: ordinary-clause drift, root-test density, root-incidence moments, and an assignment-falsification tail. No stationarity is required. A matching lower bound remains open in this generality.
+Without a uniform contraction bound, it proves an edge-weighted necessary capacity statement with weight $1-\lambda_e^4$ and shows that this weighted criterion is exact on one ray. The full weighted converse on arbitrary trees remains open.
 
-Source: [`papers/robust-random-k-sat-variance`](papers/robust-random-k-sat-variance)
+### Paper II — Robust random $k$-SAT hitting-time variance
 
-### A sharp capacity criterion for heterogeneous four-state Potts broadcasting
+[Read PDF](output/pdf/robust-random-k-sat-variance.pdf) · [LaTeX](papers/02-robust-random-k-sat-variance/robust-random-k-sat-variance.tex)
 
-For arbitrary locally finite deterministic rooted trees and edge parameters $0<\lambda_e\le q<1$, reconstruction is equivalent to positivity of the associated $L^3$ nonlinear capacity with squared-channel path weights. The result removes the common-channel and bounded-degree assumptions, proves robust reconstruction, and gives two-sided comparison between quadratic root information and capacity. A weighted-capacity necessity theorem remains valid without uniform contraction and is exact on one ray.
+For every fixed $k\ge 3$, independent proper-clause streams whose time-dependent laws are uniformly comparable with the uniform proper-clause law satisfy a uniform $O(n)$ upper bound for the variance of the first unsatisfiable prefix. The proof allows arbitrary deterministic time dependence and isolates the distinct roles of conditional-density comparison, root-incidence control, and the lower survival bound.
 
-Source: [`papers/heterogeneous-potts-capacity`](papers/heterogeneous-potts-capacity)
+The manuscript does not claim a matching lower bound under the full two-sided comparison hypothesis. It also records why the available second-moment deletion argument does not by itself yield sub-Gaussian tails.
 
-## Verification
+### Paper III — Brownian sampler stabilization
 
-Each paper is compiled from `main.tex`. The Potts source includes an exact symbolic expansion check:
+[Read PDF](output/pdf/brownian-sampler-stabilization.pdf) · [LaTeX](papers/03-brownian-sampler-stabilization/brownian-sampler-stabilization.tex)
 
-```bash
-python papers/heterogeneous-potts-capacity/verify_local_expansion.py
+For the natural midpoint readout of the OpenAI Brownian sampler, the coordinate stabilization marks are independent with common law $4\chi_1^2$ and are independent of the sampled binary configuration. The manuscript derives exact finite-set and defect-count laws, an extremal Poisson point-process limit, unequal-rate and deterministic-clock formulas, and an entropy--MMSE comparison with the full Bayes decoder.
+
+These are observation-time statements after the reconstructed path has been formed. They are not finitary-factor or coding-radius statements.
+
+## Status and provenance
+
+- [Theorem status](THEOREM_STATUS.md) records proved statements, scope boundaries, and open strengthenings.
+- [Dependency map](DEPENDENCIES.md) identifies the exact OpenAI inputs and which directions use them.
+- [Initial audit](audits/2026-10-11-initial-audit.md) records the first repository-level audit and repair pass.
+
+Compilation, exact symbolic checks, and finite computations check the written artifacts; they are not independent peer review or formal verification.
+
+## Build and verification
+
+On Debian/Ubuntu:
+
+```sh
+sudo apt-get install latexmk texlive-latex-extra texlive-fonts-recommended texlive-science lmodern poppler-utils python3 python3-sympy make
 ```
 
-The GitHub workflow compiles all three manuscripts and runs this verifier.
+From the repository root:
+
+```sh
+make pdf
+make check
+make test
+make verify
+```
+
+Canonical manuscript entry points use stable descriptive filenames rather than `main.tex`. PDFs are committed under `output/pdf/`; intermediates stay in `.build/`. The [PDF manifest](output/pdf/manifest.json) records source hashes, PDF hashes, and page counts.
+
+## Repository layout
+
+```text
+papers/                     three current manuscripts with stable Paper I--III identities
+audits/                     mathematical audit and provenance records
+scripts/                    build checks and exact verification
+output/pdf/                 committed PDF snapshots and manifest
+tests/                      repository regression tests
+```
+
+## License
+
+Repository-authored code and documentation are available under the [MIT License](LICENSE). Individual manuscript copyright remains with the author. OpenAI manuscripts are cited as external sources and are not vendored here.

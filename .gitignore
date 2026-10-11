@@ -1,17 +1,14 @@
-# LaTeX intermediate files
+.build/
+__pycache__/
+*.pyc
 *.aux
 *.bbl
-*.bcf
 *.blg
 *.fdb_latexmk
 *.fls
 *.log
 *.out
-*.run.xml
-*.synctex.gz
 *.toc
+*.synctex.gz
+*.dvi
 *.xdv
-
-# Local build and render directories
-_renders/
-build.log
