@@ -1,0 +1,200 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Let $x_1,\dots,x_n$ be Boolean variables.  A \emph{proper signed
+$k$-clause} is a disjunction of $k$ literals on $k$ distinct variables.
+In the classical random $k$-SAT process, independent clauses are sampled
+uniformly with replacement, and one studies the first prefix whose
+conjunction is unsatisfiable.  Sharp threshold phenomena for random
+$k$-SAT originate in the work of \citet{Friedgut1999}; quantitative lower
+bounds on the width of the uniform transition were obtained by
+\citet{Wilson2002}.  Recent work of \citet{Carenini2026Scaling} and
+\citet{Carenini2026Polynomial} gives substantially sharper scaling-window
+bounds and establishes the fixed-$k$ satisfiability conjecture.
+
+The fluctuation problem for the first unsatisfiable prefix is finer than the
+existence or width of a threshold.  In the uniform proper-clause model,
+\citet{OpenAI2026KSATVariance} proved variance $\Theta_k(n)$ for fixed
+$k\ge4$ and an $O(n\log n)$ upper bound for $k=3$.  The logarithmic loss in
+the three-literal case was subsequently removed in
+\citet{OpenAI2026ThreeSATVariance}, yielding variance $\Theta(n)$.  Their
+upper-bound arguments combine coordinate omission, necessary tests obtained
+by flipping variables of a deleted clause, and an occupation estimate for a
+potential defined on the surviving assignment set.
+
+The purpose of this paper is to show that the linear upper bound is stable
+under bounded, time-dependent perturbations of the complete clause law.
+The clause stream may be nonstationary, its variable and sign choices may
+exhibit arbitrary dependence within a clause, and different times may use
+different distributions.  Independence \emph{between} clause times is
+retained.  The only structural assumption is a two-sided pointwise density
+bound relative to the uniform proper-clause law.
+
+\subsection{Model and main result}
+
+Let $\cC_{n,k}$ denote the set of proper signed $k$-clauses on
+$x_1,\dots,x_n$, and let $U_{n,k}$ be the uniform probability measure on
+$\cC_{n,k}$:
+\[
+    U_{n,k}(C)=\frac{1}{2^k\binom nk}
+    \qquad(C\in\cC_{n,k}).
+\]
+For every $n$, let $C_1,C_2,\dots$ be independent clauses, where $C_j$ has
+law $\mu_{n,j}$ on $\cC_{n,k}$.  We assume that fixed constants
+\[
+    0<a\le 1\le b<\infty
+\]
+satisfy
+\begin{equation}
+    a\,U_{n,k}(C)
+    \le \mu_{n,j}(C)
+    \le b\,U_{n,k}(C)
+    \label{eq:uniform-comparability}
+\end{equation}
+for every $n$, every time $j$, and every $C\in\cC_{n,k}$.  Put
+\[
+    F_m=\bigwedge_{j=1}^m C_j,
+    \qquad
+    H_n=\min\{m\ge1:F_m\text{ is unsatisfiable}\}.
+\]
+
+\begin{theorem}[Robust linear variance bound]
+\label{thm:main}
+Fix $k\ge3$ and constants $0<a\le1\le b<\infty$.  Under
+\eqref{eq:uniform-comparability}, there is a constant
+$K=K(a,b,k)<\infty$ such that
+\[
+    \Var(H_n)\le Kn
+    \qquad(n\ge k).
+\]
+More generally, for every fixed $\rho<\infty$, there is a constant
+$K_\rho=K_\rho(a,b,k)<\infty$ such that
+\[
+    \Var(H_n\wedge L)\le K_\rho n
+\]
+for all $n\ge k$ and all integers $1\le L\le \rho n$.
+\end{theorem}
+
+The constants are uniform over the entire triangular array
+$(\mu_{n,j})_{n,j}$.  In particular, deterministic time dependence is
+allowed without any regularity assumption in $j$.
+
+The proof yields a more local theorem.  For a $k$-set $R$ of roots, reveal
+from a clause the subset of $R$ that it uses and the literal signs on that
+subset.  Conditional on this revealed root trace, the remaining literals are
+called the hidden nonroot part.
+
+\begin{theorem}[Local robustness criterion]\label{thm:local-criterion}
+Fix $k\ge3$.  Suppose the clauses are independent across time and that there
+are constants
+\[
+ B_{\mathrm{o}},B_{\mathrm{t}}\ge1,\qquad
+ \gamma_1,\gamma_2,\delta>0
+\]
+with the following properties, uniformly in $n$, the time index, every
+$k$-set $R\subseteq[n]$, and every relevant root trace of positive
+probability:
+\begin{enumerate}[label=\textnormal{(\roman*)}]
+\item conditional on avoiding $R$, the hidden proper $k$-clause on the
+      $n-k$ nonroots has density at least $B_{\mathrm{o}}^{-1}$ relative to the
+      uniform law;
+\item conditional on using exactly one specified root with a specified sign,
+      the hidden proper $(k-1)$-clause has density at most $B_{\mathrm{t}}$
+      relative to the uniform law;
+\item a clause meets $R$ with probability at most $\gamma_1/n$, and meets at
+      least two elements of $R$ with probability at most
+      $\gamma_2/[n(n-1)]$;
+\item for every fixed assignment and every time, the sampled clause falsifies
+      that assignment with probability at least $\delta$.
+\end{enumerate}
+Then, for every fixed $\rho<\infty$,
+\[
+ \Var(H_n\wedge L)=O(n)\qquad(1\le L\le\rho n),
+\]
+where the constant depends only on
+$k,\rho,B_{\mathrm{o}},B_{\mathrm{t}},\gamma_1,\gamma_2$.  Moreover
+$\Var(H_n)=O(n)$, with dependence also on $\delta$.
+\end{theorem}
+
+Under \eqref{eq:uniform-comparability}, the theorem applies with
+\begin{equation}\label{eq:local-parameters}
+ B_{\mathrm{o}}=B_{\mathrm{t}}=\frac ba,
+ \qquad \gamma_1=bk^2,
+ \qquad \gamma_2=\frac{bk^2(k-1)^2}{2},
+ \qquad \delta=a2^{-k}.
+\end{equation}
+Indeed, conditional densities lie in $[a/b,b/a]$; the incidence estimates
+follow by union bounds over roots and root pairs; and a fixed assignment
+falsifies a uniform proper clause with probability $2^{-k}$.  Thus
+Theorem~\ref{thm:main} is a direct corollary of the local criterion.
+
+The variance estimate immediately controls every fixed central quantile
+window.  Define
+\[
+    s_n(m)=\Prb(H_n>m),
+    \qquad
+    r_n(p)=\min\{m\ge0:s_n(m)\le p\},
+    \quad 0<p<1.
+\]
+
+\begin{corollary}[Central windows]
+\label{cor:central-window}
+Under the hypotheses of Theorem~\ref{thm:main}, for every fixed
+$0<\varepsilon<1/2$,
+\[
+    r_n(\varepsilon)-r_n(1-\varepsilon)
+    =O_{a,b,k,\varepsilon}(\sqrt n).
+\]
+\end{corollary}
+
+We prove only an upper variance bound.  The linear lower bound known for the
+uniform model uses additional information about separation of satisfiability
+levels and does not automatically persist for every nonidentical stream
+satisfying \eqref{eq:uniform-comparability}.  Although the lower density bound
+permits the mixture representation
+\[
+ \mu_{n,j}=aU_{n,k}+(1-a)\nu_{n,j},
+\]
+Bernoulli thinning alone does not give a variance lower bound: the residual
+clauses may determine the hitting time before fluctuations of the uniform
+component become pivotal.  Establishing a matching lower bound therefore
+requires a separate anti-concentration or level-separation argument and
+remains open in this generality.
+
+\subsection{Proof mechanism}
+
+Fix one deleted clause and call its $k$ variables \emph{roots}.  If that
+clause is pivotal, then every surviving solution has the root assignment
+that falsifies it.  Flipping an available root produces a necessary family
+of $(k-1)$-clause tests on the nonroot solution set.  If $p$ denotes the
+probability that $d$ independent uniform $(k-1)$-clauses kill that set, the
+$p$-dependence of the argument is
+\[
+    \underbrace{p^k}_{\text{necessary root tests}}
+    \times
+    \underbrace{p^{-k/(k-1)}}_{\text{remaining duration}}
+    \le
+    \underbrace{p^{k/(k-1)}}_{\text{controlled occupation}}.
+\]
+The inequality is exactly the exponent condition
+\[
+    k-\frac{k}{k-1}\ge \frac{k}{k-1},
+\]
+which holds for every $k\ge3$ and is an equality at $k=3$.
+
+The local hypotheses have distinct roles.  The lower conditional density
+$B_{\mathrm{o}}^{-1}$ drives the occupation potential at ordinary clauses.  The
+upper conditional test density $B_{\mathrm{t}}$ costs a factor at most
+$B_{\mathrm{t}}^r$ for a family of $r$ hidden root tests.  The incidence and
+collision bounds make the total root-incidence count exponentially
+integrable and collisions rare, while $\delta$ supplies the tail estimate
+used to remove the cap.  The two-sided pointwise hypothesis is therefore a
+convenient sufficient condition, not the intrinsic formulation of the
+argument.
+
+Section~\ref{sec:potential} proves the general-$k$ killing-potential
+inequality.  Sections~\ref{sec:omission} and \ref{sec:exposure} set up the
+clause deletion and conditional exposure.  Sections~\ref{sec:tests} and
+\ref{sec:occupation} prove the root-test and occupation estimates.
+Section~\ref{sec:delay} obtains a uniform second-moment bound for each
+deletion delay, and Section~\ref{sec:uncapping} removes the linear cap.
