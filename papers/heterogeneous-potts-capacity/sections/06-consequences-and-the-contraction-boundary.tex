@@ -1,0 +1,107 @@
+\section{Consequences and the contraction boundary}
+
+\begin{remark}[Quenched random environments]
+If the rooted tree and its channel parameters are random but, conditional on
+the environment, form a locally finite deterministic tree satisfying a common
+bound $\lambda_e\le q<1$, Theorem~\ref{thm:main} applies to almost every
+realization. Thus quenched reconstruction is equivalent realization by
+realization to positive quenched capacity. This observation does not by itself
+identify an annealed threshold, because averaging may mix environments with
+different capacities.
+\end{remark}
+
+\begin{corollary}[Spherical trees]\label{cor:spherical}
+Suppose every vertex at the same depth has the same number of children,
+let $N_k=|L_k|$, and suppose every depth-$k$ edge has parameter
+$\lambda_k\le q<1$. Put $\rho_k=\prod_{j=1}^k\lambda_j^2$.
+Then
+\[
+\Cap_3(T,\rho)=
+\left(\sum_{k\ge1}(N_k\rho_k)^{-2}\right)^{-1/2},
+\]
+where the value is zero if the series diverges. Consequently reconstruction
+occurs exactly when that series converges.
+\end{corollary}
+
+\begin{proof}
+The uniform flow of mass $a$ assigns $a/N_k$ to each depth-$k$ edge,
+giving the displayed path energy. Conversely, choose a uniform ray,
+so its vertex at level $k$ is uniform on $L_k$. For any flow of mass
+$a$, Jensen gives
+\[
+\E\left(\frac{\theta(e_{V_k})}{\rho_k}\right)^2
+\ge\left(\frac{a}{N_k\rho_k}\right)^2.
+\]
+Average the path potential and sum by monotone convergence. Its supremum
+is at least this average, proving optimality of the uniform flow.
+\end{proof}
+
+In particular, if $N_k\rho_k\asymp k^\beta$, the criterion is
+$\beta>1/2$. On a regular $d$-ary tree with common parameter $\lambda$,
+it reduces to $d\lambda^2>1$, including nonreconstruction at equality.
+These are direct consequences of the proved series criterion.
+
+\begin{proposition}[The weighted capacity is exact on one ray]
+\label{prop:ray-weighted}
+Suppose $T$ is one infinite ray, with edge parameters
+$0<\lambda_k\le1$. Put
+\[
+ \Lambda_n=\prod_{k=1}^n\lambda_k,
+ \qquad \rho_n=\Lambda_n^2,
+ \qquad \Lambda_\infty=\lim_n\Lambda_n.
+\]
+Then
+\[
+ a_\infty=\frac34\Lambda_\infty,
+\]
+and
+\begin{equation}\label{eq:ray-weighted-capacity}
+ \Cap_3^{\mathrm{noise}}(T,\rho)=
+ \begin{cases}
+  (\rho_\infty^{-2}-1)^{-1/2},&0<\rho_\infty<1,\\
+  +\infty,&\rho_\infty=1,\\
+  0,&\rho_\infty=0.
+ \end{cases}
+\end{equation}
+Consequently, reconstruction on a ray is equivalent to positive weighted
+capacity without any uniform contraction assumption.
+\end{proposition}
+
+\begin{proof}
+Composition of the symmetric channels multiplies their parameters, so the
+root-to-level-$n$ channel has parameter $\Lambda_n$. Observing the terminal
+spin therefore gives total-variation advantage $3\Lambda_n/4$.
+
+Every flow on a ray is constant, say of mass $a$. Since
+$\rho_k=\rho_{k-1}\lambda_k^2$,
+\[
+ \frac{1-\lambda_k^4}{\rho_k^2}
+ =\rho_k^{-2}-\rho_{k-1}^{-2}.
+\]
+Thus its weighted path energy through level $n$ is
+$a^2(\rho_n^{-2}-1)$. Letting $n\to\infty$ proves
+\eqref{eq:ray-weighted-capacity}.
+\end{proof}
+
+The uniform upper bound in Theorem~\ref{thm:main} cannot simply be discarded
+while retaining the unweighted capacity. For example, on one ray take
+$\lambda_k=\exp(-2^{-k})$. Then $\Lambda_\infty=e^{-1}$, so
+$a_\infty=3/(4e)>0$. Every nonzero flow has constant mass, whereas each
+unweighted capacity summand is at least the square of that mass; hence
+$\Cap_3(T,\rho)=0$. Proposition~\ref{prop:ray-weighted} shows that the
+edge-noise weight repairs this obstruction exactly on a ray. Theorem
+\ref{thm:weighted-necessity} proves the corresponding necessity on every
+tree. A general weighted-capacity converse would require a refinement of the
+sufficiency loss estimate: the geometric-kernel bound used above deliberately
+collapses long one-child stretches and is not controlled by weighted energy
+alone.
+
+\begin{remark}[Zero edges]
+The statement assumes strictly positive edge parameters so that
+$\rho^{-1}$ is defined. An edge with $\lambda_e=0$ separates the spin
+below it completely from the root. If zero edges are to be admitted,
+remove their downstream components and use the theorem on the remaining
+root component; the capacity formula must be interpreted on that
+component, not by dividing by zero. If the remaining root component is
+finite, reconstruction is impossible and its capacity is zero.
+\end{remark}

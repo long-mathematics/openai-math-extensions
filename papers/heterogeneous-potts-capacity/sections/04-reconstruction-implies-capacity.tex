@@ -1,0 +1,114 @@
+\section{Reconstruction implies capacity}
+
+The necessity argument has a useful form that does not require a uniform
+contraction bound. For arbitrary parameters $0<\lambda_e\le1$, retain
+\eqref{eq:rho}, put
+\[
+ \omega_e=1-\lambda_e^4,
+\]
+and define the edge-noise-weighted capacity
+\begin{equation}\label{eq:weighted-capacity}
+ \Cap_3^{\mathrm{noise}}(T,\rho)
+ =\sup\left\{|\theta|:
+ \sup_{\xi\in\partial T}
+ \sum_{v\in\xi\setminus\{o\}}
+ \omega_{e_v}\left(\frac{\theta(e_v)}{\rho(v)}\right)^2\le1
+ \right\}.
+\end{equation}
+
+\subsection{A cubic statistic removes degree dependence}
+
+Set
+\begin{equation}\label{eq:f}
+ K=\frac c3=\frac1{3000},\qquad f(t)=t+Kt^3,
+ \qquad D_f=1+9K.
+\end{equation}
+If $t=m(\mu\star\nu)$ for laws in $\calC$, then \eqref{eq:input} and
+$t\le u+v$ give
+\begin{align*}
+ f(t)&\le u+v-cuv(u+v)+K(u+v)^3\\
+ &=f(u)+f(v)+(3K-c)uv(u+v)=f(u)+f(v).
+\end{align*}
+Thus $f(m)$ is subadditive under any finite product. The number of children
+never enters the constant.
+
+Let $m_v^{(n)}$ be the information at $v$ from descendants at distance $n$,
+and set $m_v=\lim_n m_v^{(n)}$. Data processing gives these limits in
+$[0,3]$. For $r_{vw}=\lambda_{vw}^2$, channel scaling, subadditivity of
+$f(m)$, and passage to the limit imply
+\begin{equation}\label{eq:fy}
+ f(m_v)\le\sum_{w\in\ch(v)}f(r_{vw}m_w).
+\end{equation}
+All sums are finite. No closure assertion about a limiting posterior is used.
+
+Put $y_v=f(m_v)$, set $\omega_{vw}=1-\lambda_{vw}^4$, and define
+\[
+ \delta_{vw}=\frac{K(1-r_{vw}^2)}{D_f^3}
+ =\frac{K\omega_{vw}}{D_f^3}.
+\]
+Since $y_w\le D_fm_w$ and
+\[
+ f(rm)=rf(m)-Kr(1-r^2)m^3,
+\]
+equation \eqref{eq:fy} yields
+\begin{equation}\label{eq:edge-concave}
+ y_v\le\sum_w r_{vw}y_w(1-\delta_{vw}y_w^2)
+ \le\sum_w\frac{r_{vw}y_w}
+                    {\sqrt{1+2\delta_{vw}y_w^2}}.
+\end{equation}
+The last inequality uses $1-t\le(1+2t)^{-1/2}$ for $t\ge0$.
+
+\subsection{The edge-weighted flow}
+
+Choose coefficients
+\[
+ 0\le d_{vw}\le
+ \frac{r_{vw}}{\sqrt{1+2\delta_{vw}y_w^2}},
+ \qquad y_v=\sum_w d_{vw}y_w.
+\]
+They are obtained by multiplying all upper-bound coefficients by the ratio
+of $y_v$ to the right side of \eqref{eq:edge-concave}; if that side is zero,
+use zero coefficients. Define
+\[
+ \ell_o=1,
+ \qquad \ell_w=\ell_vd_{vw},
+ \qquad \vartheta(v,w)=\ell_wy_w.
+\]
+These equations give flow conservation and root mass $y_o=f(m_\infty)$.
+With $g_v=\ell_v/\rho(v)$ and $\rho(w)=\rho(v)r_{vw}$,
+\[
+ g_w^2(1+2\delta_{vw}y_w^2)\le g_v^2,
+ \qquad
+ \frac{\vartheta(v,w)}{\rho(w)}=g_wy_w.
+\]
+Therefore
+\[
+ \omega_{vw}\left(\frac{\vartheta(v,w)}{\rho(w)}\right)^2
+ \le \frac{D_f^3}{2K}(g_v^2-g_w^2).
+\]
+Summing along a ray telescopes. After scaling the flow, we obtain the
+following quantitative obstruction.
+
+\begin{theorem}[Weighted-capacity necessity]\label{thm:weighted-necessity}
+For an arbitrary locally finite deterministic rooted tree with
+$0<\lambda_e\le1$, reconstruction implies
+\begin{equation}\label{eq:weighted-necessity}
+ \Cap_3^{\mathrm{noise}}(T,\rho)
+ \ge \sqrt{\frac{2K}{D_f^3}}\,f(m_\infty)
+ \ge \sqrt{\frac{2K}{D_f^3}}\,m_\infty>0.
+\end{equation}
+\end{theorem}
+
+Under the uniform bound \eqref{eq:channels}, one has
+$\omega_e\ge1-q^4$. Hence a weighted-admissible flow scaled by
+$\sqrt{1-q^4}$ is admissible for \eqref{eq:capacity}. Consequently,
+\begin{equation}\label{eq:necessityquant}
+ \Cap_3(T,\rho)
+ \ge\sqrt{2\delta_q}\,f(m_\infty)
+ \ge\sqrt{2\delta_q}\,m_\infty.
+\end{equation}
+This proves the necessity implication in Theorem~\ref{thm:main}. It also gives
+$m_\infty\le\Cap_3(T,\rho)/\sqrt{2\delta_q}$. Since $m_\infty\le3$ and
+$(2\delta_q)^{-1/2}>3$, this is the upper bound in
+\eqref{eq:quantitative-m}. The upper total-variation bound in
+\eqref{eq:quantitative} follows from $a_\infty\le\tfrac12\sqrt{m_\infty}$.

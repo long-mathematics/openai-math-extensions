@@ -1,0 +1,227 @@
+\section{Positive capacity implies reconstruction}
+
+This direction uses only Lemma~\ref{lem:local}. We introduce a harmless
+optional erasure to ensure nonnegative information deficits without
+assuming Proposition~\ref{prop:input}.
+
+\subsection{Products followed by erasure}
+
+For symmetric experiments with information $u,v$, form their raw product,
+whose information is $m_*$. If $m_*>u+v$, retain the combined observation
+with probability $(u+v)/m_*$ and otherwise output a fixed erasure symbol;
+if $m_*\le u+v$, retain it always. The retention coin is independent
+of the spin and of all observations; its parameter depends only on the
+experiment laws. Conditional on erasure, the posterior is uniform.
+Thus the new experiment has information
+\[
+m'=\min\{m_*,u+v\}
+\]
+and third-moment magnitude at most that of the raw product. Lemma
+\ref{lem:local} gives
+\begin{equation}\label{eq:erasure}
+0\le u+v-m'\le5(h_1v+u h_2),\qquad
+h'\le h_1+h_2+376uv.
+\end{equation}
+The experiment remains symmetric and is a degradation of the original
+pair. Independent random coins in disjoint subtrees preserve the
+conditional independence needed at subsequent products.
+
+\subsection{A flow profile and finite observations}
+
+Take an admissible flow of mass $\alpha>0$, and scale it down so that
+$\alpha\le1$. For $0<\varepsilon\le1$, set
+\[
+\Theta(v)=\varepsilon\theta(e_v)\ (v\ne o),\qquad
+\Theta(o)=M=\varepsilon\alpha,\qquad
+X_v=\frac{\Theta(v)}{\rho(v)}.
+\]
+Flow conservation says
+\begin{equation}\label{eq:profile}
+X_v=\sum_{w\in\ch(v)}\lambda_{vw}^2X_w.
+\end{equation}
+Every positive-flow edge extends to an infinite ray, so admissibility
+gives $X_v\le\varepsilon$ for $v\ne o$. Also $X_o=M\le\varepsilon$.
+On every ray,
+\begin{equation}\label{eq:energy}
+\sum_{v\in\xi}X_v^2\le2\varepsilon^2.
+\end{equation}
+This normalization replaces the uniform degree bound used to control
+the root in the homogeneous argument.
+
+Fix a depth $n$. At each $v\in L_n$, pass its spin through an additional
+independent channel of parameter $t_v=\sqrt{X_v/3}$. The terminal
+experiment then has
+\begin{equation}\label{eq:terminal}
+\widehat m_v=X_v,\qquad
+\widehat h_v=(X_v/3)^{3/2}\le X_v/3.
+\end{equation}
+Proceed upward. At each vertex pass each constructed child experiment
+through its actual edge channel, and combine the branches sequentially
+using \eqref{eq:erasure}. All experiments so obtained are degradations
+of the level-$n$ observation. Their information satisfies
+\begin{equation}\label{eq:below}
+0\le\widehat m_v\le X_v
+\end{equation}
+by induction and \eqref{eq:profile}. Empty observations and zero-flow
+subtrees cause no difficulty.
+
+\subsection{Local deficits with constants independent of degree}
+
+At an internal vertex, write
+\[
+b_w=\lambda_{vw}^2\widehat m_w,\qquad
+h'_w=\lambda_{vw}^3\widehat h_w,\qquad
+S=\sum_w b_w\le X_v,\qquad H=\sum_w h'_w.
+\]
+Let
+\begin{equation}\label{eq:deficit}
+D_v=\sum_w\lambda_{vw}^2\widehat m_w-\widehat m_v.
+\end{equation}
+With $C_0=376$, sequential use of \eqref{eq:erasure} gives
+\begin{equation}\label{eq:sharpaggregate}
+\widehat h_v\le H+\frac{C_0}{2}S^2,
+\qquad 0\le D_v\le5SH+\frac{5C_0}{6}S^3.
+\end{equation}
+Here are the details of the degree-independent sums. Order the children
+and put $s_{j-1}=\sum_{i<j}b_i$, $H_{j-1}=\sum_{i<j}h'_i$.
+The partial product has $m\le s_{j-1}$ and
+$h\le H_{j-1}+(C_0/2)s_{j-1}^2$. The accumulated third-moment
+errors are bounded by
+$C_0\sum_j s_{j-1}b_j\le(C_0/2)S^2$.
+The mixed loss terms satisfy
+\[
+\sum_j(H_{j-1}b_j+s_{j-1}h'_j)\le SH,
+\qquad
+\sum_j s_{j-1}^2b_j\le\int_0^S t^2\,dt=\frac{S^3}{3}.
+\]
+These are exactly \eqref{eq:sharpaggregate}.
+
+Fix $A=314$. Since $A\ge C_0/2$, $A\ge5C_0/6$, and $A\ge5$,
+we may use the simpler bounds
+\begin{align}
+\widehat h_v&\le\sum_w\lambda_{vw}^3\widehat h_w+AX_v^2,
+\label{eq:hrec}\\
+0\le D_v&\le AX_v\left(\sum_w\lambda_{vw}^3\widehat h_w+X_v^2\right).
+\label{eq:drec}
+\end{align}
+Crucially, the propagated third moments have their exact channel factors;
+the constant $A$ multiplies only newly inserted errors.
+
+For a descendant $u$ of $v$, put
+\[
+\Lambda(v,u)=\prod_{e\in[v,u]}\lambda_e,
+\qquad\Lambda(v,v)=1.
+\]
+Unfolding \eqref{eq:hrec} in \eqref{eq:drec}, and using
+\eqref{eq:terminal}, gives
+\begin{align}
+D_v\le{}& A^2X_v
+\sum_{\substack{u\succeq v\\|u|<n}}\Lambda(v,u)^3X_u^2
+\notag\\
+&+\frac A3X_v\sum_{\substack{u\succeq v\\|u|=n}}
+\Lambda(v,u)^3X_u.
+\label{eq:unfold}
+\end{align}
+There is no repeated multiplication by $A$ along the depth of the tree.
+Each error is inserted once and thereafter propagated only by channel
+products.
+
+Multiplying \eqref{eq:deficit} by $\rho(v)$ and summing over internal
+vertices telescopes, because $\rho(w)=\rho(v)\lambda_{vw}^2$:
+\begin{equation}\label{eq:telescope}
+\widehat m_o=M-\sum_{|v|<n}\rho(v)D_v.
+\end{equation}
+
+\subsection{The heterogeneous path identity}
+
+Choose $V_n\in L_n$ with probability $\Theta(V_n)/M$, and let
+$V_0=o,V_1,\ldots,V_n$ be its ancestors. Conservation gives
+\begin{equation}\label{eq:pathlaw}
+\Pp(V_j=u)=\frac{\Theta(u)}M.
+\end{equation}
+Every path with positive probability extends to an infinite ray and
+satisfies \eqref{eq:energy}. The exact identity
+\begin{equation}\label{eq:keyidentity}
+\boxed{\quad \rho(v)\Lambda(v,u)^3X_u
+=\Lambda(v,u)\Theta(u)\quad}
+\end{equation}
+is the required transfer of the third-moment propagation to the flow.
+Indeed, $\rho(u)=\rho(v)\Lambda(v,u)^2$.
+
+For fixed depths $i\le j<n$, summing over descendants in the first
+term of \eqref{eq:unfold} becomes
+\begin{align*}
+&\sum_{|v|=i}\rho(v)X_v
+\sum_{\substack{u\succeq v\\|u|=j}}\Lambda(v,u)^3X_u^2\\
+&\hspace{20mm}=M\E\bigl[\Lambda(V_i,V_j)X_{V_i}X_{V_j}\bigr].
+\end{align*}
+The terminal term similarly becomes
+$M\E[\Lambda(V_i,V_n)X_{V_i}]$.
+Hence
+\begin{align}
+\frac1M\sum_{|v|<n}\rho(v)D_v
+\le{}& A^2\E\sum_{0\le i\le j<n}
+\Lambda(V_i,V_j)X_{V_i}X_{V_j}\notag\\
+&+\frac A3\E\sum_{i<n}\Lambda(V_i,V_n)X_{V_i}.
+\label{eq:pathloss}
+\end{align}
+The kernel is path-dependent, but
+$\Lambda(V_i,V_j)\le q^{j-i}$. For each fixed $k\ge0$,
+Cauchy--Schwarz and \eqref{eq:energy} imply pathwise
+\[
+\sum_i X_{V_i}X_{V_{i+k}}\le2\varepsilon^2.
+\]
+Also $X_{V_i}\le\varepsilon$. Therefore \eqref{eq:pathloss} is at
+most
+\begin{equation}\label{eq:lossbound}
+\frac{2A^2\varepsilon^2}{1-q}
++\frac{Aq\varepsilon}{3(1-q)}.
+\end{equation}
+Choose once and for all
+\begin{equation}\label{eq:eps}
+\varepsilon=\frac{1-q}{2A}=\frac{1-q}{628}.
+\end{equation}
+Then \eqref{eq:lossbound} is at most
+$(1-q)/2+q/6\le1/2$. In particular, \eqref{eq:telescope} gives
+$\widehat m_o\ge M/2$ for every $n$. The original level observation
+has at least this information, so
+\begin{equation}\label{eq:advantage}
+a_n\ge\frac{\varepsilon\alpha}{16}>0\qquad(n\ge1).
+\end{equation}
+This proves reconstruction.
+
+For the quantitative lower bound, write $C=\Cap_3(T,\rho)$.
+If $C>0$, an admissible flow can be chosen and scaled to mass
+$\alpha=\min\{1,C/2\}$, which is at least
+$\tfrac12\min\{C,1\}$. (The capacity is finite because
+the root has finitely many children.) Since the original observation has
+quadratic information at least $\widehat m_o\ge\varepsilon\alpha/2$,
+we obtain
+\[
+ m_\infty\ge\frac{1-q}{2512}\min\{C,1\},
+ \qquad
+ a_\infty\ge\frac{1-q}{20096}\min\{C,1\}.
+\]
+If $C=0$, the lower bounds are immediate. This completes
+Theorem~\ref{thm:main}.
+
+\begin{proof}[Proof of Corollary~\ref{cor:robust}]
+The reverse implication follows from data processing. Assume $C>0$ and use
+the same admissible flow. Put
+\[
+ \varepsilon_\eta
+ =\min\left\{\frac{1-q}{628},\,3\eta^2\right\}.
+\]
+Then $X_v\le\varepsilon_\eta\le3\eta^2$ at every terminal. Starting
+from the already-noisy terminal spin, whose channel parameter is $\eta$,
+apply the further channel of parameter
+$\sqrt{X_v/3}/\eta\le1$. The resulting terminal experiment is exactly
+the one used in \eqref{eq:terminal}. All subsequent estimates are unchanged,
+and the loss bound is no larger than $1/2$ because
+$\varepsilon_\eta\le(1-q)/628$. Thus
+\[
+ a_n^{(\eta)}\ge\frac{\varepsilon_\eta\alpha}{16}
+ \ge\frac{\varepsilon_\eta}{32}\min\{C,1\}
+\]
+for every $n$, proving \eqref{eq:robust-lower} and the corollary.
+\end{proof}

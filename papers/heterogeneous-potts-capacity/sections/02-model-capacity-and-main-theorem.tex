@@ -1,0 +1,98 @@
+\section{Model, capacity, and main theorem}\label{sec:model}
+
+Let $T$ be an infinite locally finite rooted tree with root $o$ and
+levels $L_n=\{v:|v|=n\}$. Assign every edge $e$ a parameter
+\begin{equation}\label{eq:channels}
+0<\lambda_e\le q<1.
+\end{equation}
+The tree and the parameters are deterministic and known to the observer.
+Start with a uniform root spin in $[4]$ and, independently along edges
+conditional on the parent spins, use the transition matrix
+\[
+P_e(j\mid i)=\lambda_e\mathbf1_{\{j=i\}}+\frac{1-\lambda_e}{4}.
+\]
+Write $\uvec=(1/4,1/4,1/4,1/4)$, let $p_o^{(n)}$ be the posterior
+vector of the root given $\sigma_{L_n}$, and put
+\[
+a_n=\E\,\TV(p_o^{(n)},\uvec),
+\qquad
+m_n=4\E\|p_o^{(n)}-\uvec\|_2^2.
+\]
+Both sequences are nonincreasing by data processing; write their limits as
+$a_\infty$ and $m_\infty$.  Reconstruction means $a_\infty>0$, equivalently
+$m_\infty>0$.
+
+Put
+\begin{equation}\label{eq:rho}
+\rho(o)=1,\qquad
+\rho(v)=\prod_{e\in[o,v]}\lambda_e^2.
+\end{equation}
+A nonnegative flow $\theta$ to infinity is conserved at every nonroot
+vertex, including vertices with no children. Its mass is
+$|\theta|=\sum_{w\in\ch(o)}\theta(o,w)$. For $v\ne o$, write
+$e_v$ for its incoming edge. Define
+\begin{equation}\label{eq:capacity}
+\Cap_3(T,\rho)=\sup\left\{|\theta|:
+\sup_{\xi\in\partial T}\sum_{v\in\xi\setminus\{o\}}
+\left(\frac{\theta(e_v)}{\rho(v)}\right)^2\le1\right\}.
+\end{equation}
+The zero flow is allowed. This is the standard $L^3$ convention in which
+the path-potential exponent is $3-1=2$.
+
+\begin{theorem}\label{thm:main}
+Under \eqref{eq:channels}, for every infinite locally finite deterministic
+rooted tree,
+\[
+\boxed{\quad a_\infty>0\quad\Longleftrightarrow\quad
+m_\infty>0\quad\Longleftrightarrow\quad
+\Cap_3(T,\rho)>0.\quad}
+\]
+Put
+\[
+\delta_q=\frac{(1-q^4)/3000}{(1+9/3000)^3}.
+\]
+Then the quadratic information satisfies the two-sided comparison
+\begin{equation}\label{eq:quantitative-m}
+\frac{1-q}{2512}\min\{\Cap_3(T,\rho),1\}
+\le m_\infty
+\le \frac1{\sqrt{2\delta_q}}\min\{\Cap_3(T,\rho),1\}.
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:quantitative}
+\frac{1-q}{20096}\min\{\Cap_3(T,\rho),1\}
+\le a_\infty
+\le \frac1{2(2\delta_q)^{1/4}}
+       \sqrt{\min\{\Cap_3(T,\rho),1\}}.
+\end{equation}
+\end{theorem}
+
+For $0<\eta\le1$, let $a_n^{(\eta)}$ denote the reconstruction advantage
+when every level-$n$ spin is first passed independently through an additional
+four-state Potts channel of parameter $\eta$.  Write
+$a_\infty^{(\eta)}=\lim_n a_n^{(\eta)}$.
+
+\begin{corollary}[Robust reconstruction]\label{cor:robust}
+Under \eqref{eq:channels}, for every fixed $0<\eta\le1$,
+\[
+ a_\infty^{(\eta)}>0
+ \quad\Longleftrightarrow\quad
+ \Cap_3(T,\rho)>0.
+\]
+More precisely,
+\begin{equation}\label{eq:robust-lower}
+ a_\infty^{(\eta)}
+ \ge \frac1{32}
+ \min\!\left\{\frac{1-q}{628},\,3\eta^2\right\}
+ \min\{\Cap_3(T,\rho),1\}.
+\end{equation}
+\end{corollary}
+
+The theorem in \cite{OAICapacity} assumes a common channel parameter and a
+uniform degree bound. The present proof retains its information-flow
+strategy but strengthens both local steps. For necessity, the only imported
+probabilistic result is Proposition~3.2 of \cite{OAIThreshold}, stated
+precisely in Proposition~\ref{prop:input} below from the source version pinned
+in the bibliography. Its source proof uses exact polynomial certificates. We
+do not claim to replace that certificate proof. Everything after the stated
+input is proved here. In particular, the capacity-to-reconstruction direction
+is independent of that input.

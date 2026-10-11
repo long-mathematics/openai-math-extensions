@@ -1,0 +1,150 @@
+\section{Posterior coordinates and two local inequalities}
+
+An experiment observes a random variable about a uniform input spin.
+Its posterior law is the law of its posterior vector $p$ under the marginal
+observation distribution. It is symmetric if it is invariant under
+permutations of the four spin labels. Set
+\[
+L=\begin{pmatrix}
+1&1&-1&-1\\
+1&-1&1&-1\\
+1&-1&-1&1
+\end{pmatrix},\qquad x=Lp,
+\]
+and define
+\begin{equation}\label{eq:statistics}
+m(\mu)=\E_\mu|x|^2,\qquad
+\tau(\mu)=\E_\mu x_1x_2x_3,\qquad h(\mu)=|\tau(\mu)|.
+\end{equation}
+The following bounds will be used repeatedly:
+\begin{equation}\label{eq:bounds}
+|x|^2=4\|p-\uvec\|_2^2,\quad 0\le m\le3,\quad h\le \frac m3,
+\qquad \frac m8\le\E\TV(p,\uvec)\le\frac12\sqrt m.
+\end{equation}
+The cubic bound follows pointwise from
+$3|x_1x_2x_3|\le x_1^2+x_2^2+x_3^2$, by AM--GM and $|x_i|\le1$.
+The lower total-variation bound follows from
+$\sum_i(p_i-1/4)^2\le\sum_i|p_i-1/4|$, while the upper bound follows from
+Cauchy--Schwarz and Jensen. If an observation is degraded, its posterior
+becomes a conditional expectation of the old posterior, so $m$ cannot
+increase.
+
+A channel with parameter $t\in[0,1]$ changes the posterior to
+$\uvec+t(p-\uvec)$ and hence
+\begin{equation}\label{eq:scaling}
+x\mapsto tx,\qquad m\mapsto t^2m,\qquad
+\tau\mapsto t^3\tau,\qquad h\mapsto t^3h.
+\end{equation}
+The revealing experiment has $m=3$ and $\tau=1$.
+
+\begin{proposition}[Imported moment-saving input]\label{prop:input}
+There is a class $\calC$ of symmetric posterior laws containing the
+revealing and uninformative laws and closed under every channel step
+$t\in[0,1]$ and under conditionally independent products. If
+$\mu,\nu\in\calC$, write $u=m(\mu)$ and $v=m(\nu)$, and let $x=Lp$ and
+$y=Lr$ under their respective posterior laws. Then
+\begin{equation}\label{eq:input-strong}
+ m(\mu\star\nu)
+ \le u+v-\frac{\E_\mu|x|^4\,v+u\,\E_\nu|y|^4}{1000}.
+\end{equation}
+Consequently, with $c=1/1000$,
+\begin{equation}\label{eq:input}
+ m(\mu\star\nu)\le u+v-cuv(u+v).
+\end{equation}
+\end{proposition}
+
+The first assertion is Proposition~3.2 and its closure statement in
+\cite{OAIThreshold}. It explicitly permits arbitrary channel parameters and
+nonidentical input laws. The consequence \eqref{eq:input} follows from
+Jensen's inequalities $\E|x|^4\ge u^2$ and $\E|y|^4\ge v^2$. Every finite
+subtree broadcast experiment and every partial product of its branches
+belongs to $\calC$. Limiting posterior laws will not need to be in $\calC$.
+
+The next lemma, unlike Proposition~\ref{prop:input}, needs only symmetry.
+It strengthens the smoothing-dependent estimate in
+\cite[Lemma~4.1]{OAICapacity}.
+
+\begin{lemma}[Universal local moment bounds]\label{lem:local}
+For any two symmetric posterior laws, put $u=m(\mu)$ and $v=m(\nu)$. Then
+\begin{align}
+ m(\mu\star\nu)
+ &\ge u+v-5\bigl(h(\mu)v+u h(\nu)\bigr),\label{eq:mlower}\\
+ h(\mu\star\nu)
+ &\le h(\mu)+h(\nu)+376uv.\label{eq:hupper}
+\end{align}
+No smoothing or membership in $\calC$ is assumed.
+\end{lemma}
+
+\begin{proof}
+Take independent marginal posterior vectors $p,r$, and write
+$x=Lp$, $y=Lr$, and $s=x\cdot y$. The joint marginal distribution of the
+observations is their independent marginal product weighted by
+(cf. the posterior-product formalism in \cite{MM06})
+\[
+ Z=4\sum_i p_i r_i=1+s.
+\]
+When $Z>0$, the combined posterior has coordinates
+\begin{equation}\label{eq:bayes}
+ LP=\frac NZ,\qquad N=x+y+R,\qquad
+ R_i=x_jy_k+x_ky_j,\quad\{i,j,k\}=\{1,2,3\}.
+\end{equation}
+In particular, $|N_i|\le Z$ and $0\le Z\le4$. At $Z=0$, all $N_i$
+vanish; all weighted posterior quantities below are assigned zero. Their
+bounds show that these extensions are continuous.
+
+Symmetry acts on $x$ by coordinate permutations and even sign changes.
+Consequently
+\[
+ \E x_i=0,\qquad \E x_ix_j=\frac u3\mathbf1_{\{i=j\}},
+\]
+and among degree-three monomials only $x_1x_2x_3$ can have nonzero
+expectation. Put $\zeta_\mu=\tau(\mu)$ and $\zeta_\nu=\tau(\nu)$.
+Direct expansion gives
+\[
+ \E|R|^2=\frac23uv,\qquad \E s^2=\frac13uv,
+\]
+\[
+ \E[s\,x\cdot R]=2\zeta_\mu v,\qquad
+ \E[s\,y\cdot R]=2u\zeta_\nu,\qquad
+ \E[s|R|^2]=6\zeta_\mu\zeta_\nu.
+\]
+Using $Z^{-1}=1-s+s^2/Z$, with the marginal weight $Z$ included, we
+obtain the exact identity
+\begin{equation}\label{eq:exactm}
+ m(\mu\star\nu)
+ =u+v-4(\zeta_\mu v+u\zeta_\nu)-6\zeta_\mu\zeta_\nu
+ +\E\frac{|N|^2s^2}{Z}.
+\end{equation}
+The mixed quadratic terms cancel since $\E|R|^2=2\E s^2$, and the remainder
+is nonnegative. By $h(\mu)\le u/3$ and $h(\nu)\le v/3$,
+\[
+ 6|\zeta_\mu\zeta_\nu|
+ \le h(\mu)v+u h(\nu).
+\]
+Equation \eqref{eq:mlower} follows.
+
+For the third moment,
+\[
+ \tau(\mu\star\nu)=\E\frac{N_1N_2N_3}{Z^2},\qquad
+ Z^{-2}-(1-2s)=\frac{s^2(3+2s)}{Z^2}.
+\]
+Because $|N_i|\le Z$, $-1\le s\le3$, and $Z\le4$, the absolute remainder
+after replacing $Z^{-2}$ by $1-2s$ is at most
+\[
+ 36\E s^2=12uv.
+\]
+An exact expansion of $N_1N_2N_3(1-2s)$ has two pure terms,
+$x_1x_2x_3$ and $y_1y_2y_3$, each with coefficient one. Mixed terms of
+degree one in either vector average to zero. The sum of the absolute
+coefficients of all remaining mixed terms is $364$. Every such term has
+degree at least two in each vector and absolute expectation at most $uv$:
+all coordinate absolute values are at most one, and retaining two factors
+bounds each marginal monomial by the corresponding squared norm. Hence the
+polynomial expectation differs from $\zeta_\mu+\zeta_\nu$ by at most
+$364uv$. Adding the remainder proves \eqref{eq:hupper}. The coefficient
+count is an exact integer expansion and is reproduced by the verification
+script accompanying the source.
+
+All expressions at $Z=0$ extend as asserted because they are bounded by a
+constant times $Z$, possibly multiplied by a bounded power of $s$.
+\end{proof}

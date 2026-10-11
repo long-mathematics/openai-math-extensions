@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=0.94in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\hypersetup{pdftitle={A Sharp Capacity Criterion for Heterogeneous Four-State Potts Broadcasting on Trees},pdfauthor={Christopher D. Long}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Pp}{\mathbb P}
+\newcommand{\uvec}{\mathsf u}
+\newcommand{\ch}{\operatorname{ch}}
+\renewcommand{\Cap}{\operatorname{Cap}}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\calC}{\mathcal C}
+\title{A Sharp Capacity Criterion for Heterogeneous\\Four-State Potts Broadcasting on Trees}
+\author{Christopher D. Long\\\texttt{galizur@gmail.com}}
+\date{October 11, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For the ferromagnetic four-state Potts broadcast process on an arbitrary
+locally finite deterministic rooted tree, suppose the edge-dependent
+second eigenvalues satisfy $0<\lambda_e\le q<1$. We show that
+reconstruction occurs if and only if the associated $L^3$ nonlinear
+capacity is positive, with path weights given by the products of squared
+edge eigenvalues. Neither a uniform vertex-degree bound nor a positive
+lower bound on the channel parameters is required. We establish sharp
+comparability, up to constants depending only on the uniform contraction
+bound, between quadratic root information and capacity; total-variation
+advantage then follows by the optimal elementary conversions. Robust
+reconstruction is equivalent to the same capacity condition. We also derive
+an exact series criterion for spherically symmetric trees, including at the
+Kesten--Stigum critical boundary. The proof rests on the
+recent four-state posterior moment-saving inequality. A
+cubic correction converts that input into a degree-free nonlinear flow
+recursion. Conversely, an elementary two-moment calculation, a controlled
+independent erasure, and an exact flow-averaged path identity give
+reconstruction from positive capacity without invoking the imported
+inequality. Beyond the uniformly contractive regime we prove a necessary
+criterion in terms of an edge-noise-weighted capacity, which is exact on one
+ray; the full weighted-capacity converse remains open.
+\end{abstract}
+
+\noindent\textbf{Keywords.} Broadcasting on trees; four-state Potts model;
+reconstruction; nonlinear capacity; heterogeneous channels; information flow.
+
+\medskip
+\noindent\textbf{2020 Mathematics Subject Classification.}
+Primary 60K35; Secondary 82B20, 31C45.
+
+\input{sections/01-introduction}
+\input{sections/02-model-capacity-and-main-theorem}
+\input{sections/03-posterior-coordinates-and-two-local-inequalities}
+\input{sections/04-reconstruction-implies-capacity}
+\input{sections/05-positive-capacity-implies-reconstruction}
+\input{sections/06-consequences-and-the-contraction-boundary}
+\input{sections/07-dependence-on-computationally-certified-input}
+
+\end{document}
