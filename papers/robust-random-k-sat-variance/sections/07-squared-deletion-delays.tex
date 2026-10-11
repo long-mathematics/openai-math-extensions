@@ -1,0 +1,191 @@
+\section{Squared deletion delays}
+\label{sec:delay}
+
+We now combine the root-test probability with the remaining-duration bound.
+The two estimates use compatible filtrations: $A_m$ is known under
+$\cH_m$, while the upper bound $W_m$ is already measurable under
+$\cG_m$ and therefore does not reveal the hidden root tests.
+
+\begin{proposition}[Conditional squared-delay bound]
+\label{prop:conditional-delay}
+For every $1\le i\le L$,
+\begin{align}
+    \E[D_i^2\mid\cE]
+    \le{}&
+    2K_0^2B_{\mathrm{t}}^d\,d^{2\eta}\ind_{\{V=0\}}
+    \notag\\
+    &+2K_0LB_{\mathrm{t}}^d\,d^\eta\ind_{\{V=1\}}
+    +L^2\ind_{\{V\ge2\}}.
+    \label{eq:conditional-delay-bound}
+\end{align}
+\end{proposition}
+
+\begin{proof}
+For $i=L$, the delay is zero.  Otherwise,
+\eqref{eq:delay-count} implies
+\[
+    D_i^2
+    \le
+    2\sum_{m=i}^{L-1}\ind_{A_m}
+       \sum_{s=m}^{L-1}\ind_{A_s}.
+\]
+Condition first on $\cH_m$, where $A_m$ is known, and apply
+Corollary~\ref{cor:remaining-duration}.  Then condition on $\cG_m$, where
+$W_m$ is known.  Conditioning the resulting estimates down to $\cE$ gives
+\begin{equation}
+    \E[D_i^2\mid\cE]
+    \le
+    2\sum_{m=i}^{L-1}
+      \E\bigl[
+        W_m\Prb(A_m\mid\cG_m)
+        \mid\cE
+      \bigr].
+    \label{eq:tower-delay}
+\end{equation}
+
+On $\{V=0\}$, Lemma~\ref{lem:root-tests} and
+\eqref{eq:W-definition} bound the product inside the expectation by
+\[
+    K_0B_{\mathrm{t}}^d\,d^\eta
+    \ind_{\{S_m\ne\varnothing\}}p_m^{k-\eta}.
+\]
+For every $k\ge3$,
+\begin{equation}
+    k-\eta\ge\eta,
+    \label{eq:critical-exponent}
+\end{equation}
+because $k\ge2k/(k-1)$.  Since $0\le p_m\le1$, the preceding display is at
+most
+\[
+    K_0B_{\mathrm{t}}^d\,d^\eta
+    \ind_{\{S_m\ne\varnothing\}}p_m^\eta.
+\]
+Lemma~\ref{lem:occupation}, applied from time $i$ and then conditioned down
+to $\cE$, bounds the sum in \eqref{eq:tower-delay} by
+$2K_0^2B_{\mathrm{t}}^d\,d^{2\eta}$.
+
+On $\{V=1\}$, the corresponding product is at most
+\[
+    K_0B_{\mathrm{t}}^d\,d^\eta p_m^{k-1-\eta}
+    \le K_0B_{\mathrm{t}}^d\,d^\eta,
+\]
+because $k-1-\eta\ge0$ for $k\ge3$.  There are at most $L$ terms.  If
+$p_m=0$, the conditional pivotality probability is zero by
+Lemma~\ref{lem:root-tests}, so no division by zero occurs.  Finally, on
+$\{V\ge2\}$ use $D_i\le L$.
+\end{proof}
+
+It remains to average the factors in
+\eqref{eq:conditional-delay-bound}.  The clause coordinates need not have
+the same law, but the local incidence hypotheses give uniform incidence
+probabilities.
+
+\begin{lemma}[Incidence and collision moments]
+\label{lem:incidence-moments}
+Uniformly in $n\ge2k$, $i\le L$, and the conditioned value of $C_i$,
+\begin{align}
+    \E[B_{\mathrm{t}}^d\,d^{2\eta}]&=O(1),
+    \label{eq:exp-moment}\\
+    \E[B_{\mathrm{t}}^d\,d^\eta\ind_{\{V\ge1\}}]
+      &=O(n^{-1}),
+    \label{eq:one-collision-moment}\\
+    \Prb(V\ge2)&=O(n^{-2}).
+    \label{eq:two-collision-prob}
+\end{align}
+The implicit constants depend only on
+$k,\rho,B_{\mathrm{t}},\gamma_1,\gamma_2$.
+\end{lemma}
+
+\begin{proof}
+For $j\ne i$, let $I_j$ be the indicator that $C_j$ meets at least one
+root, and let $J_j$ be the indicator that it meets at least two roots.
+The local incidence assumptions give
+\begin{equation}
+    \Prb(I_j=1)\le \frac{\gamma_1}{n},
+    \qquad
+    \Prb(J_j=1)\le \frac{\gamma_2}{n(n-1)}.
+    \label{eq:incidence-probabilities}
+\end{equation}
+The indicators at distinct indices are independent, although their
+probabilities may differ.  Consequently, for every fixed $t\ge0$,
+\[
+    \E e^{tZ}
+    =\prod_{\substack{j\le L\\j\ne i}}
+       \left(1+(e^t-1)\Prb(I_j=1)\right)
+    \le
+    \exp\bigl((e^t-1)\gamma_1\rho\bigr).
+\]
+Choosing $t>\log B_{\mathrm{t}}$ and absorbing the polynomial factor
+$d^{2\eta}$ into a slightly larger exponential proves
+\eqref{eq:exp-moment}.
+
+Conditional on $J_j=1$, the other clause coordinates retain their original
+independent laws, and $Z$ is one plus the incidence count from those other
+coordinates.  The same exponential-moment estimate therefore gives
+\[
+    \E[B_{\mathrm{t}}^d\,d^\eta\mid J_j=1]=O(1)
+\]
+uniformly in $j$.  Since
+$\ind_{\{V\ge1\}}\le\sum_{j\ne i}J_j$,
+\[
+    \E[B_{\mathrm{t}}^d\,d^\eta\ind_{\{V\ge1\}}]
+    \le
+    O(1)\sum_{j\ne i}\Prb(J_j=1)
+    =O(n^{-1}),
+\]
+which proves \eqref{eq:one-collision-moment}.  Finally, independence
+across indices gives
+\[
+    \Prb(V\ge2)
+    \le \E\binom V2
+    =\sum_{j<\ell}\Prb(J_j=1)\Prb(J_\ell=1)
+    =O(n^{-2}).
+\]
+\end{proof}
+
+Under the pointwise comparison hypothesis, the concrete bounds
+\eqref{eq:local-parameters} follow because, under $U_{n,k}$, a specified
+root is included with probability $k/n$ and a specified root pair with
+probability $k(k-1)/[n(n-1)]$; union bounds over roots and root pairs and
+the upper density factor $b$ give \eqref{eq:incidence-probabilities}.
+
+\begin{proposition}[Uniform deletion-delay moment]
+\label{prop:uniform-delay}
+For every fixed $\rho<\infty$,
+\[
+    \sup_{\substack{n\ge2k,\,1\le L\le\rho n\\1\le i\le L}}
+    \E D_i^2
+    <\infty,
+\]
+where the supremum is uniform over all clause-law arrays satisfying the
+local hypotheses of Theorem~\ref{thm:local-criterion}.
+\end{proposition}
+
+\begin{proof}
+Average \eqref{eq:conditional-delay-bound}.  The first term is $O(1)$ by
+\eqref{eq:exp-moment}.  The second is
+\[
+    O(L)\,
+    \E[B_{\mathrm{t}}^d\,d^\eta\ind_{\{V\ge1\}}]
+    =O(Ln^{-1})=O(1),
+\]
+and the third is
+\[
+    L^2\Prb(V\ge2)=O(L^2n^{-2})=O(1).
+\]
+The bounds were uniform in the conditioned value of $C_i$, so that
+conditioning may be removed.
+\end{proof}
+
+Combining Proposition~\ref{prop:uniform-delay} with
+Lemma~\ref{lem:coordinate-omission} proves
+\begin{equation}
+    \Var(H_n\wedge L)=O(n)
+    \qquad(n\ge2k,\ L\le\rho n),
+    \label{eq:capped-variance}
+\end{equation}
+with the dependence asserted in Theorem~\ref{thm:local-criterion}.  For the
+finitely many sizes $k\le n<2k$, the deterministic bound
+$H_n\wedge L\le L\le\rho n$ gives the same $O(n)$ conclusion after
+increasing the constant.  This proves the clipped part of the local
+criterion.
