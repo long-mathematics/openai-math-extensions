@@ -4,6 +4,7 @@
 - Preserve the stable Paper I--III identities and numbered paper directories.
 - Canonical manuscript entry points must have descriptive kebab-case filenames. Do not use `main.tex`, dates, draft numbers, or suffixes such as `revised`.
 - Generated PDF snapshots belong only in `output/pdf/`; LaTeX intermediates belong only in `.build/`.
+- Keep direct PDF and canonical LaTeX links for every current paper in the root README.
 - For source changes, run `make test`, `make pdf`, `make check`, and `make verify`. Inspect changed PDF pages visually.
 - Commit manuscript sources, matching PDFs, and `output/pdf/manifest.json` together.
 - Never silently change theorem hypotheses, author attribution, proof status, dependency status, or the distinction between proved statements and open strengthenings.
