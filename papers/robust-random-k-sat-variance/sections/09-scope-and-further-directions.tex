@@ -1,0 +1,40 @@
+\section{Scope and further directions}
+\label{sec:scope}
+
+The local criterion separates the four inputs that the proof actually uses.
+A global upper density bound is unnecessary if root-test densities and root
+incidences are controlled directly.  Thus variable-weighted or otherwise
+nonuniform models may fall within the theorem even when their full clause
+law is not bounded above by a constant multiple of the uniform law.  The
+ordinary-clause lower density controls the potential drift, the test-clause
+upper density controls pivotality, the incidence conditions control the
+robustness factors and collisions, and the assignment-falsification bound is
+needed only to remove the cap.
+
+Under the simpler pointwise hypothesis, broad nonuniformity is allowed.  For
+example, at time $j$ the unordered variable set may have probability between
+fixed multiples of $\binom nk^{-1}$ and, conditional on that set, each sign
+pattern may have probability between fixed multiples of $2^{-k}$.  No
+convergence, periodicity, or stationarity of these laws is required.
+
+Independence between clause times is used in the coordinate-omission
+argument, the product structure of hidden root tests, the incidence moments,
+and the uncapping tail.  Adaptive clause laws or an unconditioned common
+random environment are therefore not covered as stated.
+
+A matching linear lower variance bound remains the principal open question.
+The mixture decomposition supplied by a pointwise lower density does not by
+itself prevent the residual stream from determining the hitting time.  The
+present proof also does not automatically yield subgaussian tails.  The
+Boucheron--Bousquet--Lugosi--Massart moment method would require an almost
+sure or sufficiently high-moment control of the full deletion variance
+proxy, whereas here each $D_i$ can be of order $n$ and only
+$\E D_i^2=O(1)$ is established.  Either strengthening would require a new
+anti-concentration or high-moment ingredient rather than a formal reuse of
+the variance proof.
+
+\begingroup
+\small
+\bibliographystyle{plainnat}
+\bibliography{references}
+\endgroup
