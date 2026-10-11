@@ -1,0 +1,94 @@
+\section{A Brownian last-passage identity}
+
+Write $\Phi$ for the standard normal distribution function and
+$\PhiBar=1-\Phi$.  Throughout, $\GammaLaw(\alpha,\theta)$ denotes the
+gamma distribution with shape $\alpha$ and scale $\theta$.
+
+\begin{lemma}[Exact last-passage law]\label{lem:last-passage}
+Let $B$ be standard Brownian motion and let $a>0$.  Define
+\begin{align}
+  L_a^{>} &= \sup\{s\ge0:B(s)-as>0\},\label{eq:L-strict}\\
+  L_a^{\ge} &= \sup\{s\ge0:B(s)-as\ge0\}.
+  \label{eq:L-nonstrict}
+\end{align}
+Both variables are finite almost surely and have the same distribution.  For
+$t\ge0$,
+\begin{equation}\label{eq:last-passage-cdf}
+  \P(L_a^{>}\le t)
+  =\P(L_a^{\ge}\le t)
+  =2\Phi(a\sqrt t)-1.
+\end{equation}
+Equivalently, if $G\sim N(0,1)$, then
+\begin{equation}\label{eq:last-passage-chi-square}
+  L_a^{>}\ \stackrel{\mathrm d}{=}\
+  L_a^{\ge}\ \stackrel{\mathrm d}{=}\frac{G^2}{a^2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Set $R(s)=B(s)-as$.  Since $B(s)/s\to0$ almost surely, $R(s)<0$ for all
+sufficiently large $s$, so both last-passage times are finite.
+
+We first recall the hitting probability from a negative starting point.  If
+$R(0)=y<0$ and $\tau_0=\inf\{s\ge0:R(s)=0\}$, then
+\begin{equation}\label{eq:hitting-probability}
+  \P_y(\tau_0<\infty)=e^{2ay}.
+\end{equation}
+Indeed, $e^{2aR(s)}$ is a local martingale.  Stopping it on first hitting
+$0$ or $-m$, and then letting $m\to\infty$, gives
+\eqref{eq:hitting-probability}.  This is the standard one-sided hitting
+formula for Brownian motion with drift; see, for example,
+\cite[Chapter~3]{KaratzasShreve1991}.
+
+Fix $t>0$.  Conditional on $R(t)=y<0$, a future visit to the nonnegative
+half-line has probability $e^{2ay}$.  If $y>0$, a future positive value occurs
+with probability one by continuity.  Starting from $y=0$, the positive
+half-line is regular for Brownian motion with drift, so a future positive value
+again occurs with probability one.  The distinction at $y=0$ is immaterial in
+any case because $R(t)$ has a continuous distribution.  The same calculation
+therefore applies to the strict and non-strict last-passage times:
+\begin{equation}\label{eq:last-passage-tail-decomp}
+  \P(L_a^{\diamond}>t)
+  =\P(R(t)\ge0)
+   +\E\!\left[e^{2aR(t)};R(t)<0\right],
+  \qquad \diamond\in\{>,\ge\}.
+\end{equation}
+Now $R(t)\sim N(-at,t)$, so
+\begin{equation}\label{eq:first-half-tail}
+  \P(R(t)\ge0)=\Phi(-a\sqrt t).
+\end{equation}
+Completing the square in the second term gives
+\begin{align}
+  \E\!\left[e^{2aR(t)};R(t)<0\right]
+  & =\int_{-\infty}^{0}
+  \frac{1}{\sqrt{2\pi t}}
+  \exp\!\left(2ay-\frac{(y+at)^2}{2t}\right)\dd y\notag\\
+  & =\int_{-\infty}^{0}
+  \frac{1}{\sqrt{2\pi t}}
+  \exp\!\left(-\frac{(y-at)^2}{2t}\right)\dd y\notag\\
+  & =\Phi(-a\sqrt t).
+  \label{eq:second-half-tail}
+\end{align}
+Thus
+\begin{equation}\label{eq:last-passage-tail}
+  \P(L_a^{\diamond}>t)=2\Phi(-a\sqrt t),
+\end{equation}
+which is equivalent to \eqref{eq:last-passage-cdf}.  Finally,
+\[
+  \P(G^2/a^2\le t)=\P(|G|\le a\sqrt t)=2\Phi(a\sqrt t)-1,
+\]
+proving \eqref{eq:last-passage-chi-square}.
+\end{proof}
+
+\begin{remark}[Time inversion]\label{rem:time-inversion}
+Lemma~\ref{lem:last-passage} also follows immediately from Brownian time
+inversion and the reflection principle.  If
+$\widetilde B(u)=uB(1/u)$, then $\widetilde B$ is Brownian motion, and
+\[
+ \{L_a^{>}\le t\}
+ =\left\{\sup_{0\le u\le1/t}\widetilde B(u)\le a\right\}.
+\]
+The reflection principle then gives
+$2\Phi(a\sqrt t)-1$.  See \cite{RevuzYor1999,BorodinSalminen2002} for
+classical formulations of these identities.
+\end{remark}
