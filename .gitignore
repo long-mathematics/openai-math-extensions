@@ -1,0 +1,17 @@
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+
+# Local build and render directories
+_renders/
+build.log
