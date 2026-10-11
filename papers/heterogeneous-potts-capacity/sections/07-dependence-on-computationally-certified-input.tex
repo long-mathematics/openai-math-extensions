@@ -1,0 +1,85 @@
+\section{Dependence on computationally certified input}
+\label{sec:provenance}
+
+The only imported inequality in the proof of
+Theorems~\ref{thm:main} and \ref{thm:weighted-necessity} is
+Proposition~\ref{prop:input}, the preserved-class moment-saving estimate of
+\cite[Proposition~3.2]{OAIThreshold}. The citation is pinned to OpenAI/math
+commit \texttt{fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb}. That source proves
+its underlying polynomial inequalities with exact rational coefficient
+certificates, subdivision, and executable verifiers; see its certificate and
+finite-verification sections. Consequently, the two necessity arguments are
+conditional only in the ordinary sense that they invoke this explicitly
+stated theorem of the cited preprint. The sufficiency implication, robust
+reconstruction corollary, and their quantitative lower bounds are independent
+of that imported result.
+
+All remaining estimates, including the universal product identities, the
+sharpened coefficient count, the cubic subadditivity argument, the weighted
+flow recursion, and the heterogeneous path summation, are established in the
+present paper. The exact integer expansion used in
+Lemma~\ref{lem:local} is independently checked by
+\texttt{verify\_local\_expansion.py} in the source directory.
+
+\begin{thebibliography}{99}
+\bibitem{KS66}
+H. Kesten and B. P. Stigum,
+\emph{Additional limit theorems for indecomposable multidimensional
+Galton--Watson processes}, Ann. Math. Statist. \textbf{37} (1966),
+1463--1481. \href{https://doi.org/10.1214/aoms/1177699139}{doi:10.1214/aoms/1177699139}.
+
+\bibitem{EKPS00}
+W. Evans, C. Kenyon, Y. Peres, and L. J. Schulman,
+\emph{Broadcasting on trees and the Ising model},
+Ann. Appl. Probab. \textbf{10} (2000), 410--433.
+\href{https://doi.org/10.1214/aoap/1019487349}{doi:10.1214/aoap/1019487349}.
+
+\bibitem{MP03}
+E. Mossel and Y. Peres,
+\emph{Information flow on trees},
+Ann. Appl. Probab. \textbf{13} (2003), 817--844.
+\href{https://doi.org/10.1214/aoap/1060202828}{doi:10.1214/aoap/1060202828}.
+
+\bibitem{JM04}
+S. Janson and E. Mossel,
+\emph{Robust reconstruction on trees is determined by the second
+eigenvalue}, Ann. Probab. \textbf{32} (2004), 2630--2649.
+\href{https://doi.org/10.1214/009117904000000153}{doi:10.1214/009117904000000153}.
+
+\bibitem{MM06}
+M. M\'ezard and A. Montanari,
+\emph{Reconstruction on trees and spin glass transition},
+J. Stat. Phys. \textbf{124} (2006), 1317--1350.
+\href{https://doi.org/10.1007/s10955-006-9162-3}{doi:10.1007/s10955-006-9162-3}.
+
+\bibitem{PP10}
+R. Pemantle and Y. Peres,
+\emph{The critical Ising model on trees, concave recursions and
+nonlinear capacity}, Ann. Probab. \textbf{38} (2010), 184--206.
+\href{https://doi.org/10.1214/09-AOP482}{doi:10.1214/09-AOP482}.
+
+\bibitem{Sly11}
+A. Sly,
+\emph{Reconstruction for the Potts model},
+Ann. Probab. \textbf{39} (2011), 1365--1406.
+\href{https://doi.org/10.1214/10-AOP584}{doi:10.1214/10-AOP584}.
+
+\bibitem{MSS25}
+E. Mossel, A. Sly, and Y. Sohn,
+\emph{Exact phase transitions for stochastic block models and
+reconstruction on trees}, Ann. Probab. \textbf{53} (2025), 967--1018.
+\href{https://doi.org/10.1214/24-AOP1723}{doi:10.1214/24-AOP1723};
+\href{https://arxiv.org/abs/2212.03362}{arXiv:2212.03362}.
+
+\bibitem{OAIThreshold}
+OpenAI,
+\emph{The Reconstruction Threshold for the Ferromagnetic Four-State
+Potts Model}, preprint, October 5, 2026.
+\href{https://github.com/openai/math/tree/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/The-Reconstruction-Threshold-for-the-Ferromagnetic-Four-State-Potts-Model-October-5-2026}{Manuscript, source, and exact certificate programs at commit fd4aeeb2}.
+
+\bibitem{OAICapacity}
+OpenAI,
+\emph{A Capacity Criterion for Four-State Potts Reconstruction on
+Trees}, preprint, October 5, 2026.
+\href{https://github.com/openai/math/tree/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/A-Capacity-Criterion-for-Four-State-Potts-Reconstruction-on-Trees-October-5-2026}{Manuscript and source at commit fd4aeeb2}.
+\end{thebibliography}
