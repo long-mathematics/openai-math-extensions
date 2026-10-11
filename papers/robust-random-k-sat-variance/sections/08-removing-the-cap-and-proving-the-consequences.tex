@@ -1,0 +1,86 @@
+\section{Removing the cap and proving the consequences}
+\label{sec:uncapping}
+
+Let $\delta$ be the uniform assignment-falsification constant from
+assumption~(iv), and put
+\[
+    r=1-\delta<1.
+\]
+For every fixed assignment, independence across clause times gives
+\[
+    \Prb(\text{a fixed assignment satisfies }F_m)\le r^m.
+\]
+A union bound over the $2^n$ assignments yields
+\begin{equation}
+    \Prb(H_n>m)\le 2^n r^m.
+    \label{eq:first-moment-tail}
+\end{equation}
+In particular, $H_n$ is almost surely finite and has a finite second moment.
+
+Choose
+\begin{equation}
+    L_n=
+    \left\lceil
+      \frac{\log2+1}{\delta}\,n
+    \right\rceil,
+    \qquad
+    T_n=H_n\wedge L_n.
+    \label{eq:uncapping-level}
+\end{equation}
+Since $r\le e^{-\delta}$,
+\[
+    2^n r^{L_n}\le e^{-n}.
+\]
+The integer-valued tail-sum identity gives
+\begin{align}
+    \E(H_n-T_n)^2
+    &=\sum_{j=0}^\infty(2j+1)\Prb(H_n>L_n+j)
+      \notag\\
+    &\le
+      2^n r^{L_n}
+      \sum_{j=0}^\infty(2j+1)r^j
+      \notag\\
+    &=2^n r^{L_n}\frac{1+r}{(1-r)^2}
+      =O_{\delta}(e^{-n}).
+    \label{eq:cap-error}
+\end{align}
+The cap in \eqref{eq:uncapping-level} is a fixed linear multiple of $n$.
+Thus \eqref{eq:capped-variance} gives $\Var(T_n)=O(n)$ for
+$n\ge2k$, with dependence on the local parameters.  Consequently,
+\[
+    \Var(H_n)
+    \le
+    2\Var(T_n)+2\Var(H_n-T_n)
+    \le
+    2\Var(T_n)+2\E(H_n-T_n)^2
+    =O(n).
+\]
+
+For the finitely many sizes $k\le n<2k$, equation
+\eqref{eq:first-moment-tail} directly bounds $\E H_n^2$ by a constant
+depending only on $\delta$ and $k$.  Enlarging the constants proves the
+uncapped assertion of Theorem~\ref{thm:local-criterion}.  The parameter
+choices in \eqref{eq:local-parameters} then prove
+Theorem~\ref{thm:main}.
+
+\begin{proof}[Proof of Corollary~\ref{cor:central-window}]
+Let $\mu_n=\E H_n$, and let $K$ be the constant in
+Theorem~\ref{thm:main}.  Put
+\[
+    t_n=\sqrt{\frac{2Kn}{\varepsilon}}.
+\]
+Chebyshev's inequality gives
+\[
+    \Prb(|H_n-\mu_n|\ge t_n)\le\frac{\varepsilon}{2}.
+\]
+At $m=\lceil\mu_n+t_n\rceil$, this implies $s_n(m)\le\varepsilon/2$, so
+$r_n(\varepsilon)\le\lceil\mu_n+t_n\rceil$.  For every nonnegative integer
+$m\le\mu_n-t_n$, one has
+$s_n(m)\ge1-\varepsilon/2>1-\varepsilon$, so
+$r_n(1-\varepsilon)>\mu_n-t_n$ unless the latter quantity is negative, in
+which case the trivial bound $r_n(1-\varepsilon)\ge0$ suffices.  Hence
+\[
+    r_n(\varepsilon)-r_n(1-\varepsilon)
+    \le 2t_n+2.
+\]
+\end{proof}
