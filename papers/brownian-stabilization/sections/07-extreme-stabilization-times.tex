@@ -1,0 +1,103 @@
+\section{Extreme stabilization times}
+
+For $M\ge2$, let
+\begin{equation}\label{eq:bM}
+  b_M=8\log M-4\log\log M-4\log\pi.
+\end{equation}
+All logarithms are natural.
+
+\begin{theorem}[Gumbel law and Poisson terminal defects]\label{thm:gumbel}
+Let $T_1,\dots,T_M$ be the stabilization marks on any $M$ prescribed
+coordinates and let $T_M^{\max}=\max_{1\le i\le M}T_i$.  Then, for every
+$x\in\R$,
+\begin{equation}\label{eq:gumbel-limit}
+  \P\!\left(\frac{T_M^{\max}-b_M}{8}\le x\right)
+  \longrightarrow \exp(-e^{-x}).
+\end{equation}
+At the same scale, the remaining terminal-defect count satisfies
+\begin{equation}\label{eq:poisson-defect-limit}
+  N_M(b_M+8x)
+  \ \xrightarrow{\mathrm d}\
+  \operatorname{Pois}(e^{-x}),
+\end{equation}
+where $N_M(t)=\sum_{i=1}^M\1\{T_i>t\}$.
+
+The convergence in \eqref{eq:gumbel-limit} holds in every fixed moment.  In
+particular,
+\begin{align}
+  \E T_M^{\max}
+  &=b_M+8\gamma+o(1),\label{eq:mean-max}\\
+  \Var(T_M^{\max})
+  &=\frac{32\pi^2}{3}+o(1),
+  \label{eq:variance-max}
+\end{align}
+where $\gamma$ is Euler's constant.
+\end{theorem}
+
+\begin{proof}
+The normal-tail expansion gives
+\begin{equation}\label{eq:q-asymptotic}
+  q(t)
+  =\sqrt{\frac{8}{\pi t}}e^{-t/8}
+   \left(1-\frac4t+O(t^{-2})\right)
+  \qquad(t\to\infty).
+\end{equation}
+For fixed $x$, put $t_M(x)=b_M+8x$.  From \eqref{eq:bM},
+\begin{equation}\label{eq:centering-identity}
+  M e^{-b_M/8}=\sqrt{\pi\log M}.
+\end{equation}
+Combining \eqref{eq:q-asymptotic} and \eqref{eq:centering-identity} yields
+\begin{equation}\label{eq:tail-intensity-limit}
+  Mq(t_M(x))\longrightarrow e^{-x}.
+\end{equation}
+Since $q(t_M(x))\to0$, the exact formula
+\[
+  \P(T_M^{\max}\le t_M(x))=(1-q(t_M(x)))^M
+\]
+gives \eqref{eq:gumbel-limit}.  The exact binomial law
+\[
+  N_M(t_M(x))\sim\operatorname{Bin}(M,q(t_M(x)))
+\]
+and \eqref{eq:tail-intensity-limit} give
+\eqref{eq:poisson-defect-limit}.
+
+For completeness, we verify the uniform integrability needed for moment
+convergence.  Mills-ratio bounds imply constants $0<c<C<\infty$ such that
+\begin{equation}\label{eq:two-sided-q-bound}
+  c\frac{e^{-t/8}}{\sqrt{1+t}}
+  \le q(t)\le
+  C\frac{e^{-t/8}}{\sqrt{1+t}},
+  \qquad t\ge0.
+\end{equation}
+Write $V_M=(T_M^{\max}-b_M)/8$.  For $x\ge0$ and all sufficiently large $M$,
+\begin{equation}\label{eq:right-tail-UI}
+  \P(V_M>x)
+  \le Mq(b_M+8x)
+  \le C_1e^{-x}.
+\end{equation}
+For $0\le x\le b_M/16$, the lower bound in
+\eqref{eq:two-sided-q-bound} gives
+\begin{equation}\label{eq:left-tail-UI-one}
+  \P(V_M<-x)
+  \le \exp\{-Mq(b_M-8x)\}
+  \le \exp\{-c_1e^x\}.
+\end{equation}
+For $b_M/16\le x\le b_M/8$, monotonicity gives
+\begin{equation}\label{eq:left-tail-UI-two}
+  \P(V_M<-x)
+  \le \exp\{-Mq(b_M/2)\}
+  \le \exp\{-c_2M^{1/2}/\sqrt{\log M}\}.
+\end{equation}
+For $x>b_M/8$, the probability is zero because stabilization times are
+nonnegative.  The bounds \eqref{eq:right-tail-UI}--\eqref{eq:left-tail-UI-two}
+imply uniform integrability of every fixed power of $|V_M|$.  Hence the moments
+converge to those of a standard Gumbel random variable, whose mean and variance
+are $\gamma$ and $\pi^2/6$, respectively.  This proves
+\eqref{eq:mean-max}--\eqref{eq:variance-max}.
+\end{proof}
+
+\begin{remark}[Interpretation of the centering]\label{rem:centering}
+The term $8\log M$ comes from the exponential factor $e^{-t/8}$ in the gamma
+tail.  The correction $-4\log\log M$ comes from its $t^{-1/2}$ prefactor, and
+$-4\log\pi$ fixes the limiting Poisson intensity to be $e^{-x}$.
+\end{remark}

@@ -1,0 +1,113 @@
+\section{Finite-set laws and terminal defects}
+
+Define
+\begin{equation}\label{eq:F-and-q}
+  F(t)=2\Phi(\sqrt t/2)-1,
+  \qquad
+  q(t)=1-F(t)=2\Phi(-\sqrt t/2).
+\end{equation}
+
+\begin{corollary}[Exact finite-set stabilization]\label{cor:finite-set}
+For a finite $A\subseteq I$ with $|A|=M$,
+\begin{equation}\label{eq:max-cdf}
+  \P(T_A\le t\mid X)=\P(T_A\le t)=F(t)^M,
+  \qquad t\ge0.
+\end{equation}
+The one-coordinate density and Laplace transform are
+\begin{equation}\label{eq:scalar-density-laplace}
+  f_T(t)=\frac{e^{-t/8}}{\sqrt{8\pi t}},\quad t>0,
+  \qquad
+  \E e^{-sT}=(1+8s)^{-1/2},\quad s\ge0.
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:scalar-moments}
+  \E T=4,
+  \qquad
+  \Var(T)=32.
+\end{equation}
+The maximum $T_A$ has density
+\begin{equation}\label{eq:max-density}
+  f_{T_A}(t)=M F(t)^{M-1}\frac{e^{-t/8}}{\sqrt{8\pi t}},
+  \qquad t>0.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Equation \eqref{eq:max-cdf} follows from Theorem~\ref{thm:main}.  The remaining
+formulas follow by differentiating $F$ and using the standard gamma transform.
+\end{proof}
+
+At time $t$, call coordinate $i$ a \emph{remaining terminal defect} if it will
+be decoded incorrectly at some time strictly greater than $t$.  Equivalently,
+it is a defect when $T_i>t$.
+
+\begin{corollary}[Exact defect count]\label{cor:defect-count}
+For finite $A\subseteq I$, define
+\begin{equation}\label{eq:defect-count}
+  N_A(t)=\sum_{i\in A}\1\{T_i>t\}.
+\end{equation}
+Conditionally on $X$, and hence also unconditionally,
+\begin{equation}\label{eq:binomial-defects}
+  N_A(t)\sim\operatorname{Bin}(|A|,q(t)).
+\end{equation}
+In contrast, the number of coordinates decoded incorrectly at the single
+snapshot time $t>0$ is binomial with parameter $q(t)/2$.
+\end{corollary}
+
+\begin{proof}
+The first assertion follows from the independent marking theorem.  For a
+snapshot error, either target bit requires a centered normal fluctuation of
+magnitude at least $t/2$, so the conditional error probability is
+$\Phi(-\sqrt t/2)=q(t)/2$.  Conditional independence follows from the
+independence of the Brownian coordinates.
+\end{proof}
+
+Thus the factor of two in \eqref{eq:factor-two-intro} is exact: among the paths
+that will err after time $t$, half are already in error at time $t$, while half
+are currently correct and later return across the threshold.
+
+\begin{corollary}[Configuration-selected coordinates]\label{cor:random-set}
+Let $A=A(X)$ be an almost surely finite subset of $I$ selected measurably from
+the sampled configuration.  Then
+\begin{equation}\label{eq:random-set-cdf}
+  \P(T_{A(X)}\le t\mid X)=F(t)^{|A(X)|}
+  \quad\text{almost surely}.
+\end{equation}
+More generally, conditionally on $X$, the marks attached to the selected
+coordinates remain independent $\GammaLaw(1/2,8)$ variables.
+\end{corollary}
+
+\begin{proof}
+Condition on $X$ and apply the product law in Theorem~\ref{thm:main} to the
+now deterministic finite set $A(X)$.
+\end{proof}
+
+\subsection{Exact confidence horizons}
+
+\begin{corollary}[Exact and elementary horizons]\label{cor:horizons}
+Fix $M\ge1$ and $0<\delta<1$.  The unique time $t_{M,\delta}$ satisfying
+$\P(T_A\le t_{M,\delta})=1-\delta$ for $|A|=M$ is
+\begin{equation}\label{eq:exact-horizon}
+  t_{M,\delta}
+  =4\left[
+  \Phi^{-1}\!\left(
+    \frac{1+(1-\delta)^{1/M}}{2}
+  \right)\right]^2.
+\end{equation}
+The simpler sufficient condition
+\begin{equation}\label{eq:simple-horizon}
+  t\ge8\log(M/\delta)
+\end{equation}
+implies $\P(T_A\le t)\ge1-\delta$.
+\end{corollary}
+
+\begin{proof}
+Equation \eqref{eq:exact-horizon} is obtained by solving $F(t)^M=1-\delta$.
+The Gaussian Chernoff bound
+$2\Phi(-x)\le e^{-x^2/2}$ for $x\ge0$ gives $q(t)\le e^{-t/8}$.
+Therefore
+\[
+  \P(T_A>t)\le Mq(t)\le Me^{-t/8},
+\]
+which proves \eqref{eq:simple-horizon}.
+\end{proof}

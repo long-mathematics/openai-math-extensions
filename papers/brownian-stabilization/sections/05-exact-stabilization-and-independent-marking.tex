@@ -1,0 +1,89 @@
+\section{Exact stabilization and independent marking}
+
+\begin{theorem}[Exact product marking]\label{thm:main}
+Let $I$ be finite or countable, let $X$ have an arbitrary probability law on
+$\{0,1\}^I$, and let $(B_i)_{i\in I}$ be independent standard Brownian
+motions independent of $X$.  Define $Y$, $\widehat X$, and $T_i$ by
+\eqref{eq:reference-model}, \eqref{eq:midpoint-readout}, and
+\eqref{eq:last-error}.  Then every $T_i$ is finite almost surely and
+\begin{equation}\label{eq:main-product-law}
+  \Law\bigl(X,(T_i)_{i\in I}\bigr)
+  =\Law(X)\otimes
+  \bigotimes_{i\in I}\GammaLaw\!\left(\frac12,8\right).
+\end{equation}
+Equivalently, conditionally on the entire configuration $X$, the variables
+$T_i$ are independent and
+\begin{equation}\label{eq:Ti-law}
+  T_i\ \stackrel{\mathrm d}{=}\ 4G_i^2,
+  \qquad G_i\sim N(0,1).
+\end{equation}
+In particular, for every finite $A\subseteq I$ and every family
+$(t_i)_{i\in A}$ of nonnegative numbers,
+\begin{equation}\label{eq:joint-cdf}
+  \P\!\left(T_i\le t_i\ \text{for all }i\in A\mid X\right)
+  =\prod_{i\in A}
+  \left[1-2\Phi\!\left(-\frac{\sqrt{t_i}}2\right)\right]
+  \quad\text{almost surely}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Condition on $X$ and define
+\begin{equation}\label{eq:signed-brownian}
+  \widetilde B_i(t)=(1-2X_i)B_i(t).
+\end{equation}
+For each fixed value of $X$, this is only a deterministic coordinatewise sign
+change.  Product Wiener measure is invariant under these sign changes.  Hence,
+conditionally on $X$, the paths $\widetilde B_i$ are independent standard
+Brownian motions, with a conditional law not depending on $X$.  It follows in
+particular that the entire path field $(\widetilde B_i)_{i\in I}$ is
+independent of $X$.
+
+The signed margin is
+\begin{equation}\label{eq:signed-margin}
+  R_i(t)=(1-2X_i)\bigl(Y_i(t)-t/2\bigr)
+        =\widetilde B_i(t)-t/2.
+\end{equation}
+If $X_i=0$, then coordinate $i$ is decoded incorrectly exactly when
+$R_i(t)>0$.  If $X_i=1$, it is decoded incorrectly exactly when
+$R_i(t)\ge0$.  Thus, conditionally on $X$, $T_i$ is either
+$L_{1/2}^{>}$ or $L_{1/2}^{\ge}$ applied to the independent path
+$\widetilde B_i$.  Lemma~\ref{lem:last-passage} shows that both choices have
+the same distribution,
+\[
+  T_i\stackrel{\mathrm d}{=}\frac{G_i^2}{(1/2)^2}=4G_i^2.
+\]
+The conditional joint law is therefore the same product law for every value of
+$X$.  This proves independence from $X$, coordinate independence, and
+\eqref{eq:joint-cdf}.  Since $4G_i^2$ is gamma with shape $1/2$ and scale
+$8$, \eqref{eq:main-product-law} follows.
+\end{proof}
+
+\begin{corollary}[OpenAI sampler]\label{cor:oai-sampler}
+Under the hypotheses and notation of Proposition~\ref{prop:oai-input}, set
+$X=\Psi(W)$ and define the continuous-time readout
+\begin{equation}\label{eq:sampler-online-readout}
+  \widehat X_i(t)=\1\{Z_i(W)(t)>t/2\}.
+\end{equation}
+The last-error field of \eqref{eq:sampler-online-readout} satisfies
+\eqref{eq:main-product-law}.  In particular, this holds for the free uniform
+spanning forest sampler of \cite{OpenAI2026FUSF}.
+\end{corollary}
+
+\begin{proof}
+This is the transfer of Theorem~\ref{thm:main} through the joint path-law
+identity \eqref{eq:oai-path-law}.
+\end{proof}
+
+\begin{remark}[Why the midpoint is exact]\label{rem:midpoint}
+For a threshold $\alpha t$ with $0<\alpha<1$, the two target bits yield
+different drift magnitudes:
+\begin{equation}\label{eq:off-midpoint}
+  T_i\mid\{X_i=0\}\ \stackrel{\mathrm d}{=}\frac{G^2}{\alpha^2},
+  \qquad
+  T_i\mid\{X_i=1\}\ \stackrel{\mathrm d}{=}\
+  \frac{G^2}{(1-\alpha)^2}.
+\end{equation}
+Only at $\alpha=1/2$ do these conditional laws coincide.  The independence in
+\eqref{eq:main-product-law} is therefore a genuine midpoint symmetry.
+\end{remark}

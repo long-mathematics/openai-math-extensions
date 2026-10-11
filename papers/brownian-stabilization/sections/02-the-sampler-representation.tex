@@ -1,0 +1,66 @@
+\section{The sampler representation}
+
+Let $I$ be a finite or countable index set.  We isolate the consequence of the
+OpenAI sampler that is used throughout the paper.
+
+\begin{proposition}[OpenAI path representation]\label{prop:oai-input}
+Suppose that a probability law $\nu$ on $\{0,1\}^I$ satisfies the hypotheses of
+the Brownian sampling proposition in \cite[Section~4]{OpenAI2026FUSF}.  Let
+$W=(W_i)_{i\in I}$ be independent standard Brownian paths, let $Z(W)$ be the
+Borel solution of the sampler's deterministic inverse equation
+\begin{equation}\label{eq:inverse-drift}
+ Z_i(W)(t)=W_i(t)+\int_0^t b_i(s,Z(W)(s))\,\dd s,
+\end{equation}
+and let $\Psi(W)$ be its binary slope readout.  There exist a random configuration
+$X\sim\nu$ and independent standard Brownian motions $(B_i)_{i\in I}$,
+independent of $X$, such that
+\begin{equation}\label{eq:oai-path-law}
+  \bigl(Z(W),\Psi(W)\bigr)
+  \ \stackrel{\mathrm d}{=}\
+  \bigl((tX_i+B_i(t))_{i\in I,\,t\ge0},X\bigr).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The cited proposition proves that independent Brownian input is transformed by
+$Z$ into the complete joint path law of the reference observations
+$Y_i(t)=tX_i+B_i(t)$.  Its slope readout is a Borel function of the path field,
+and, in the reference model, that readout equals $X$ almost surely.  Applying
+the same Borel readout to two path fields with the same law gives
+\eqref{eq:oai-path-law}.  See the proof of the proposition entitled
+``Sampling from independent Brownian paths'' in
+\cite[Section~4]{OpenAI2026FUSF}.
+\end{proof}
+
+For the free uniform spanning forest, the OpenAI preprint verifies the required
+uniform response estimate with Lipschitz constant $1/2$
+\cite[Section~4]{OpenAI2026FUSF}.  Nothing in our argument below otherwise uses
+spanning-forest structure.
+
+In view of Proposition~\ref{prop:oai-input}, it is enough to work in the
+reference model
+\begin{equation}\label{eq:reference-model}
+  Y_i(t)=tX_i+B_i(t),
+\end{equation}
+where $X$ has an arbitrary law on $\{0,1\}^I$ and the $B_i$ are independent of
+$X$.
+
+\begin{definition}[Midpoint readout and last error]\label{def:last-error}
+For $t\ge0$, define
+\begin{equation}\label{eq:midpoint-readout}
+  \widehat X_i(t)=\1\{Y_i(t)>t/2\}.
+\end{equation}
+The last-error time at coordinate $i$ is
+\begin{equation}\label{eq:last-error}
+  T_i=\sup\{s\ge0:\widehat X_i(s)\ne X_i\}.
+\end{equation}
+For a finite $A\subseteq I$, put
+\begin{equation}\label{eq:finite-stabilization}
+  T_A=\max_{i\in A}T_i.
+\end{equation}
+\end{definition}
+
+The supremum convention in \eqref{eq:last-error} is deliberate.  At a final
+threshold contact, the strict readout in \eqref{eq:midpoint-readout} can be
+correct for target bit $0$ and incorrect for target bit $1$.  In either case,
+all times strictly greater than $T_i$ are decoded correctly.

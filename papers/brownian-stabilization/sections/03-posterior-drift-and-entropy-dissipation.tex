@@ -1,0 +1,104 @@
+\section{Posterior drift and entropy dissipation}\label{sec:entropy}
+
+The path representation also gives an exact information identity when the
+index set is finite.  Entropies and mutual informations in this section use
+natural logarithms.
+
+\begin{theorem}[Entropy--MMSE identity]\label{thm:entropy-mmse}
+Let $I$ be finite, let $X$ have an arbitrary law on $\{0,1\}^I$, and let
+$Y_i(t)=tX_i+B_i(t)$ as in \eqref{eq:reference-model}.  Put
+\[
+ \mathcal Y_t=\sigma\{Y_i(s):i\in I,\ 0\le s\le t\},
+ \qquad m_i(t)=\E[X_i\mid\mathcal Y_t].
+\]
+Then, for every $T\ge0$,
+\begin{equation}\label{eq:finite-time-immse}
+ I(X;\mathcal Y_T)
+ =\frac12\int_0^T\sum_{i\in I}
+   \E\bigl[(X_i-m_i(t))^2\bigr]\,\dd t.
+\end{equation}
+Moreover,
+\begin{equation}\label{eq:entropy-dissipation}
+ H(X)
+ =\frac12\int_0^\infty\sum_{i\in I}
+   \E\bigl[(X_i-m_i(t))^2\bigr]\,\dd t
+ =\frac12\int_0^\infty\sum_{i\in I}
+   \E\bigl[m_i(t)(1-m_i(t))\bigr]\,\dd t.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+For fixed $t$, the likelihood of the path $(Y(s))_{0\le s\le t}$ given
+$X=x$ is, up to an $x$-independent factor,
+\[
+ \exp\!\left(x\cdot Y(t)-\frac t2|x|^2\right).
+\]
+Thus $Y(t)$ is sufficient for $X$ relative to $\mathcal Y_t$.  After the
+normalization $Y(t)/\sqrt t=\sqrt t\,X+G$, where $G$ is a standard Gaussian
+vector, the vector I--MMSE identity gives \eqref{eq:finite-time-immse}; see
+\cite{GuoShamaiVerdu2005}.  Since $Y_i(t)/t\to X_i$ almost surely for every
+$i$, the full configuration $X$ is measurable with respect to
+$\mathcal Y_\infty=\sigma(\cup_t\mathcal Y_t)$.  Hence
+$I(X;\mathcal Y_T)\uparrow H(X)$, and monotone convergence in
+\eqref{eq:finite-time-immse} proves the first equality in
+\eqref{eq:entropy-dissipation}.  The second follows from
+\[
+ \E[(X_i-m_i(t))^2\mid\mathcal Y_t]=m_i(t)(1-m_i(t)).
+\]
+\end{proof}
+
+\begin{corollary}[Entropy of a finite sampler output]\label{cor:sampler-entropy}
+Under the hypotheses of Proposition~\ref{prop:oai-input}, suppose $I$ is
+finite and set $X=\Psi(W)$.  Then the sampler drift in
+\eqref{eq:inverse-drift} satisfies
+\begin{equation}\label{eq:sampler-entropy}
+ H(\Psi(W))
+ =\frac12\int_0^\infty\sum_{i\in I}
+ \E\!\left[
+   \bigl(\Psi_i(W)-b_i(t,Z(W)(t))\bigr)^2
+ \right]\,\dd t.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+In the reference observation model, the OpenAI posterior lemma identifies
+$b_i(t,Y(t))$ with $\E[X_i\mid\mathcal Y_t]$.  Transfer this joint law through
+Proposition~\ref{prop:oai-input} and apply Theorem~\ref{thm:entropy-mmse}.
+\end{proof}
+
+For example, if $X$ is the edge-indicator vector of a uniform spanning tree
+of a finite connected graph $G$, then $H(X)=\log\tau(G)$, where $\tau(G)$ is
+the number of spanning trees.  Equation \eqref{eq:entropy-dissipation} gives
+an exact integral representation of this spanning-tree entropy by the total
+posterior variance along the Brownian observation channel.
+
+\begin{proposition}[The Bayes snapshot benchmark]\label{prop:bayes-benchmark}
+Under the assumptions of Theorem~\ref{thm:entropy-mmse}, for a coordinate
+$i\in I$, define the full-field Bayes decision
+\[
+ \widetilde X_i(t)=\1\{m_i(t)>1/2\}.
+\]
+Then, for every $t>0$,
+\begin{equation}\label{eq:bayes-benchmark}
+ \P(\widetilde X_i(t)\ne X_i)
+ \le \P(\widehat X_i(t)\ne X_i)
+ =\Phi(-\sqrt t/2).
+\end{equation}
+More precisely,
+\begin{equation}\label{eq:bayes-regret}
+ \P(\widehat X_i(t)\ne X_i)-\P(\widetilde X_i(t)\ne X_i)
+ =\E\!\left[|2m_i(t)-1|\,
+   \1\{\widehat X_i(t)\ne\widetilde X_i(t)\}\right].
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Condition on $\mathcal Y_t$.  For a binary variable, choosing the more likely
+state minimizes conditional error, and the excess conditional risk of the
+opposite decision is $|2m_i(t)-1|$.  This proves
+\eqref{eq:bayes-regret}.  The midpoint error probability is the same for both
+values of $X_i$ and equals $\Phi(-\sqrt t/2)$.
+\end{proof}
+
+The proposition concerns snapshot risk only.  It does not order the last
+switching times of the midpoint and Bayes decision processes.
