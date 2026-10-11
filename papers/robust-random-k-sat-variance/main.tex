@@ -1,0 +1,82 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{natbib}
+\usepackage{xurl}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\hypersetup{
+  pdftitle={A Robust Linear Upper Bound for the Variance of Random k-SAT Hitting Times},
+  pdfauthor={Christopher D. Long}
+}
+
+\allowdisplaybreaks
+\setlist{nosep}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Prb}{\mathbb P}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\cF}{\mathcal F}
+\newcommand{\cG}{\mathcal G}
+\newcommand{\cH}{\mathcal H}
+\newcommand{\cU}{\mathcal U}
+\newcommand{\dd}{\,\mathrm d}
+\DeclareMathOperator{\SAT}{SAT}
+
+\title{A Robust Linear Upper Bound for the Variance\\
+of Random \texorpdfstring{$k$}{k}-SAT Hitting Times}
+\author{Christopher D. Long\\\small \texttt{galizur@gmail.com}}
+\date{October 11, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Fix an integer $k\ge 3$.  For each $n$, consider an independent, not
+necessarily identically distributed stream of proper signed $k$-clauses on
+$n$ Boolean variables.  Suppose that every clause law is bounded above and
+below, pointwise, by fixed constant multiples of the uniform proper-clause
+law.  We prove that the first unsatisfiable prefix $H_n$ satisfies
+\[
+    \Var(H_n)=O(n),
+\]
+uniformly over all such streams.  The same bound holds for $H_n$ clipped at
+any fixed linear time horizon.  The argument robustifies the clause-omission
+and root-test method developed for uniform random $k$-SAT and the killing
+potential introduced for the sharp three-literal variance bound.  The main
+new ingredients are a general-$k$ potential inequality with exponent
+$k/(k-1)$ and a conditional-density analysis showing that nonuniform root
+tests contribute only an exponential factor in a root-incidence count with
+uniformly bounded exponential moments.  We also isolate a strictly more
+local robustness criterion: global pointwise upper comparison can be replaced
+by conditional test-density and root-incidence bounds.  No stationarity in
+the clause laws is required.
+\end{abstract}
+
+\input{sections/01-introduction}
+\input{sections/02-a-general-k}
+\input{sections/03-clause-omission}
+\input{sections/04-root-exposure-and-conditional-comparability}
+\input{sections/05-necessary-root-tests}
+\input{sections/06-occupation-and-remaining-duration}
+\input{sections/07-squared-deletion-delays}
+\input{sections/08-removing-the-cap-and-proving-the-consequences}
+\input{sections/09-scope-and-further-directions}
+
+\end{document}
