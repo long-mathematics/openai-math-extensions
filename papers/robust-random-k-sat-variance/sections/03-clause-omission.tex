@@ -1,0 +1,52 @@
+\section{Clause omission}
+\label{sec:omission}
+
+Fix $\rho<\infty$, let $1\le L\le\rho n$, and put
+\[
+    T=H_n\wedge L.
+\]
+For each $1\le i\le L$, omit the clause at index $i$ while retaining the
+original indices:
+\[
+    F_m^{(-i)}
+    =\bigwedge_{\substack{1\le j\le m\\j\ne i}} C_j.
+\]
+Let $T^{(-i)}$ be the first index at which this omitted-clause process is
+unsatisfiable, capped at $L$, and set
+\[
+    D_i=T^{(-i)}-T\ge0.
+\]
+The use of the original indices is important because the clause laws may
+depend on time.
+
+\begin{lemma}[Coordinate omission]
+\label{lem:coordinate-omission}
+The capped hitting time satisfies
+\begin{equation}
+    \Var(T)\le\sum_{i=1}^L\E D_i^2.
+    \label{eq:coordinate-omission}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+This is the coordinate-omission form of the Efron--Stein inequality; see
+\citet{EfronStein1981} and \citet[Section~3.2]{BBLM2005}.  For completeness,
+let
+\[
+    \cF_i=\sigma(C_1,\dots,C_i),
+    \qquad
+    \Delta_iX=\E[X\mid\cF_i]-\E[X\mid\cF_{i-1}].
+\]
+Because the clause coordinates are independent and $T^{(-i)}$ does not
+depend on $C_i$, one has $\Delta_iT^{(-i)}=0$.  Therefore
+$\Delta_iT=-\Delta_iD_i$.  Conditional expectation is an orthogonal
+projection in $L^2$, so
+\[
+    \E(\Delta_iD_i)^2\le\E D_i^2.
+\]
+Summing the orthogonal martingale differences of $T$ proves
+\eqref{eq:coordinate-omission}.
+\end{proof}
+
+It remains to prove a uniform bound on $\E D_i^2$.  We do this after
+conditioning on the value of the omitted clause.

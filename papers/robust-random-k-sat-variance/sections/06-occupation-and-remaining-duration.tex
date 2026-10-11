@@ -1,0 +1,105 @@
+\section{Occupation and remaining duration}
+\label{sec:occupation}
+
+The next estimate is the robust analogue of the critical occupation bound
+in \citet{OpenAI2026ThreeSATVariance}.  It uses the lower conditional-density
+bound for each ordinary clause.
+
+\begin{lemma}[Conditional occupation estimate]
+\label{lem:occupation}
+There is a constant $K_0=K_0(B_{\mathrm{o}},k,\rho)<\infty$ such that, for every
+$i\le m<L$,
+\begin{equation}
+    \E\left[
+      \sum_{s=m}^{L-1}
+        \ind_{\{S_s\ne\varnothing\}}p_s^\eta
+      \,\middle|\,\cH_m
+    \right]
+    \le K_0d^\eta.
+    \label{eq:occupation-bound}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Suppose $s+1$ is ordinary, a fact known under $\cE$.  Then
+$S_{s+1}=S_s[C_{s+1}]$, and the hidden contents of $C_{s+1}$ remain fresh
+given $\cH_s$.  By the ordinary-clause density hypothesis, their conditional law is
+bounded below by $B_{\mathrm{o}}^{-1}U_{u,k}$.  Apply
+Lemma~\ref{lem:robust-potential} conditionally to obtain
+\begin{align}
+    \ind_{\{S_s\ne\varnothing\}}p_s^\eta
+    \le{}&
+    kB_{\mathrm{o}}\,d^{\eta-1}
+      \E\bigl[P_d(S_{s+1})-P_d(S_s)\mid\cH_s\bigr]
+      \notag\\
+    &+c_kd^\eta u^{-k}.
+    \label{eq:conditional-drift}
+\end{align}
+Condition on $\cH_m$ and sum over ordinary steps.  Every potential
+increment is nonnegative, including increments at nonordinary steps.  Thus,
+pathwise,
+\[
+    \sum_{\substack{m\le s<L\\s+1\text{ ordinary}}}
+       \bigl(P_d(S_{s+1})-P_d(S_s)\bigr)
+    \le P_d(S_L)-P_d(S_m)
+    \le d.
+\]
+The ordinary-step contribution to \eqref{eq:occupation-bound} is therefore
+at most
+\[
+    kB_{\mathrm{o}}\,d^\eta+c_kLd^\eta u^{-k}.
+\]
+There are at most $Z$ remaining steps, because every nonordinary index
+strictly after $i$ meets at least one root.  Each remaining summand is at
+most one.  Since $Z\le d\le d^\eta$, $L\le\rho n$, and $u=n-k\ge n/2$,
+we obtain
+\[
+    \E\left[
+      \sum_{s=m}^{L-1}
+        \ind_{\{S_s\ne\varnothing\}}p_s^\eta
+      \,\middle|\,\cH_m
+    \right]
+    \le
+    \left(kB_{\mathrm{o}}+1+c_k\rho 2^k\right)d^\eta.
+\]
+This proves the assertion with, for example,
+$K_0=kB_{\mathrm{o}}+1+c_k\rho2^k$.
+\end{proof}
+
+\begin{corollary}[Remaining duration]
+\label{cor:remaining-duration}
+For $i\le m<L$,
+\begin{equation}
+    \E\left[
+      \sum_{s=m}^{L-1}\ind_{A_s}
+      \,\middle|\,\cH_m
+    \right]
+    \le W_m,
+    \label{eq:remaining-duration}
+\end{equation}
+where
+\begin{equation}
+    W_m=
+    \begin{cases}
+      \min\{L,K_0d^\eta p_m^{-\eta}\},&p_m>0,\\
+      L,&p_m=0.
+    \end{cases}
+    \label{eq:W-definition}
+\end{equation}
+In particular, $W_m$ is $\cG_m$-measurable.
+\end{corollary}
+
+\begin{proof}
+For $s\ge m$, one has $p_s\ge p_m$, and $A_s$ implies
+$S_s\ne\varnothing$.  If $p_m>0$, then pathwise
+\[
+    \sum_{s=m}^{L-1}\ind_{A_s}
+    \le
+    p_m^{-\eta}
+    \sum_{s=m}^{L-1}
+      \ind_{\{S_s\ne\varnothing\}}p_s^\eta.
+\]
+Apply Lemma~\ref{lem:occupation}.  The count is always at most $L$, which
+also gives the case $p_m=0$.  Measurability follows from that of $d$ and
+$p_m$.
+\end{proof}
