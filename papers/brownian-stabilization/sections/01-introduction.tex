@@ -1,0 +1,69 @@
+\section{Introduction}
+
+The free uniform spanning forest is a central probability measure on infinite
+graphs; see, for example, \cite{BLPS2001,LyonsPeres2016}.  A recent OpenAI
+preprint proves that the free uniform spanning forest on every infinite,
+connected, locally finite, simple, unweighted graph is a factor of independent
+vertex labels \cite{OpenAI2026FUSF}.  A principal ingredient is a Brownian
+sampler for binary processes satisfying a uniform response bound.  Its output
+is recovered from the asymptotic slopes of a deterministically reconstructed
+observation field.
+
+The sampler proof contains a stronger path-law statement than is needed merely
+to identify the final output.  If $W$ denotes the independent Brownian input,
+$Z(W)$ the reconstructed path field, and $\Psi(W)$ the binary output, then
+\begin{equation}\label{eq:path-law-intro}
+  \bigl(Z(W),\Psi(W)\bigr)
+  \ \stackrel{\mathrm d}{=}\
+  \bigl((tX_i+B_i(t))_{i,t},X\bigr),
+\end{equation}
+where $X$ has the target law and the Brownian motions $B_i$ are independent of
+one another and of $X$.  We take \eqref{eq:path-law-intro} as the sole input
+from the sampler construction and determine exactly how quickly the natural
+midpoint readout stabilizes.
+
+The distinction between a snapshot error and a future error is important.  At
+a fixed time $t$, one coordinate is decoded incorrectly with probability
+$\Phi(-\sqrt t/2)$.  The probability that it makes an error at some time after
+$t$ is twice as large:
+\begin{equation}\label{eq:factor-two-intro}
+  \P(T_i>t)=2\Phi\!\left(-\frac{\sqrt t}{2}\right).
+\end{equation}
+The second half of this probability comes from paths that are currently on the
+correct side of the threshold but later return to it.  Thus $T_i$ is a
+last-passage variable rather than a stopping time.
+
+Our main theorem identifies the entire marked law:
+\begin{equation}\label{eq:product-marking-intro}
+  \Law\bigl(X,(T_i)_{i\in I}\bigr)
+  =\Law(X)\otimes
+  \bigotimes_{i\in I}\GammaLaw\!\left(\frac12,8\right).
+\end{equation}
+Arbitrary dependence in the target process disappears from the stabilization
+marks.  The reason is the midpoint threshold: after a sign change determined
+by $X_i$, either target bit produces the same Brownian motion with drift
+$-1/2$.
+
+The proof of the stabilization laws is self-contained after
+\eqref{eq:path-law-intro}.  We record a Brownian last-passage lemma, derive the
+product marking, and then develop exact finite-size, extreme-value, and
+heterogeneous-clock consequences.  For finite target laws we additionally use
+the posterior-mean interpretation of the sampler drift and the vector
+I--MMSE identity to record an exact entropy-dissipation formula.  Standard
+background on Brownian hitting and last-passage identities may be found in
+\cite{KaratzasShreve1991,RevuzYor1999,BorodinSalminen2002}; background on
+extreme-value limits may be found in \cite{Resnick1987}.
+
+The stabilization parameter studied here is Brownian observation time after
+the path field $Z(W)$ has been reconstructed.  It is not a coding radius in
+the underlying IID vertex labels, and none of the results below asserts that
+the factor map is finitary.  The exact law instead quantifies the online
+readout of the reconstructed observation field.
+
+\subsection*{Provenance}
+The deterministic inversion, innovation representation, posterior-drift
+identification, and path-law identity \eqref{eq:path-law-intro} are due to the
+OpenAI preprint \cite{OpenAI2026FUSF}, cited at the fixed source commit recorded
+in the bibliography.  The stabilization theorems and their consequences below
+are derived from the path-law identity; the entropy formula also uses the
+posterior-drift identification.
