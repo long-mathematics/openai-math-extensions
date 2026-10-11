@@ -1,0 +1,161 @@
+\section{A general-\texorpdfstring{$k$}{k} killing potential}
+\label{sec:potential}
+
+We work first on $u\ge k$ Boolean variables, independently of the clause
+stream.  For an assignment set $S\subseteq\{0,1\}^u$ and a clause $C$, let
+\[
+    S[C]=\{z\in S:z\models C\}.
+\]
+For $1\le r\le k$, let $h_r(S)$ be the probability that one uniform proper
+$r$-clause kills $S$, meaning that no member of $S$ satisfies the clause.
+Set
+\[
+    \eta=\frac{k}{k-1},
+    \qquad
+    c_k=\left(\frac{k-1}{2}\right)^k.
+\]
+
+\begin{lemma}[One-clause comparison]
+\label{lem:one-clause}
+For every nonempty $S\subseteq\{0,1\}^u$,
+\begin{equation}
+    h_{k-1}(S)^\eta
+    \le k h_k(S)+c_k u^{-k}.
+    \label{eq:one-clause-comparison}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Call a coordinate \emph{frozen} if it has the same value in every assignment
+of $S$, and let $f$ be the number of frozen coordinates.  A proper
+$r$-clause kills all of $S$ exactly when all of its variables are frozen and
+each literal has the falsifying sign.  Therefore
+\begin{equation}
+    h_r(S)=\frac{(f)_r}{2^r(u)_r},
+    \label{eq:frozen-formula}
+\end{equation}
+where $(t)_r=t(t-1)\cdots(t-r+1)$, with value zero when the nonnegative
+integer $t$ is smaller than $r$.
+
+Since $f\le u$, each factor $(f-j)/(u-j)$ is at most $f/u$.  Hence
+\begin{equation}
+    h_{k-1}(S)^{1/(k-1)}\le \frac{f}{2u}.
+    \label{eq:h-root-bound}
+\end{equation}
+If $f\ge k$, then
+\[
+    \frac{h_k(S)}{h_{k-1}(S)}
+    =\frac{f-k+1}{2(u-k+1)}
+    \ge \frac{f}{2ku},
+\]
+because $f-k+1\ge f/k$.  Combining this with
+\eqref{eq:h-root-bound} gives
+\[
+    h_{k-1}(S)^\eta
+    \le h_{k-1}(S)\frac{f}{2u}
+    \le k h_k(S).
+\]
+If $f\le k-2$, the left side of \eqref{eq:one-clause-comparison} vanishes.
+For the remaining case $f=k-1$, equation \eqref{eq:h-root-bound} gives
+\[
+    h_{k-1}(S)^\eta
+    \le \left(\frac{k-1}{2u}\right)^k
+    =c_k u^{-k}.
+\]
+\end{proof}
+
+For $j\ge0$, define $q_j(S)$ to be the probability that $j$ independent
+uniform proper $(k-1)$-clauses kill $S$.  Thus
+\[
+    q_j(\varnothing)=1\quad(j\ge0),
+    \qquad
+    q_0(S)=0\quad(S\ne\varnothing).
+\]
+The quantity $q_j(S)$ is nondecreasing in $j$ and when $S$ shrinks.  For
+$d\ge1$, define
+\begin{equation}
+    P_d(S)=\sum_{j=0}^{d-1}q_j(S).
+    \label{eq:potential-definition}
+\end{equation}
+Then $0\le P_d(S)\le d$, and $P_d$ is nondecreasing when $S$ shrinks.
+
+\begin{lemma}[Uniform potential drift]
+\label{lem:uniform-potential}
+Let $C$ be a uniform proper $k$-clause on the $u$ variables.  Then, for every
+$d\ge1$,
+\begin{equation}
+    \ind_{\{S\ne\varnothing\}}q_d(S)^\eta
+    \le
+    k d^{\eta-1}
+       \E_C\bigl[P_d(S[C])-P_d(S)\bigr]
+    +c_k d^\eta u^{-k}.
+    \label{eq:uniform-potential-drift}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Fix $j\ge0$, and let $Y$ be the subset of $S$ surviving $j$ independent
+uniform proper $(k-1)$-clauses.  Adding one further such clause gives
+\begin{equation}
+    q_{j+1}(S)-q_j(S)
+    =\E\bigl[\ind_{\{Y\ne\varnothing\}}h_{k-1}(Y)\bigr].
+    \label{eq:short-increment}
+\end{equation}
+Adding instead the independent proper $k$-clause $C$ gives
+\begin{equation}
+    \E_C\bigl[q_j(S[C])-q_j(S)\bigr]
+    =\E\bigl[\ind_{\{Y\ne\varnothing\}}h_k(Y)\bigr].
+    \label{eq:long-increment}
+\end{equation}
+Indeed, in either order the increase in killing probability is the
+probability that the old surviving set is nonempty and the final clause
+kills it.
+
+By Jensen's inequality and Lemma~\ref{lem:one-clause},
+\[
+    \bigl(q_{j+1}(S)-q_j(S)\bigr)^\eta
+    \le
+    k\E_C\bigl[q_j(S[C])-q_j(S)\bigr]+c_k u^{-k}.
+\]
+For nonempty $S$, the nonnegative successive differences telescope to
+$q_d(S)$ because $q_0(S)=0$.  The power-sum inequality gives
+\[
+    q_d(S)^\eta
+    \le
+    d^{\eta-1}
+    \sum_{j=0}^{d-1}
+      \bigl(q_{j+1}(S)-q_j(S)\bigr)^\eta.
+\]
+Summing the preceding estimate over $j$ proves
+\eqref{eq:uniform-potential-drift}.  For empty $S$, the left side of
+\eqref{eq:uniform-potential-drift} is zero and the right side is
+nonnegative.
+\end{proof}
+
+The next form is the one used after conditioning the original nonuniform
+clause stream.
+
+\begin{lemma}[Robust potential drift]
+\label{lem:robust-potential}
+Let $\nu$ be a probability law on proper $k$-clauses on the $u$ variables
+such that
+\[
+    \nu(C)\ge B^{-1}U_{u,k}(C)
+\]
+for every proper $k$-clause $C$, where $B\ge1$.  If $C\sim\nu$, then
+\begin{equation}
+    \ind_{\{S\ne\varnothing\}}q_d(S)^\eta
+    \le
+    kB d^{\eta-1}
+      \E_\nu\bigl[P_d(S[C])-P_d(S)\bigr]
+    +c_k d^\eta u^{-k}.
+    \label{eq:robust-potential-drift}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The potential increment $P_d(S[C])-P_d(S)$ is nonnegative for every clause
+$C$.  Hence its expectation under $\nu$ is at least $B^{-1}$ times its
+expectation under $U_{u,k}$.  Apply
+Lemma~\ref{lem:uniform-potential}.
+\end{proof}
