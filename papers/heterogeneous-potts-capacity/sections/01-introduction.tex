@@ -1,0 +1,53 @@
+\section{Introduction}\label{sec:intro}
+
+Reconstruction on trees asks whether the spin at the root can be inferred
+with a nonvanishing advantage from the spins on arbitrarily distant
+levels. The Kesten--Stigum second-eigenvalue scale originates in
+multitype branching-process theory \cite{KS66}; broadcasting and
+information flow on trees were developed in
+\cite{EKPS00,MP03}. For the binary Ising model, nonlinear potential
+and capacity furnish finer criteria on nonregular trees, including at
+criticality. The general-tree capacity theory of Pemantle and Peres
+\cite{PP10} is an important antecedent: in its Ising setting, an
+$L^3$ capacity occurs for plus boundary conditions. Robust
+reconstruction and the role of the second eigenvalue were investigated
+by Janson and Mossel \cite{JM04}.
+
+For the symmetric Potts broadcast channel, the transition law is a
+convex combination of the identity and the uniform kernel. The
+four-state case lies at a cancellation point in the posterior
+expansion; the standard quadratic correction is insufficient and a
+higher-order term controls the critical regime. The sharpness and
+nonsharpness phenomena across the number of states were studied by
+Sly \cite{Sly11}, with later results of Mossel, Sly and Sohn
+\cite{MSS25}. Two recent manuscripts \cite{OAIThreshold,OAICapacity}
+provide, respectively, a rigorously certified four-state posterior
+moment inequality and an $L^3$ criterion for bounded-degree,
+constant-channel deterministic trees. The present note extends the
+latter to heterogeneous channels and removes the bounded-degree
+restriction, while preserving its explicit dependence on the former.
+
+Our two principal transfers are different. The 
+\emph{necessity} argument modifies the information variable by
+$f(m)=m+m^3/3000$. The moment-saving inequality makes this variable
+subadditive under every binary combination, so sequential products
+can be controlled with constants independent of the number of
+children. The resulting edge-dependent concave recursion creates an
+admissible flow by telescoping squared increments, in the spirit of
+nonlinear capacity recursions \cite{PP10}.
+
+In the \emph{sufficiency} argument we calibrate deliberately noisy
+boundary observations to an arbitrary admissible flow. Unlike the
+necessity proof, this requires only elementary identities for the
+quadratic information and a signed cubic moment of symmetric
+posterior laws. Independent erasure ensures nonnegative information
+loss without the imported cone inequality. Sampling a ray from the
+flow converts the total loss into a path sum, and the exact
+propagation factors leave a kernel bounded by $q^{\text{distance}}$.
+This gives a uniform lower bound on root information independently
+of the depth and of vertex degrees. Deliberately degraded boundary
+observations also appear in robust reconstruction \cite{JM04}; the
+present construction calibrates their strengths separately at every
+vertex using nonlinear capacity. Because its terminal degradation may be
+placed after any fixed additional leaf noise, the same argument proves
+robust reconstruction.
