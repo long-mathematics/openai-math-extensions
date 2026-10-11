@@ -1,0 +1,43 @@
+\section{Boundary, filtration, and infinite-coordinate issues}
+
+\subsection{The final threshold contact}
+Almost surely, the signed margin in \eqref{eq:signed-margin} equals zero at its
+last boundary contact.  With the strict decoder convention, a target-$0$
+coordinate is correct at that contact, whereas a target-$1$ coordinate is
+incorrect.  Definition~\ref{def:last-error} avoids any ambiguity: every time
+strictly greater than $T_i$ is correct, and the strict and non-strict
+last-passage functionals have the same law by Lemma~\ref{lem:last-passage}.
+
+\subsection{The last-error time is not a stopping time}
+Let $R(t)=B(t)-t/2$ and let $T$ be its last visit to the nonnegative half-line
+(or its last positive time; the conditional formula is the same).  With
+$\cF_t=\sigma(R(s):0\le s\le t)$, the hitting formula
+\eqref{eq:hitting-probability} gives
+\begin{equation}\label{eq:conditional-certificate}
+  \P(T\le t\mid\cF_t)
+  =\1\{R(t)<0\}\bigl(1-e^{R(t)}\bigr).
+\end{equation}
+This conditional probability takes values strictly between $0$ and $1$ with
+positive probability.  Hence $\{T\le t\}$ is not $\cF_t$-measurable, and $T$
+is not a stopping time.  The exact horizons in
+Corollary~\ref{cor:horizons} are therefore probabilistic certification times,
+not pathwise online certificates.
+
+\subsection{No common finite time on infinitely many equal-rate coordinates}
+If $I$ is countably infinite and all coordinates have unit rate, then every
+$T_i$ is finite almost surely, but
+\begin{equation}\label{eq:infinite-supremum}
+  \sup_{i\in I}T_i=\infty
+  \quad\text{almost surely}.
+\end{equation}
+Indeed, for every finite $t$, $F(t)<1$, so the probability that all infinitely
+many independent stabilization marks are at most $t$ is zero.  Taking a
+countable union over integer $t$ proves \eqref{eq:infinite-supremum}.
+
+\subsection{Continuous and discrete inspection are different}
+The law obtained here concerns the continuous-time readout
+$t\mapsto\1\{Z_i(t)>t/2\}$.  If one inspects the sampler only at integer times,
+the last observed error is bounded above by $T_i$ but has a different
+lattice-valued distribution.  The asymptotic slope readout in
+\cite{OpenAI2026FUSF} needs only integer times; the exact stabilization law
+uses the full reconstructed continuous path.

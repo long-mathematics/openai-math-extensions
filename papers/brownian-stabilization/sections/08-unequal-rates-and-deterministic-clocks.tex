@@ -1,0 +1,117 @@
+\section{Unequal rates and deterministic clocks}
+
+The product marking persists when different coordinates are observed at
+different deterministic speeds.
+
+\begin{proposition}[Unequal constant rates]\label{prop:rates}
+Let $r_i>0$ and consider
+\begin{equation}\label{eq:rate-model}
+  Y_i(t)=r_itX_i+\sqrt{r_i}\,B_i(t),
+  \qquad
+  \widehat X_i(t)=\1\{Y_i(t)>r_it/2\}.
+\end{equation}
+Let $T_i^{(r)}$ be the corresponding last-error time.  Conditionally on $X$,
+the variables $T_i^{(r)}$ are independent and
+\begin{equation}\label{eq:rate-law}
+  T_i^{(r)}\ \stackrel{\mathrm d}{=}\frac4{r_i}G_i^2.
+\end{equation}
+Therefore, for finite $A\subseteq I$,
+\begin{equation}\label{eq:rate-product-cdf}
+  \P\!\left(T_i^{(r)}\le t_i\ \text{for all }i\in A\mid X\right)
+  =\prod_{i\in A}
+  \left[1-2\Phi\!\left(-\frac{\sqrt{r_it_i}}2\right)\right].
+\end{equation}
+The conditional law again does not depend on $X$.
+\end{proposition}
+
+\begin{proof}
+After the sign change from Theorem~\ref{thm:main}, divide the signed margin by
+$\sqrt{r_i}$.  The result is standard Brownian motion with drift
+$-\sqrt{r_i}/2$.  Lemma~\ref{lem:last-passage} gives
+\eqref{eq:rate-law} and hence \eqref{eq:rate-product-cdf}.
+\end{proof}
+
+\begin{proposition}[Deterministic observation clocks]\label{prop:clocks}
+For each $i$, let $\kappa_i:[0,\infty)\to[0,\infty)$ be continuous, strictly
+increasing, unbounded, and satisfy $\kappa_i(0)=0$.  Consider
+\begin{equation}\label{eq:clock-model}
+  Y_i(t)=\kappa_i(t)X_i+B_i(\kappa_i(t)),
+  \qquad
+  \widehat X_i(t)=\1\{Y_i(t)>\kappa_i(t)/2\}.
+\end{equation}
+Then, conditionally on $X$, the physical last-error times are independent and
+satisfy
+\begin{equation}\label{eq:clock-transform}
+  T_i^{(\kappa)}\ \stackrel{\mathrm d}{=}
+  \kappa_i^{-1}(4G_i^2).
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:clock-product-cdf}
+  \P\!\left(T_i^{(\kappa)}\le t_i\ \text{for all }i\in A\mid X\right)
+  =\prod_{i\in A}
+  \left[1-2\Phi\!\left(-\frac{\sqrt{\kappa_i(t_i)}}2\right)\right].
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+In intrinsic time $u=\kappa_i(t)$, the model is exactly the unit-rate model of
+Theorem~\ref{thm:main}.  Applying the inverse deterministic clock gives
+\eqref{eq:clock-transform} and \eqref{eq:clock-product-cdf}.
+\end{proof}
+
+\subsection{A quantitative terminal-profile transfer}
+
+For a finite heterogeneous array, set
+\begin{equation}\label{eq:heterogeneous-q}
+  q_{n,i}(t)=2\Phi\!\left(-\frac{\sqrt{r_{n,i}t}}2\right),
+  \qquad
+  \Lambda_n(t)=\sum_iq_{n,i}(t),
+  \qquad
+  q_n^*(t)=\max_iq_{n,i}(t).
+\end{equation}
+
+\begin{proposition}[Quantitative Poisson transfer]\label{prop:poisson-transfer}
+Let $T_n^{\max}$ be the maximum stabilization time in a finite array with rates
+$r_{n,i}$.  For every $t$ with $q_n^*(t)<1$,
+\begin{equation}\label{eq:log-error-bound}
+  0\le
+  -\log\P(T_n^{\max}\le t)-\Lambda_n(t)
+  \le
+  \frac{\sum_iq_{n,i}(t)^2}{2(1-q_n^*(t))}.
+\end{equation}
+In particular, if for every fixed $x$,
+\begin{equation}\label{eq:heterogeneous-assumptions}
+  q_n^*(t_n(x))\to0,
+  \qquad
+  \Lambda_n(t_n(x))\to\Lambda(x)<\infty,
+\end{equation}
+then
+\begin{equation}\label{eq:heterogeneous-profile}
+  \P(T_n^{\max}\le t_n(x))\longrightarrow e^{-\Lambda(x)}.
+\end{equation}
+At the same time, the number of coordinates with a future error after
+$t_n(x)$ converges to $\operatorname{Pois}(\Lambda(x))$.
+\end{proposition}
+
+\begin{proof}
+The exact product formula gives
+\[
+  \P(T_n^{\max}\le t)=\prod_i(1-q_{n,i}(t)).
+\]
+For $0\le z<1$,
+\begin{equation}\label{eq:log-elementary}
+  0\le-\log(1-z)-z
+  =\sum_{k\ge2}\frac{z^k}{k}
+  \le\frac{z^2}{2(1-z)}.
+\end{equation}
+Summing \eqref{eq:log-elementary} proves \eqref{eq:log-error-bound}.  Under
+\eqref{eq:heterogeneous-assumptions},
+\[
+  \sum_iq_{n,i}(t_n(x))^2
+  \le q_n^*(t_n(x))\Lambda_n(t_n(x))\to0,
+\]
+which proves \eqref{eq:heterogeneous-profile}.  The Poisson convergence is the
+standard law-of-small-numbers consequence for independent Bernoulli defects;
+Le Cam's inequality gives total-variation error at most
+$\sum_i q_{n,i}(t_n(x))^2$ \cite{LeCam1960}.
+\end{proof}
