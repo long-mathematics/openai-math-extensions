@@ -1,0 +1,58 @@
+\section{Necessary root tests}
+\label{sec:tests}
+
+A root $x\in R$ is called \emph{available at time $m$} if no collision
+through time $m$, excluding index $i$, has its literal on $x$ as its unique
+root literal true under $w$.  A single collision excludes at most one root.
+Thus all $k$ roots are available on $\{V=0\}$ and at least $k-1$ roots are
+available on $\{V=1\}$.
+
+\begin{lemma}[Robust root-test bounds]
+\label{lem:root-tests}
+For $i\le m<L$, conditional on $\cG_m$,
+\begin{align}
+    \Prb(A_m\mid\cG_m)
+    &\le
+      B_{\mathrm{t}}^d\ind_{\{S_m\ne\varnothing\}}p_m^k
+      &&\text{on }\{V=0\},
+      \label{eq:root-test-zero}\\
+    \Prb(A_m\mid\cG_m)
+    &\le
+      B_{\mathrm{t}}^d\ind_{\{S_m\ne\varnothing\}}p_m^{k-1}
+      &&\text{on }\{V=1\}.
+      \label{eq:root-test-one}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+Fix an available root $x$.  On $A_m$, the hidden nonroot parts of all test
+clauses for $x$ through time $m$ must kill $S_m$.  Otherwise there is some
+$z\in S_m$ satisfying every one of those test parts.  Flip only $x$ in the
+assignment $(w,z)$.  Every clause of $F_m^{(-i)}$ remains satisfied:
+\begin{itemize}
+\item a clause with no root literal true under $w$ already has a satisfied
+      nonroot literal, which is unchanged;
+\item a clause with another root literal true under $w$ retains that true
+      literal;
+\item a clause whose unique true root literal is on $x$ cannot be a
+      collision, by availability, and is therefore a test clause whose
+      nonroot part is satisfied by $z$.
+\end{itemize}
+The flipped assignment also satisfies $C_i$, contradicting $A_m$.
+
+Suppose root $x$ has $r_x$ test clauses through time $m$.  By the
+conditional test-density hypothesis, their joint density relative to
+$r_x$ independent uniform proper $(k-1)$-clauses is at most
+$B_{\mathrm{t}}^{r_x}$.  Hence their probability of killing $S_m$ is at most
+\[
+    B_{\mathrm{t}}^{r_x}q_{r_x}(S_m)
+    \le B_{\mathrm{t}}^{r_x}q_d(S_m)
+    =B_{\mathrm{t}}^{r_x}p_m,
+\]
+because $r_x\le Z\le d$.  Test families belonging to distinct roots are
+conditionally independent.  The total number of test clauses across any
+selected available roots is at most $Z\le d$.  Multiplying the necessary
+events for all $k$ available roots when $V=0$, or for any $k-1$ available
+roots when $V=1$, proves \eqref{eq:root-test-zero} and
+\eqref{eq:root-test-one}.
+\end{proof}
