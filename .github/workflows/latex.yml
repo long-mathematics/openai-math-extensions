@@ -1,0 +1,27 @@
+name: LaTeX
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        paper:
+          - brownian-stabilization
+          - robust-random-k-sat-variance
+          - heterogeneous-potts-capacity
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Compile manuscript
+        uses: xu-cheng/latex-action@e2f99d4b3685b0da93f97e1b86ad8fab81105098 # v3
+        with:
+          root_file: main.tex
+          working_directory: papers/${{ matrix.paper }}
+      - name: Verify Potts expansion
+        if: matrix.paper == 'heterogeneous-potts-capacity'
+        run: python papers/heterogeneous-potts-capacity/verify_local_expansion.py
