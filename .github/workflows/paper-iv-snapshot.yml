@@ -1,0 +1,70 @@
+name: Build Paper IV snapshot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'papers/04-conjugate-fibres-irrationality-exponents/**'
+      - '.github/workflows/paper-iv-snapshot.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-paper-iv:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Compile Paper IV
+        uses: xu-cheng/latex-action@v4
+        env:
+          SOURCE_DATE_EPOCH: '1791504000'
+          FORCE_SOURCE_DATE: '1'
+          TZ: UTC
+        with:
+          root_file: conjugate-fibres-irrationality-exponents.tex
+          working_directory: papers/04-conjugate-fibres-irrationality-exponents
+          args: -pdf -g -interaction=nonstopmode -halt-on-error -file-line-error -latexoption=-no-shell-escape
+
+      - name: Refresh committed snapshot and manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="papers/04-conjugate-fibres-irrationality-exponents/conjugate-fibres-irrationality-exponents.pdf"
+          dst="output/pdf/conjugate-fibres-irrationality-exponents.pdf"
+          test -s "$src"
+          cp "$src" "$dst"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import json
+
+          manifest = Path("output/pdf/manifest.json")
+          pdf = Path("output/pdf/conjugate-fibres-irrationality-exponents.pdf")
+          data = json.loads(manifest.read_text())
+          record = next(
+              item for item in data["documents"]
+              if item["pdf"] == str(pdf)
+          )
+          record["pdf_sha256"] = hashlib.sha256(pdf.read_bytes()).hexdigest()
+          manifest.write_text(json.dumps(data, indent=2) + "\n")
+          PY
+
+      - name: Commit generated snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add output/pdf/conjugate-fibres-irrationality-exponents.pdf output/pdf/manifest.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "Build Paper IV PDF snapshot"
+          git push origin HEAD:"${{ github.head_ref }}"
