@@ -1,0 +1,73 @@
+name: Refresh Paper IV CI snapshot
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/paper-iv-ci-snapshot.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: paper-iv-ci-snapshot-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Install exact repository TeX toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk biber texlive-bibtex-extra texlive-latex-extra \
+            texlive-fonts-recommended texlive-science lmodern poppler-utils \
+            python3 python3-sympy make
+
+      - name: Build Paper IV with repository settings
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_dir="papers/04-conjugate-fibres-irrationality-exponents"
+          stem="conjugate-fibres-irrationality-exponents"
+          work="$GITHUB_WORKSPACE/.build/$stem"
+          rm -rf "$work"
+          mkdir -p "$work"
+          (
+            cd "$source_dir"
+            SOURCE_DATE_EPOCH=1791504000 FORCE_SOURCE_DATE=1 TZ=UTC \
+              latexmk -pdf -g -interaction=nonstopmode -halt-on-error \
+                -file-line-error -latexoption=-no-shell-escape \
+                -outdir="$work" "$stem.tex"
+          )
+          cp "$work/$stem.pdf" "output/pdf/$stem.pdf"
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json
+          manifest = Path("output/pdf/manifest.json")
+          pdf = Path("output/pdf/conjugate-fibres-irrationality-exponents.pdf")
+          data = json.loads(manifest.read_text())
+          record = next(x for x in data["documents"] if x["pdf"] == str(pdf))
+          record["pdf_sha256"] = hashlib.sha256(pdf.read_bytes()).hexdigest()
+          manifest.write_text(json.dumps(data, indent=2) + "\n")
+          PY
+
+      - name: Commit CI-matched snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add output/pdf/conjugate-fibres-irrationality-exponents.pdf output/pdf/manifest.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Refresh Paper IV PDF with CI toolchain"
+          git push origin HEAD:"${{ github.head_ref }}"
