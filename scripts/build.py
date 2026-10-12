@@ -14,6 +14,7 @@ DOCUMENTS = [
     ("papers/01-heterogeneous-potts-capacity/heterogeneous-potts-capacity.tex", "heterogeneous-potts-capacity.pdf"),
     ("papers/02-robust-random-k-sat-variance/robust-random-k-sat-variance.tex", "robust-random-k-sat-variance.pdf"),
     ("papers/03-brownian-sampler-stabilization/brownian-sampler-stabilization.tex", "brownian-sampler-stabilization.pdf"),
+    ("papers/04-conjugate-fibres-irrationality-exponents/conjugate-fibres-irrationality-exponents.tex", "conjugate-fibres-irrationality-exponents.pdf"),
 ]
 
 README_ALLOWED_COMMANDS = {
