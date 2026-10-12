@@ -68,7 +68,7 @@ Compilation, exact symbolic checks, and finite computations check the written ar
 On Debian/Ubuntu:
 
 ```sh
-sudo apt-get install latexmk biber texlive-latex-extra texlive-fonts-recommended texlive-science lmodern poppler-utils python3 python3-sympy make
+sudo apt-get install latexmk biber texlive-bibtex-extra texlive-latex-extra texlive-fonts-recommended texlive-science lmodern poppler-utils python3 python3-sympy make
 ```
 
 From the repository root:
