@@ -1,6 +1,6 @@
 # Theorem status
 
-This register describes the current claims of the three canonical manuscripts. Compilation and executable checks are not independent peer review or formal verification.
+This register describes the current claims of the four canonical manuscripts. Compilation and executable checks are not independent peer review or formal verification.
 
 ## Paper I — heterogeneous four-state Potts broadcasting
 
@@ -50,3 +50,20 @@ This register describes the current claims of the three canonical manuscripts. C
 **Scope boundary**
 
 - These random times measure observation time after the reconstructed path is available. They are not coding radii and do not prove that the OpenAI factor map is finitary.
+
+## Paper IV — conjugate fibres and irrationality exponents
+
+**Established in the manuscript**
+
+- For a real nonzero number with an algebraic exponential certificate, if the certificate field has degree $d$ and exactly $r$ embeddings preserve the conjugate exponential relation, then the irrationality exponent is at most $2d/r$.
+- Optimizing over all algebraic exponential certificates gives the corresponding conjugate-fibre-density bound.
+- Power saturation and relation-lattice saturation can improve the certificate ratio; full compatibility after a power gives irrationality exponent exactly 2.
+- If every conjugate defect is a root of unity, a common power gives full compatibility and hence exponent 2.
+- For every positive algebraic number $\alpha\ne1$, the manuscript gives the power-degree bound for the irrationality exponent of $\log\alpha$; if some positive power is rational, the exponent is exactly 2.
+- The worked exact-2 families include rational multiples of the square-root rescalings of π described in the manuscript, rational arctangents, and normalized logarithms of quadratic units.
+
+**Scope boundary**
+
+- The manuscript does not prove irrationality exponent 2 for every algebraic exponential fibre when not all relevant conjugates are compatible.
+- The threshold $2d/r$ is shown to be sharp for the scalar product-formula parameter architecture used in the proof, not necessarily for the underlying constants.
+- The denominator threshold is qualitative because the imported moving-centre interpolation theorem has a centre-dependent Serre-vanishing threshold that is not made effective.
