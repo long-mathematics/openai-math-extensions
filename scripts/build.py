@@ -111,7 +111,7 @@ def main() -> None:
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
 
-    for command in ("latexmk", "pdflatex", "pdftotext", "pdfinfo"):
+    for command in ("latexmk", "pdflatex", "biber", "pdftotext", "pdfinfo"):
         if shutil.which(command) is None:
             raise RuntimeError("Missing dependency: " + command)
 
