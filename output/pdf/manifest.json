@@ -21,6 +21,13 @@
       "pdf": "output/pdf/brownian-sampler-stabilization.pdf",
       "pdf_sha256": "c48f2be94e1f1692d4316bbcc2ac0bda4b9805efb2355ef4dd2e42c123c09abe",
       "pages": 12
+    },
+    {
+      "source": "papers/04-conjugate-fibres-irrationality-exponents/conjugate-fibres-irrationality-exponents.tex",
+      "source_sha256": "8b57019a49c042f03bac4ae1b4c44dd22e8118f8139259e38423924c90d5c1dc",
+      "pdf": "output/pdf/conjugate-fibres-irrationality-exponents.pdf",
+      "pdf_sha256": "4271f35bddf35c9ed0b8cfb546f74634dc7c9a104216a33eba81c16315cd49d0",
+      "pages": 14
     }
   ]
 }

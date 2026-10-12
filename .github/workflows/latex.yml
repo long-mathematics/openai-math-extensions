@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            latexmk texlive-latex-extra texlive-fonts-recommended texlive-science \
+            latexmk biber texlive-bibtex-extra texlive-latex-extra texlive-fonts-recommended texlive-science \
             lmodern poppler-utils python3 python3-sympy make
       - name: Repository tests
         run: make test
