@@ -1,5 +1,7 @@
 name: Build Paper IV snapshot
 
+# Temporary bridge used only to commit the binary snapshot on this PR.
+
 on:
   pull_request:
     branches: [main]
