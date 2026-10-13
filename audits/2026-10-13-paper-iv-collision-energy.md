@@ -57,6 +57,6 @@ Before repository replacement, the revised canonical source and merged bibliogra
 - no overfull boxes;
 - source digest (using the repository's `source_digest` convention) `9516dab683426d9cb83fa6e5b2928d5153d69e7e78c56d0d13b911ba9cc82ceb`.
 
-The pull request regenerates the committed PDF snapshot and manifest with the repository's own deterministic build workflow and then reruns the standard repository tests and `make check`.
+The pull-request regeneration pass completed successfully in the repository's Ubuntu workflow. It produced the canonical 26-page PDF with manifest hash `f7cceee00d3d1e809f309edf0d4a88597edeaf92e219cf60e84182446811e0bc`; repository tests, exact symbolic verification, and `make check` all passed in that run. The temporary patch/build scaffolding was removed and the standard workflow file was restored before final review.
 
 These checks establish artifact consistency and reproducibility. They are not independent peer review or formal verification of the mathematical arguments.
