@@ -57,6 +57,11 @@ Concurrent comparison source:
 - Brown independently proves the positive-rational logarithm theorem and formalizes that theorem in Lean. His Proposition 5.1 records the bound $\mu(\log\alpha)\le2[\mathbb Q(\alpha):\mathbb Q]$ for positive real algebraic $\alpha$.
 - Brown's general-fibre interpolation theorem uses a global fibre-count condition. Liu–Jiang–Zhang's bounded-fibre theorem is the sharper input used here because its second volume condition depends on the maximum multiplicity within one multiplicative fibre.
 
+Contemporary methodological comparison:
+
+- Sean Litsey, [*An Irrationality Measure for Catalan's Constant*](https://hexagonmath.org/2610.00187v2), Hexagon 2610.00187v2 (October 2026).
+- Litsey's mixed-determinant perturbation and missing-point energy estimates are cited as related context for retaining defect information continuously. Paper IV does not import these estimates as a black box: its collision-energy optimization is derived directly from the Liu–Jiang–Zhang row-translation and Taylor-collision bounds.
+
 Public provenance for the quadratic exact-two family:
 
 - Eric Naslund, public posts on X dated 9 and 12 October 2026; the later post linked the [public Claude discussion](https://claude.ai/share/ee870f04-b05b-4bf9-86fa-9d5f8d5bbd89).
@@ -66,6 +71,8 @@ New logical content in Paper IV:
 
 - Gelfond–Schneider is used to prove certificate-line rigidity and to show that every compatible embedding is the identity or a unique inversion involution. Thus the compatible count in a minimal certificate field is 1 or 2.
 - The OpenAI/Liu–Jiang–Zhang determinant architecture is globalized over a number field by simultaneous denominator clearing, a product-formula lower bound, compatible-place analytic estimates, and crude estimates at incompatible embeddings.
+- At compatible places the revised proof combines the linear rational-approximation cost and quadratic Taylor-collision energy in one convex optimization, proves the exact transverse row first moment, and obtains a finite-dimensional $2d/r$ barrier for this aggregate scalar architecture.
+- The same compatible-place estimate is uniform over all maximal minors, yielding an analytic full-Plücker norm bound; the missing step in the conjectural full-Plücker route is arithmetic rather than analytic.
 - The scalar theorem is reframed as $\mu(\xi)\le2d$, improved to $\mu(\xi)\le d$ under inversion; equivalently $\mu(\xi)\le2d/r$.
 - Rigidity proves that arbitrary scalar-certificate optimization reduces to power saturation. The resulting integer complexity is attained and the complexity-one locus is classified by split and quadratic norm-one tori.
 - The conjectural exponent-two theorem for every algebraic exponential fibre is not imported from any source and remains open in this repository.

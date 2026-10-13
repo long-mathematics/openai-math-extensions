@@ -79,7 +79,11 @@ then
 \]
 The proof combines the bounded-fibre interpolation determinant of
 Liu--Jiang--Zhang with simultaneous number-field denominator clearing
-and the product formula.
+and the product formula.  At the compatible places we jointly optimize
+the linear rational-approximation cost and the quadratic Taylor-collision
+energy.  This removes the usual low/high transverse-index dichotomy and
+identifies $2d/r$ as the exact threshold of the resulting aggregate scalar
+estimate.
 
 Rigidity reduces optimization over all certificates to power saturation
 of any one certificate.  It produces an intrinsic integer
@@ -131,6 +135,16 @@ clearing denominators produces a nonzero algebraic integer rather than a
 nonzero rational integer, so estimates are needed at its conjugate
 embeddings.  The first purpose of this note is to carry out that
 comparison whenever some conjugate exponential fibres remain compatible.
+
+Litsey recently converted the determinant proof of the irrationality of
+Catalan's constant into a finite irrationality measure by controlling mixed
+determinants under column perturbations and by retaining the energy cost of
+configurations with missing points \cite[Theorem~5.1 and
+Proposition~5.10]{Litsey2026}.  The compatible-place estimate below uses a
+related continuous-defect principle: rather than separating low and high
+transverse indices, it optimizes the approximation and collision penalties
+simultaneously.  The argument itself is applied directly to the
+row-translation and collision bounds of Liu--Jiang--Zhang.
 
 Eric Naslund publicly pointed out, in posts on X on 9 and 12 October
 2026, the exact-two quadratic family
@@ -423,54 +437,48 @@ selected full-row minor and its columns.
 
 \subsection{Parameters}
 
-The following elementary lemma isolates the only change from the
-parameter choice for a single rational logarithm.
+The optimized collision-energy estimate permits a particularly simple
+parameter choice.
 
-\begin{lemma}[Gap parameters]\label{lem:parameters}
-Let $d,r$ be positive integers and let $\nu>2d/r$.  There exist rational
-numbers
-\[
- 0<\theta<A<B<1,\qquad 0<\eta<1,
-\]
-and rational numbers $C>1$ such that
-\begin{align}
- &A^2<\theta<A,
- \label{eq:param1}\\
- &g:=r\nu\bigl(A(1-\eta)-\theta\bigr)-d(1-\theta)>0,
- \label{eq:param-gap}\\
- &\frac A\theta<C<\frac1A,
- \qquad
- A<B<\min\{C^{-1},C\theta\}.
- \label{eq:param-CB}
-\end{align}
-In particular $C\theta<1$, $CB<1$, $C\theta/B>1$, and $B/A>1$.
+\begin{lemma}[Soft-gap parameters]\label{lem:parameters}
+Let $d,r$ be positive integers and let $\nu>2d/r$.  There are rational
+numbers $\chi,\theta,B,C$ satisfying
+\begin{equation}\label{eq:param-soft}
+ 0<\chi<1,
+ \qquad \theta=\chi^2,
+ \qquad C=\chi^{-1},
+ \qquad \theta<B<\chi,
+\end{equation}
+and
+\begin{equation}\label{eq:param-gap}
+ g:=r\nu(B-\theta)-d(1-\theta)>0.
+\end{equation}
+In particular,
+\begin{equation}\label{eq:param-consequences}
+ C\theta=\chi<1,
+ \qquad CB=\frac B\chi<1,
+ \qquad \frac{C\theta}{B}=\frac\chi B>1,
+ \qquad B^2<\theta.
+\end{equation}
 \end{lemma}
 
 \begin{proof}
-Choose a rational number
+Since $r\nu>2d$, one may choose a rational $\chi\in(0,1)$ sufficiently
+close to $1$ that
 \[
- \frac12<\rho<1-\frac{d}{r\nu};
+ r\nu\chi>d(1+\chi).
 \]
-this interval is nonempty because $r\nu>2d$.  For a sufficiently small
-positive rational $\delta$, put
+This is equivalent to
 \[
- \theta=1-\delta,\qquad A=1-\rho\delta.
+ \chi^2+\frac{d}{r\nu}(1-\chi^2)<\chi.
 \]
-Then $A>\theta$ and
+Choose a rational number $B$ strictly between the two sides, and put
+$\theta=\chi^2$ and $C=\chi^{-1}$.  Then
 \[
- \theta-A^2=(2\rho-1)\delta-\rho^2\delta^2>0.
+ r\nu(B-\theta)>d(1-\theta),
 \]
-Moreover
-\[
- r\nu(A-\theta)-d(1-\theta)
- =\delta\bigl(r\nu(1-\rho)-d\bigr)>0.
-\]
-Choose a sufficiently small positive rational $\eta$ to preserve this
-strict inequality after replacing $A$ by $A(1-\eta)$.  Since
-$A^2<\theta$, the interval $(A/\theta,1/A)$ is nonempty; choose rational
-$C$ in it.  Both $C^{-1}$ and $C\theta$ exceed $A$, so a rational $B$
-satisfying \eqref{eq:param-CB} exists.  Finally
-$C\theta<\theta/A<1$.
+which is \eqref{eq:param-gap}; all statements in
+\eqref{eq:param-consequences} are immediate.
 \end{proof}
 
 For a positive integer $m$, set
@@ -484,14 +492,20 @@ Then
  K\left(\frac{w_0}{v_0}\right)\theta^m=\frac12,
  \qquad K\theta^m\longrightarrow0,
  \qquad \frac K{w_0}\longrightarrow0,
- \qquad v_0\longrightarrow\infty.
+ \qquad v_0\longrightarrow\infty,
+ \qquad \frac m{v_0}\longrightarrow0.
 \end{equation}
-For later use put
-\begin{equation}\label{eq:L-def}
- L=\frac{\eta^2K\theta^m}{(m+1)v_0A^m}
-   =\frac{\eta^2}{2(m+1)}\left(\frac BA\right)^m.
-\end{equation}
-Thus $L\to\infty$ as $m\to\infty$.
+Indeed, for all sufficiently large $m$,
+\[
+ K\theta^m\le(C\theta)^m=\chi^m,
+ \qquad
+ \frac K{w_0}\le(CB)^m=\left(\frac B\chi\right)^m,
+\]
+while $K\ge C^m/2$ gives
+\[
+ v_0\ge\left(\frac{C\theta}{B}\right)^m
+      =\left(\frac\chi B\right)^m.
+\]
 
 \section{The number-field determinant}\label{sec:determinant}
 
@@ -572,13 +586,74 @@ $M=M_H$ be its size, and put
  \bar\beta_H=\frac1{MH}
  \sum_{\varrho=(j,s,\beta)}\sum_iw_i\beta_i.
 \end{equation}
-Then
+The row volume and its first transverse moment will both be useful.
+
+\begin{lemma}[Row volume and first moment]\label{lem:row-moment}
+As $H\to\infty$ through admissible degrees,
 \begin{equation}\label{eq:row-asymptotic}
+ M\ge
+ \frac{K\theta^mH^{m+1}}
+ {(m+1)!v_0\prod_iw_i},
+ \qquad
  M\sim
  \frac{K\theta^mH^{m+1}}
  {(m+1)!v_0\prod_iw_i},
+\end{equation}
+and
+\begin{equation}\label{eq:row-first-moment}
+ \bar\beta_H=\frac{m}{m+2}\theta+O(H^{-1}),
  \qquad 0\le\bar\beta_H\le\theta.
 \end{equation}
+The implied constant depends only on the fixed weights.
+\end{lemma}
+
+\begin{proof}
+Put
+\[
+ q_0=v_0,
+ \qquad q_i=\frac{w_i}{\theta}\quad(1\le i\le m),
+\]
+and let
+\[
+ \mathcal R_H=
+ \left\{n=(n_0,\ldots,n_m)\in\NN^{m+1}:
+       \sum_{i=0}^m q_i n_i<H\right\}.
+\]
+The row set is the product of $\{0,\ldots,K-1\}$ with
+$\mathcal R_H$.  The unit cubes based at the points of $\mathcal R_H$
+cover the simplex
+\[
+ \left\{x\in\RR_{\ge0}^{m+1}:\sum_iq_ix_i<H\right\},
+\]
+which gives the lower bound in \eqref{eq:row-asymptotic}.  Comparing the
+same cubes with the two parallel simplices obtained by shifting the
+boundary by the fixed amount $\sum_iq_i$ gives
+\[
+ \#\mathcal R_H
+ =\frac{H^{m+1}}{(m+1)!\prod_{i=0}^m q_i}+O(H^m).
+\]
+The same comparison, now with the linear functions $q_i x_i$, gives
+\[
+ \sum_{n\in\mathcal R_H}q_i n_i
+ =\frac{H^{m+2}}{(m+2)!\prod_{j=0}^m q_j}+O(H^{m+1})
+ \qquad(0\le i\le m).
+\]
+Since
+\[
+ \sum_iw_i\beta_i
+ =\theta\sum_{i=1}^m q_i n_i,
+\]
+dividing the corresponding first-moment asymptotic by
+$H\#\mathcal R_H$ gives
+$m\theta/(m+2)+O(H^{-1})$.  Finally, every row satisfies
+$w\beta<\theta H$, which gives the stated upper bound.
+\end{proof}
+
+\begin{remark}[Limiting row distribution]\label{rem:row-beta}
+Under uniform counting of rows, the normalized transverse weight
+$w\beta/(\theta H)$ converges to the $\operatorname{Beta}(m,2)$
+distribution.  Equation \eqref{eq:row-first-moment} is its first moment.
+\end{remark}
 
 \subsection{Algebraic-integral clearing and the norm inequality}
 
@@ -745,10 +820,9 @@ Choose
 \[
  R=100K(1+C_a|\xi|).
 \]
-On $|t|\le1/2$, every $z_j(t)$ lies in $|z|<R/2$.  The Taylor-collision
-argument of \cite[Section~5.2]{LiuJiangZhang2026}, originally appearing
-in this interpolation-determinant form in \cite{Laurent2000}, gives the
-following uniform estimate.  Put
+On $|t|\le1/2$, every $z_j(t)$ lies in $|z|<R/2$.  We use the
+Taylor-collision argument of \cite[Section~5.2]{LiuJiangZhang2026}; see
+also \cite{Laurent2000} for its interpolation-determinant form.  Put
 \begin{equation}\label{eq:Ehol}
  E_{\mathrm{hol}}
  =\frac R{w_0}+\frac{\log2}{v_0}
@@ -757,38 +831,100 @@ following uniform estimate.  Put
 \end{equation}
 Let
 \[
- S=\sum_iw_i,
- \qquad
- L_H=L\left(1+\frac{S}{AH}\right)^{-m}.
+ S=\sum_iw_i.
 \]
-Thus $L_H\to L$ as $H\to\infty$.
+The following elementary estimate is the soft replacement for the usual
+low/high transverse-index dichotomy.
 
-\begin{lemma}[Compatible-place estimate]\label{lem:compatible}
-There is a quantity $\delta_H\to0$, independent of
-$\sigma\in\Comp$ and of the selected full-row minor, such that
-\begin{equation}\label{eq:compatible-bound}
- \frac{\log|\sigma(\Delta_H)|}{MH}
- \le E_{\mathrm{tr}}+E_{\mathrm{hol}}+\delta_H
- +\max\left\{-cL_H,
- -\nu\bigl(A(1-\eta)-\bar\beta_H\bigr)\right\}.
+\begin{lemma}[Collision-energy optimization]\label{lem:collision-energy}
+Let $(n_\lambda)_{\lambda\in\NN^m}$ be finitely supported nonnegative
+real numbers with $\sum_\lambda n_\lambda=M$.  For every $U>0$,
+\begin{equation}\label{eq:soft-energy}
+ c\sum_\lambda n_\lambda^2
+ +\nu\sum_\lambda w\lambda\,n_\lambda
+ \ge
+ \nu UHM-
+ \frac{\nu^2}{4c}
+ \sum_\lambda(UH-w\lambda)_+^2.
+\end{equation}
+Moreover,
+\begin{equation}\label{eq:lattice-second-moment}
+ \sum_{\lambda\in\NN^m}(UH-w\lambda)_+^2
+ \le
+ \frac{2(UH+S)^{m+2}}{(m+2)!\prod_iw_i}.
 \end{equation}
 \end{lemma}
 
 \begin{proof}
-We indicate the complete reduction to the cited collision estimate.
+For every $e\ge0$ and $n\ge0$, completion of the square gives
+\[
+ cn^2+\nu en
+ \ge
+ \nu UHn-\frac{\nu^2}{4c}(UH-e)_+^2.
+\]
+Summing with $e=w\lambda$ proves \eqref{eq:soft-energy}.  If
+$x\in\lambda+[0,1]^m$, then
+\[
+ UH+S-wx\ge UH-w\lambda.
+\]
+Integration over the unit cubes therefore gives
+\[
+ \sum_\lambda(UH-w\lambda)_+^2
+ \le
+ \int_{\RR_{\ge0}^m}(UH+S-wx)_+^2\,dx.
+\]
+After the change of variables $y_i=w_ix_i$, the last integral equals the
+right side of \eqref{eq:lattice-second-moment}.
+\end{proof}
+
+\begin{lemma}[Optimized compatible-place estimate]\label{lem:compatible}
+There is a nonnegative quantity $\delta_H\to0$, independent of
+$\sigma\in\Comp$ and of the selected full-row minor, such that for every
+$U>0$,
+\begin{align}\label{eq:compatible-bound-general}
+ \frac{\log|\sigma(\Delta_H)|}{MH}
+ \le{}& E_{\mathrm{tr}}+E_{\mathrm{hol}}+\delta_H
+ -\nu(U-\bar\beta_H)\\
+ &+\frac{\nu^2v_0}{2cK\theta^m(m+2)}
+       \left(U+\frac SH\right)^{m+2}.
+ \nonumber
+\end{align}
+Define
+\begin{equation}\label{eq:Um-alpha}
+ U_m=
+ \left(\frac{2cK\theta^m}{\nu v_0}\right)^{1/(m+1)},
+ \qquad
+ \alpha_m=\frac{m+1}{m+2}U_m.
+\end{equation}
+Then, for all sufficiently large $H$,
+\begin{equation}\label{eq:compatible-bound}
+ \frac{\log|\sigma(\Delta_H)|}{MH}
+ \le
+ E_{\mathrm{tr}}+E_{\mathrm{hol}}+\delta_H
+ +\frac{\nu S}{H}
+ -\nu(\alpha_m-\bar\beta_H).
+\end{equation}
+For the parameters in \eqref{eq:dimension-parameters},
+\begin{equation}\label{eq:Um-limit}
+ U_m=\left(\frac{cB^m}{\nu}\right)^{1/(m+1)},
+ \qquad \alpha_m\longrightarrow B.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
 The row expansion \eqref{eq:row-translation} has only polynomially many
 terms in $H$ for each row.  Choose one translated row from each original
 row and let $n_\lambda$ be the number chosen with transverse index
 $\lambda$.  Expanding the entire functions $f_{\lambda,P}$ in Taylor
 series in $z/R$, any nonzero determinant contribution uses distinct
 Taylor degrees within each fixed $\lambda$-group.  Hence
-\[
+\begin{equation}\label{eq:collision-term}
  |\det T|
  \le\exp\left\{-c\sum_\lambda n_\lambda^2
  +MH(E_{\mathrm{hol}}+o(1))\right\}.
-\]
-To see explicitly why no reality or distinct-fibre hypothesis is
-hidden here, write
+\end{equation}
+To see explicitly why no reality or distinct-fibre hypothesis is hidden
+here, write
 \[
  f_{\lambda,P}(z)=\sum_{d\ge0}c_{\lambda,d,P}(z/R)^d.
 \]
@@ -805,34 +941,101 @@ Indeed, if $\sigma(b)^j=\sigma(b)^\ell$ with $j\ne\ell$, then
  z_j(0)-z_\ell(0)=(j-\ell)\sigma(a)\xi\ne0,
 \]
 although this additive distinctness is not used in the determinant
-cancellation.  This is exactly the collision estimate of
+cancellation.  This is the collision estimate of
 \cite[Section~5.2]{LiuJiangZhang2026}; its proof is uniform in the
 columns and depends on the centres only through the radius $R$.
 
-Let
+Multiplying the row scalars in \eqref{eq:translation-scalar} and using
 \[
- D_A(H)=\#\{\lambda\in\NN^m:w\lambda\le AH\}.
+ \sum_{\text{rows}}w\beta=MH\bar\beta_H
 \]
-The same unit-cube estimates as in \cite[Section~6]{LiuJiangZhang2026}
-give
+shows that the chosen determinant contribution is at most
+\begin{align*}
+ \exp\{&MH(E_{\mathrm{tr}}+E_{\mathrm{hol}}+o(1))
+       +\nu MH\bar\beta_H\\
+      &\hspace{24mm}
+       -\nu\sum_\lambda w\lambda\,n_\lambda
+       -c\sum_\lambda n_\lambda^2\}.
+\end{align*}
+Apply \cref{lem:collision-energy}, then use the lower bound for $M$ in
+\eqref{eq:row-asymptotic}.  This gives
+\eqref{eq:compatible-bound-general}.  The total number of multilinear
+expansion terms is polynomial in $H$ to the power $M$, so its logarithm
+is $o(MH)$ and is absorbed into $\delta_H$.
+
+For large $H$, take $U=U_m-S/H>0$.  The defining equation for $U_m$
+gives
 \[
- M\ge\frac{K\theta^mH^{m+1}}
- {(m+1)!v_0\prod_iw_i},
- \qquad
- D_A(H)\le\frac{(AH+S)^m}{m!\prod_iw_i}.
+ \frac{\nu^2v_0}{2cK\theta^m(m+2)}U_m^{m+2}
+ =\frac{\nu U_m}{m+2}.
 \]
-If at least $\eta M$ selected indices have weight at most $AH$, then
-Cauchy--Schwarz yields
-\[
- \frac1{MH}\sum_\lambda n_\lambda^2\ge L_H.
-\]
-Otherwise more than $(1-\eta)M$ indices have weight greater than $AH$.
-Combining this with the scalar estimate
-\eqref{eq:translation-scalar} gives the exponent
-$-\nu(A(1-\eta)-\bar\beta_H)$.  The number of multilinear expansion
-terms is polynomial to the power $M$; after division by $MH$ its
-contribution is $o(1)$.  This proves \eqref{eq:compatible-bound}.
+Substitution proves \eqref{eq:compatible-bound}.  Finally,
+$v_0=2K\theta^mw_0$ and $w_0=B^{-m}$ give
+\eqref{eq:Um-limit}.
 \end{proof}
+
+\begin{corollary}[Full-Pl\"ucker analytic bound]\label{cor:plucker-analytic}
+Let $\mathbf P_H^\sigma$ be the vector of all maximal minors of the
+conjugate interpolation matrix at $\sigma\in\Comp$.  For every fixed
+$1\le p\le\infty$ there is a nonnegative quantity
+$\delta_{H,p}\to0$, uniform in $\sigma\in\Comp$, such that
+\begin{equation}\label{eq:plucker-bound}
+ \frac1{MH}\log\|\mathbf P_H^\sigma\|_{\ell^p}
+ \le
+ E_{\mathrm{tr}}+E_{\mathrm{hol}}+\delta_{H,p}
+ +\frac{\nu S}{H}
+ -\nu(\alpha_m-\bar\beta_H).
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+The preceding proof is uniform in the selected maximal minor.  If
+$N_H=\dim\mathcal P_W(H)$, then the number of maximal minors is at most
+$2^{N_H}$.  Here $N_H=O(H^{m+1})$, while $MH\asymp H^{m+2}$, so passing
+from the largest coordinate to any fixed $\ell^p$-norm costs
+$o(MH)$ in the logarithm.
+\end{proof}
+
+\begin{remark}[Water-filling profile and stability]\label{rem:water-filling}
+The proof retains an exact stability remainder.  For $w\lambda<UH$,
+\begin{align*}
+ &cn_\lambda^2+\nu w\lambda\,n_\lambda-\nu UHn_\lambda
+ +\frac{\nu^2}{4c}(UH-w\lambda)^2\\
+ &\qquad=
+ c\left(n_\lambda-\frac{\nu}{2c}(UH-w\lambda)\right)^2.
+\end{align*}
+Thus a contribution close to the optimized bound must have occupancy
+close to the truncated affine profile
+\[
+ n_\lambda\approx\frac{\nu}{2c}(UH-w\lambda)_+.
+\]
+This identifies precisely what additional incidence or cancellation
+information would be required to improve the aggregate estimate.
+\end{remark}
+
+\begin{remark}[Robustness of the collision constant]
+The precise value $c=\log2/4$ is irrelevant to the limiting threshold.
+If the collision estimate in auxiliary dimension $m$ has coefficient
+$c_m>0$ and $\log c_m=o(m)$, then
+\[
+ U_m=B\exp\left(\frac{\log(c_m/(\nu B))}{m+1}\right)
+ \longrightarrow B.
+\]
+Thus any positive collision saving whose deterioration is subexponential
+in $m$ leads to the same scalar threshold.
+\end{remark}
+
+\begin{remark}[Continuum compatibility of the incidence condition]
+At the continuum level, the bare condition $\lambda\ge\beta$ is not
+expected to create a leading-order gain.  After summing over the row
+order $s$, the scaled row density on the $\theta$-simplex is proportional
+to $\theta-\sum_i x_i$, while the water-filling density on the
+$U$-simplex is proportional to $U-\sum_i y_i$.  The radial dilation
+$y=(U/\theta)x$ carries one profile to a constant multiple of the other
+and satisfies $y_i\ge x_i$ when $U>\theta$.  Any further improvement
+must therefore use the detailed column incidence, determinant
+cancellation, or a non-scalar arithmetic input.
+\end{remark}
 
 \subsection{The remaining embeddings}
 
@@ -875,62 +1078,56 @@ $M^{M/2}$, which gives \eqref{eq:crude-bound}.
 The choices are made in the following order.  First choose $\Phi$ so
 large that the contribution $r\nu/\Phi$ is smaller than any prescribed
 positive tolerance.  Next let $m$ tend to infinity.  By
-\eqref{eq:parameter-limits} and \eqref{eq:L-def},
+\eqref{eq:parameter-limits} and \eqref{eq:Um-limit},
 \[
  \frac{m}{v_0}\to0,
  \qquad \frac K{w_0}\to0,
  \qquad \frac1{v_0}\to0,
- \qquad L\to\infty.
+ \qquad \alpha_m\to B.
 \]
-The constants $D_0,C_a,C_b,\xi,d,r$ are fixed.  Thus $m$ may be chosen so
-that all terms in \eqref{eq:Ear}, \eqref{eq:Ehol}, and
-\eqref{eq:Ebad} not involving $w_i$ are as small as desired, and also
-so that
-\begin{equation}\label{eq:low-gap}
- rcL>d+1.
+The constants $D_0,C_a,C_b,\xi,d,r$ are fixed.  Hence $m$ may be chosen
+so that all terms in \eqref{eq:Ear}, \eqref{eq:Ehol}, and
+\eqref{eq:Ebad} not involving $w_i$ are as small as desired and, in
+addition,
+\begin{equation}\label{eq:soft-gap-finite}
+ r\nu(\alpha_m-\theta)-d(1-\theta)>\frac g2.
 \end{equation}
 Finally, because the interpolation thresholds are centre-independent,
-the approximations may be selected successively with all $w_i$ so
-large that
+the approximations may be selected successively with all $w_i$ so large
+that
 \[
- \sum_i\frac1{w_i},\qquad \frac{1+\log K}{w_*}
+ \sum_i\frac1{w_i},
+ \qquad
+ \frac{1+\log K}{w_*}
 \]
 are as small as desired.  Once all parameters and centres are fixed,
 $H$ tends to infinity through admissible degrees; then
-$L_H\to L$, $\delta_H\to0$, and $(\log M)/H\to0$.
+$\delta_H\to0$, $S/H\to0$, and $(\log M)/H\to0$.
 
 \section{Proof of the conjugate-fibre theorem}\label{sec:proof}
 
 Apply \cref{lem:compatible} at the $r$ embeddings in $\Comp$ and
 \cref{lem:crude} at the other $d-r$ embeddings.  Substitution in
 \eqref{eq:norm-inequality} gives
-\begin{align}\label{eq:final-master}
- 0\le{}&d(1-\bar\beta_H)
- +r\max\left\{-cL_H,
- -\nu\bigl(A(1-\eta)-\bar\beta_H\bigr)\right\}
+\begin{equation}\label{eq:final-master}
+ 0\le
+ d(1-\bar\beta_H)-r\nu(\alpha_m-\bar\beta_H)
  +\mathcal E_H,
-\end{align}
-where, by the choice order above, the nonnegative error
-$\mathcal E_H$ can be made arbitrarily small and then kept fixed while
-$H\to\infty$.
+\end{equation}
+where $\mathcal E_H$ is nonnegative.  More explicitly, it is bounded
+by the corresponding linear combination of $E_{\mathrm{ar}}$,
+$E_{\mathrm{tr}}$, $E_{\mathrm{hol}}$, $E_{\mathrm{bad}}$,
+$\delta_H$, $\nu S/H$, and $(\log M)/H$.  The fixed-parameter terms
+can be made arbitrarily small by the preceding choices, and the remaining
+terms tend to zero with $H$.
 
-For the collision alternative,
-\[
- d(1-\bar\beta_H)-rcL_H\le d-rcL_H,
-\]
-which is strictly negative for all sufficiently large $H$ by
-\eqref{eq:low-gap}.  For the large-index alternative, since
-$r\nu>d$ and $0\le\bar\beta_H\le\theta$,
+Since $r\nu>d$ and $0\le\bar\beta_H\le\theta$,
 \begin{align*}
- &r\nu\bigl(A(1-\eta)-\bar\beta_H\bigr)
-   -d(1-\bar\beta_H)\\
- &\qquad\ge
- r\nu\bigl(A(1-\eta)-\theta\bigr)-d(1-\theta)
- =g>0.
+ d(1-\bar\beta_H)-r\nu(\alpha_m-\bar\beta_H)
+ &\le d(1-\theta)-r\nu(\alpha_m-\theta)\\
+ &<-\frac g2
 \end{align*}
-This is exactly the positive gap displayed in \eqref{eq:param-gap}.  Thus both entries of the maximum in
-\eqref{eq:final-master}, after adding $d(1-\bar\beta_H)$, are bounded
-above by a fixed negative number.  Taking all fixed errors sufficiently
+by \eqref{eq:soft-gap-finite}.  Taking the fixed errors sufficiently
 small and then $H$ sufficiently large contradicts
 \eqref{eq:final-master}.
 
@@ -939,24 +1136,80 @@ large denominators when $\nu>2d/r$.  This proves the asserted eventual
 lower bound and hence $\mu(\xi)\le2d/r$.  As noted in the introduction,
 $\xi$ is transcendental.  When $d=r$---which by rigidity means either
 $d=r=1$ or $d=r=2$---Dirichlet's theorem supplies the opposite inequality
-$\mu(\xi)\ge2$.  This completes the proof of
-\cref{thm:main}.
+$\mu(\xi)\ge2$.  This completes the proof of \cref{thm:main}.
 
-\begin{remark}[Why the scalar norm threshold is $2d/r$]
-The constraint $A^2<\theta<A<1$ implies
+\begin{proposition}[Finite-dimensional barrier of the aggregate estimate]
+\label{prop:soft-barrier}
+Fix $m\ge1$, $\nu\ge2$, and parameters $B,\theta$ with
+$0<B<1$ and $B^2<\theta<1$, and put $c=\log2/4$.  Define
 \[
- 1-\theta-2(A-\theta)=1-2A+\theta>(1-A)^2>0.
+ U_m=\left(\frac{cB^m}{\nu}\right)^{1/(m+1)},
+ \qquad
+ \alpha_m=\frac{m+1}{m+2}U_m,
+ \qquad
+ \beta_m=\frac{m}{m+2}\theta.
 \]
-Hence
+Then
+\begin{equation}\label{eq:finite-barrier}
+ 2\alpha_m<1+\beta_m.
+\end{equation}
+Consequently, if $r\nu\le2d$, the limiting leading term supplied by the
+optimized aggregate estimate satisfies
+\begin{equation}\label{eq:finite-barrier-master}
+ d(1-\beta_m)-r\nu(\alpha_m-\beta_m)\ge0.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Since $c=\log2/4<\nu$, one has
 \[
- \frac{1-\theta}{A-\theta}>2.
+ U_m<B^{m/(m+1)}<\theta^{m/(2m+2)}.
 \]
-The leading high-index inequality
-$r\nu(A-\theta)>d(1-\theta)$ therefore forces
-$\nu>2d/r$.  Conversely, \cref{lem:parameters} constructs admissible
-parameters for every strict inequality $\nu>2d/r$.  Thus $2d/r$ is the
-sharp threshold of this scalar product-formula architecture, although
-it need not be the true irrationality exponent when $r<d$.
+Set $x=\theta^{1/(2m+2)}\in(0,1)$.  Then
+\[
+ \alpha_m<\frac{m+1}{m+2}x^m,
+ \qquad
+ \beta_m=\frac{m}{m+2}x^{2m+2}.
+\]
+The function
+\[
+ f(x)=mx^{2m+2}-2(m+1)x^m+m+2
+\]
+satisfies $f(1)=0$ and
+\[
+ f'(x)=2m(m+1)x^{m-1}(x^{m+2}-1)\le0
+ \qquad(0<x\le1).
+\]
+Hence $f(x)\ge0$, which proves \eqref{eq:finite-barrier}.  If
+$\alpha_m\le\beta_m$, then the left side of
+\eqref{eq:finite-barrier-master} is positive.  If
+$\alpha_m>\beta_m$, then $r\nu\le2d$ and
+\eqref{eq:finite-barrier} give
+\[
+ d(1-\beta_m)-r\nu(\alpha_m-\beta_m)
+ \ge d(1+\beta_m-2\alpha_m)\ge0.
+\]
+\end{proof}
+
+\begin{remark}[Why the scalar threshold is $2d/r$]
+By \cref{lem:row-moment}, $\bar\beta_H\to\beta_m$.  Thus
+\cref{prop:soft-barrier} shows that the fully optimized combination of
+the linear approximation cost and quadratic collision energy cannot,
+for any fixed auxiliary dimension, force a contradiction at or below
+$2d/r$.  Conversely, \cref{lem:parameters} produces admissible
+parameters for every strict inequality $\nu>2d/r$.  In the limiting
+parameter geometry, $B$ may approach $\sqrt\theta$, and
+\[
+ \frac{1-\theta}{\sqrt\theta-\theta}
+ =1+\frac1{\sqrt\theta}\longrightarrow2
+ \qquad(\theta\uparrow1).
+\]
+Thus the factor $2$ comes from the interpolation geometry
+$B^2<\theta$, while the factor $d/r$ comes from the scalar
+product-formula comparison across conjugate places.  Improvements below
+$2d/r$ must use information absent from the aggregate occupancy bound,
+such as detailed incidence, cancellation among minors, finite-place
+structure, or full-Pl\"ucker arithmetic.
 \end{remark}
 
 \begin{remark}[Effectivity]
@@ -1581,9 +1834,11 @@ affine transforms.
 
 Rigidity shows that the scalar product-formula method is now essentially
 classified.  When $\kappa_{\exp}(\xi)>1$, no hidden collection of three
-or more compatible scalar fibres can improve the bound.  Any general
-passage from $2\kappa_{\exp}(\xi)$ to $2$ must therefore use a genuinely
-non-scalar arithmetic input.
+or more compatible scalar fibres can improve the bound.  Moreover,
+\cref{prop:soft-barrier} shows that even the optimal aggregate use of the
+approximation and collision energies remains subject to the same
+threshold.  Any general passage from $2\kappa_{\exp}(\xi)$ to $2$ must
+therefore use a genuinely non-scalar arithmetic or incidence input.
 
 \begin{conjecture}[Algebraic exponential-fibre conjecture]
 \label{conj:full-fibre}
@@ -1628,16 +1883,78 @@ Baker's theorem implies that such a nonzero $\Lambda$ is transcendental
 approximation exponent.  It contains \cref{conj:full-fibre} as the
 one-logarithm case.
 
+\subsection{Full-Pl\"ucker arithmetic}
+
 A plausible route to \cref{conj:full-fibre} is to retain the entire
 vector of maximal minors of the interpolation matrix rather than one
 scalar minor.  The scalar norm argument records only one Pl\"ucker
 coordinate and is forced to pay the integer complexity
-$\kappa_{\exp}$.  An adelic full-Pl\"ucker argument, potentially combined
-with the Subspace Theorem \cite{Schmidt1980}, could instead convert
-simultaneous smallness of all maximal minors at the distinguished place
-into an exceptional functional relation.  The moving-centre
-interpolation theorem is designed to exclude precisely such relations.
-Making this mechanism quantitative remains open.
+$\kappa_{\exp}$.  In contrast, \cref{cor:plucker-analytic} proves that the
+analytic smallness estimate already holds uniformly for every maximal
+minor and hence for every fixed norm of the full Pl\"ucker vector.  The
+remaining problem is arithmetic: one needs an adelic projective-height
+principle that converts simultaneous smallness of all maximal minors at
+the compatible places into an exceptional functional relation without
+paying separately for every incompatible scalar coordinate.
+
+An adelic full-Pl\"ucker argument, potentially combined with the
+Subspace Theorem \cite{Schmidt1980}, could produce such a relation.  The
+moving-centre interpolation theorem is designed to exclude precisely
+these functional dependencies.  The mixed-determinant perturbation
+estimates of Litsey provide related evidence that families of minors can
+be controlled stably under structured perturbations
+\cite[Sections~5.2--5.6]{Litsey2026}.  Making the required projective
+product-formula mechanism quantitative remains open.
+
+\subsection{Near-compatible powers}
+
+Let $L$ be a normal closure of $\QQ(a,b)$ and, for
+$\tau:L\hookrightarrow\CC$, put
+\[
+ \delta_\tau=\frac{e^{\tau(a)\xi}}{\tau(b)}.
+\]
+The torsion-defect criterion \cref{cor:torsion-new} treats the case in
+which every $\delta_\tau$ is a root of unity.
+
+\begin{conjecture}[Unitary-defect exact-two principle]
+\label{conj:unitary-defect}
+If $|\delta_\tau|=1$ for every embedding $\tau:L\hookrightarrow\CC$,
+then
+\[
+ \boxed{\mu(\xi)=2.}
+\]
+\end{conjecture}
+
+The root-of-unity case follows from power saturation.  In the general
+unitary case, simultaneous recurrence can make finitely many powers
+$\delta_\tau^N$ close to $1$, but the determinant also amplifies the
+remaining mismatch through the parameters $K$ and $H$.  A proof would
+therefore require a quantitative near-compatible-fibre estimate together
+with a coupled choice of the power $N$ and the interpolation scale.  The
+fixed-certificate argument of the present paper does not provide such a
+coupling.
+
+\subsection{Effectivity of the geometric input}
+
+\begin{conjecture}[Effective special-centre interpolation]
+\label{conj:effective-interpolation}
+For algebraic $a,b$, rational $x_1,\ldots,x_m$, and centres
+\[
+ y_j=b^j,
+ \qquad
+ c_{ji}=ja x_i,
+ \qquad 0\le j<K,
+\]
+the eventual surjectivity threshold in \cref{thm:MI} is bounded
+effectively in terms of the weights, $m$, $K$, the algebraic degrees, and
+the logarithmic Weil heights of $a,b,x_1,\ldots,x_m$.
+\end{conjecture}
+
+Such a result would make the geometric part of the determinant argument
+quantitative and would be an essential input for near-compatible powers
+or explicit finite-place estimates.  It would also isolate whether the
+remaining ineffectivity is intrinsic to the selection of rational
+approximants or only to the present use of Serre vanishing.
 
 \section*{Acknowledgments and provenance}
 
@@ -1650,19 +1967,23 @@ power-saturation, and higher-degree bounds are contributions of the
 present paper.
 
 The geometric interpolation theorem and the analytic row-translation
-and collision estimates used here are those of Liu--Jiang--Zhang
+and Taylor-collision estimates used here are those of Liu--Jiang--Zhang
 \cite{LiuJiangZhang2026}, building on the interpolation-determinant
 method of Laurent \cite{Laurent1991,Laurent2000} and the proof for
 $\pi$ in \cite{OpenAI2026}.  Brown independently obtained the
 rational-logarithm theorem and a general-fibre interpolation theorem
 under a global fibre-count condition, together with a Lean~4
 formalization of the rational theorem, and recorded the real-algebraic
-degree bound \cite{Brown2026}.  The new determinant step
-in this paper is the simultaneous number-field denominator clearing and
-product-formula comparison across compatible and incompatible conjugate
-fibres.  The rigidity, intrinsic power-saturation, and torus
-classification are obtained by combining that comparison with
-Gelfond--Schneider.
+degree bound \cite{Brown2026}.  Litsey's mixed-determinant perturbation
+argument for Catalan's constant provides related contemporary context
+for continuous defect optimization \cite{Litsey2026}.  The present
+paper combines the Liu--Jiang--Zhang approximation and collision
+penalties by the soft convex optimization of
+\cref{lem:collision-energy}; the new arithmetic determinant step is the
+simultaneous number-field denominator clearing and product-formula
+comparison across compatible and incompatible conjugate fibres.  The
+rigidity, intrinsic power-saturation, and torus classification are
+obtained by combining that comparison with Gelfond--Schneider.
 
 \renewcommand*{\bibfont}{\small}
 \printbibliography
