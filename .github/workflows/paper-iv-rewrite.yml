@@ -1,0 +1,112 @@
+name: One-time Paper IV rewrite
+
+on:
+  push:
+    branches: [paper-iv-rigidity-revision]
+
+permissions:
+  contents: write
+
+jobs:
+  rewrite:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+
+      - name: Install strengthened sources and documentation
+        shell: bash
+        run: |
+          cat .github/paper-iv-payload/part-* | tr -d '[:space:]' > /tmp/paper-iv-update.b64
+          base64 --decode /tmp/paper-iv-update.b64 > /tmp/paper-iv-update.zip
+          unzip -oq /tmp/paper-iv-update.zip -d "$GITHUB_WORKSPACE"
+          rm -rf tests/__pycache__
+          rm -rf papers/04-conjugate-fibres-irrationality-exponents
+          rm -f output/pdf/conjugate-fibres-irrationality-exponents.pdf
+
+      - name: Install TeX and verification tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            latexmk biber texlive-bibtex-extra texlive-latex-extra texlive-fonts-recommended texlive-science \
+            lmodern poppler-utils python3 python3-sympy make
+
+      - name: Build Paper IV snapshot
+        shell: bash
+        run: |
+          source_dir="papers/04-conjugate-fibres-rigidity"
+          source_file="conjugate-fibres-rigidity.tex"
+          work="$GITHUB_WORKSPACE/.build/conjugate-fibres-rigidity"
+          rm -rf "$work"
+          mkdir -p "$work" output/pdf
+          (
+            cd "$source_dir"
+            SOURCE_DATE_EPOCH=1791504000 FORCE_SOURCE_DATE=1 TZ=UTC \
+              latexmk -pdf -g -interaction=nonstopmode -halt-on-error \
+                -file-line-error -latexoption=-no-shell-escape \
+                -outdir="$work" "$source_file"
+          )
+          cp "$work/conjugate-fibres-rigidity.pdf" output/pdf/conjugate-fibres-rigidity.pdf
+
+      - name: Refresh PDF manifest
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, json, re, subprocess
+
+          root = Path.cwd()
+          source_rel = "papers/04-conjugate-fibres-rigidity/conjugate-fibres-rigidity.tex"
+          pdf_rel = "output/pdf/conjugate-fibres-rigidity.pdf"
+          source = root / source_rel
+          pdf = root / pdf_rel
+
+          h = hashlib.sha256()
+          for path in sorted(source.parent.rglob("*")):
+              if path.is_file() and path.suffix in {".tex", ".bib"}:
+                  h.update(str(path.relative_to(source.parent)).encode())
+                  h.update(b"\0")
+                  h.update(path.read_bytes())
+                  h.update(b"\0")
+
+          info = subprocess.check_output(["pdfinfo", str(pdf)], text=True)
+          pages = int(re.search(r"^Pages:\s+(\d+)", info, re.M).group(1))
+          pdf_hash = hashlib.sha256(pdf.read_bytes()).hexdigest()
+
+          manifest_path = root / "output/pdf/manifest.json"
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          documents = [record for record in manifest["documents"] if not record["source"].startswith("papers/04-")]
+          documents.append({
+              "source": source_rel,
+              "source_sha256": h.hexdigest(),
+              "pdf": pdf_rel,
+              "pdf_sha256": pdf_hash,
+              "pages": pages,
+          })
+          manifest_path.write_text(
+              json.dumps({"schema_version": 1, "documents": documents}, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+      - name: Verify repository
+        run: |
+          make test
+          make verify
+          make check
+
+      - name: Commit replacement
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No repository changes to commit."
+            exit 0
+          fi
+          git commit -m "Replace Paper IV with rigidity revision"
+          git push origin "HEAD:$GITHUB_REF_NAME"
