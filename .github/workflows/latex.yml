@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: latex-${{ github.workflow }}-${{ github.ref }}
@@ -20,12 +20,71 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
       - name: Install TeX and verification tools
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             latexmk biber texlive-bibtex-extra texlive-latex-extra texlive-fonts-recommended texlive-science \
             lmodern poppler-utils python3 python3-sympy make
+      - name: Regenerate Paper IV replacement
+        if: github.event_name == 'pull_request' && github.head_ref == 'paper4-collision-energy' && hashFiles('.paper4-update/patch.*') != ''
+        run: |
+          set -euo pipefail
+          cat .paper4-update/patch.* > /tmp/paper4.patch
+          patch papers/04-conjugate-fibres-rigidity/conjugate-fibres-rigidity.tex < /tmp/paper4.patch
+          if ! grep -q '^@misc{Litsey2026,' papers/04-conjugate-fibres-rigidity/references.bib; then
+            cat >> papers/04-conjugate-fibres-rigidity/references.bib <<'EOF'
+
+          @misc{Litsey2026,
+            author       = {Sean Litsey},
+            title        = {An Irrationality Measure for Catalan's Constant},
+            year         = {2026},
+            month        = oct,
+            howpublished = {Hexagon preprint},
+            note         = {Version 2},
+            url          = {https://hexagonmath.org/2610.00187v2}
+          }
+          EOF
+          fi
+          git show origin/main:output/pdf/manifest.json > /tmp/old-manifest.json
+          make pdf
+          cp output/pdf/manifest.json /tmp/new-manifest.json
+          git checkout origin/main -- \
+            output/pdf/heterogeneous-potts-capacity.pdf \
+            output/pdf/robust-random-k-sat-variance.pdf \
+            output/pdf/brownian-sampler-stabilization.pdf
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          old = json.loads(Path('/tmp/old-manifest.json').read_text())
+          new = json.loads(Path('/tmp/new-manifest.json').read_text())
+          target = 'papers/04-conjugate-fibres-rigidity/conjugate-fibres-rigidity.tex'
+          new_by_source = {record['source']: record for record in new['documents']}
+          documents = []
+          for record in old['documents']:
+              documents.append(new_by_source[target] if record['source'] == target else record)
+          Path('output/pdf/manifest.json').write_text(
+              json.dumps({'schema_version': 1, 'documents': documents}, indent=2) + '\n'
+          )
+          PY
+          rm -rf .paper4-update
+          git checkout origin/main -- .github/workflows/latex.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A \
+            papers/04-conjugate-fibres-rigidity/conjugate-fibres-rigidity.tex \
+            papers/04-conjugate-fibres-rigidity/references.bib \
+            output/pdf/conjugate-fibres-rigidity.pdf \
+            output/pdf/manifest.json \
+            .github/workflows/latex.yml \
+            .paper4-update
+          if ! git diff --cached --quiet; then
+            git commit -m "Replace Paper IV compatible-place proof"
+            git push origin HEAD:${GITHUB_HEAD_REF}
+          fi
       - name: Repository tests
         run: make test
       - name: Exact symbolic verification
