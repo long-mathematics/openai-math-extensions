@@ -1,0 +1,160 @@
+@@ -79,7 +80,11 @@
+ \]
+ The proof combines the bounded-fibre interpolation determinant of
+ Liu--Jiang--Zhang with simultaneous number-field denominator clearing
+-and the product formula.
++and the product formula.  At the compatible places we jointly optimize
++the linear rational-approximation cost and the quadratic Taylor-collision
++energy.  This removes the usual low/high transverse-index dichotomy and
++identifies $2d/r$ as the exact threshold of the resulting aggregate scalar
++estimate.
+ 
+ Rigidity reduces optimization over all certificates to power saturation
+ of any one certificate.  It produces an intrinsic integer
+@@ -132,6 +137,16 @@
+ embeddings.  The first purpose of this note is to carry out that
+ comparison whenever some conjugate exponential fibres remain compatible.
+ 
++Litsey recently converted the determinant proof of the irrationality of
++Catalan's constant into a finite irrationality measure by controlling mixed
++determinants under column perturbations and by retaining the energy cost of
++configurations with missing points \cite[Theorem~5.1 and
++Proposition~5.10]{Litsey2026}.  The compatible-place estimate below uses a
++related continuous-defect principle: rather than separating low and high
++transverse indices, it optimizes the approximation and collision penalties
++simultaneously.  The argument itself is applied directly to the
++row-translation and collision bounds of Liu--Jiang--Zhang.
++
+ Eric Naslund publicly pointed out, in posts on X on 9 and 12 October
+ 2026, the exact-two quadratic family
+ \[
+@@ -423,54 +438,48 @@
+ 
+ \subsection{Parameters}
+ 
+-The following elementary lemma isolates the only change from the
+-parameter choice for a single rational logarithm.
++The optimized collision-energy estimate permits a particularly simple
++parameter choice.
+ 
+-\begin{lemma}[Gap parameters]\label{lem:parameters}
+-Let $d,r$ be positive integers and let $\nu>2d/r$.  There exist rational
+-numbers
+-\[
+- 0<\theta<A<B<1,\qquad 0<\eta<1,
+-\]
+-and rational numbers $C>1$ such that
+-\begin{align}
+- &A^2<\theta<A,
+- \label{eq:param1}\\
+- &g:=r\nu\bigl(A(1-\eta)-\theta\bigr)-d(1-\theta)>0,
+- \label{eq:param-gap}\\
+- &\frac A\theta<C<\frac1A,
+- \qquad
+- A<B<\min\{C^{-1},C\theta\}.
+- \label{eq:param-CB}
+-\end{align}
+-In particular $C\theta<1$, $CB<1$, $C\theta/B>1$, and $B/A>1$.
++\begin{lemma}[Soft-gap parameters]\label{lem:parameters}
++Let $d,r$ be positive integers and let $\nu>2d/r$.  There are rational
++numbers $\chi,\theta,B,C$ satisfying
++\begin{equation}\label{eq:param-soft}
++ 0<\chi<1,
++ \qquad \theta=\chi^2,
++ \qquad C=\chi^{-1},
++ \qquad \theta<B<\chi,
++\end{equation}
++and
++\begin{equation}\label{eq:param-gap}
++ g:=r\nu(B-\theta)-d(1-\theta)>0.
++\end{equation}
++In particular,
++\begin{equation}\label{eq:param-consequences}
++ C\theta=\chi<1,
++ \qquad CB=\frac B\chi<1,
++ \qquad \frac{C\theta}{B}=\frac\chi B>1,
++ \qquad B^2<\theta.
++\end{equation}
+ \end{lemma}
+ 
+ \begin{proof}
+-Choose a rational number
+-\[
+- \frac12<\rho<1-\frac{d}{r\nu};
+-\]
+-this interval is nonempty because $r\nu>2d$.  For a sufficiently small
+-positive rational $\delta$, put
++Since $r\nu>2d$, one may choose a rational $\chi\in(0,1)$ sufficiently
++close to $1$ that
+ \[
+- \theta=1-\delta,\qquad A=1-\rho\delta.
++ r\nu\chi>d(1+\chi).
+ \]
+-Then $A>\theta$ and
++This is equivalent to
+ \[
+- \theta-A^2=(2\rho-1)\delta-\rho^2\delta^2>0.
++ \chi^2+\frac{d}{r\nu}(1-\chi^2)<\chi.
+ \]
+-Moreover
++Choose a rational number $B$ strictly between the two sides, and put
++$\theta=\chi^2$ and $C=\chi^{-1}$.  Then
+ \[
+- r\nu(A-\theta)-d(1-\theta)
+- =\delta\bigl(r\nu(1-\rho)-d\bigr)>0.
++ r\nu(B-\theta)>d(1-\theta),
+ \]
+-Choose a sufficiently small positive rational $\eta$ to preserve this
+-strict inequality after replacing $A$ by $A(1-\eta)$.  Since
+-$A^2<\theta$, the interval $(A/\theta,1/A)$ is nonempty; choose rational
+-$C$ in it.  Both $C^{-1}$ and $C\theta$ exceed $A$, so a rational $B$
+-satisfying \eqref{eq:param-CB} exists.  Finally
+-$C\theta<\theta/A<1$.
++which is \eqref{eq:param-gap}; all statements in
++\eqref{eq:param-consequences} are immediate.
+ \end{proof}
+ 
+ For a positive integer $m$, set
+@@ -484,14 +493,20 @@
+  K\left(\frac{w_0}{v_0}\right)\theta^m=\frac12,
+  \qquad K\theta^m\longrightarrow0,
+  \qquad \frac K{w_0}\longrightarrow0,
+- \qquad v_0\longrightarrow\infty.
++ \qquad v_0\longrightarrow\infty,
++ \qquad \frac m{v_0}\longrightarrow0.
+ \end{equation}
+-For later use put
+-\begin{equation}\label{eq:L-def}
+- L=\frac{\eta^2K\theta^m}{(m+1)v_0A^m}
+-   =\frac{\eta^2}{2(m+1)}\left(\frac BA\right)^m.
+-\end{equation}
+-Thus $L\to\infty$ as $m\to\infty$.
++Indeed, for all sufficiently large $m$,
++\[
++ K\theta^m\le(C\theta)^m=\chi^m,
++ \qquad
++ \frac K{w_0}\le(CB)^m=\left(\frac B\chi\right)^m,
++\]
++while $K\ge C^m/2$ gives
++\[
++ v_0\ge\left(\frac{C\theta}{B}\right)^m
++      =\left(\frac\chi B\right)^m.
++\]
+ 
+ \section{The number-field determinant}\label{sec:determinant}
+ 
+@@ -572,13 +587,74 @@
+  \bar\beta_H=\frac1{MH}
+  \sum_{\varrho=(j,s,\beta)}\sum_iw_i\beta_i.
+ \end{equation}
+-Then
++The row volume and its first transverse moment will both be useful.
++
++\begin{lemma}[Row volume and first moment]\label{lem:row-moment}
++As $H\to\infty$ through admissible degrees,
+ \begin{equation}\label{eq:row-asymptotic}
++ M\ge
++ \frac{K\theta^mH^{m+1}}
++ {(m+1)!v_0\prod_iw_i},
++ \qquad
+  M\sim
