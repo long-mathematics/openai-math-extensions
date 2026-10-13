@@ -24,10 +24,10 @@
     },
     {
       "source": "papers/04-conjugate-fibres-rigidity/conjugate-fibres-rigidity.tex",
-      "source_sha256": "7ae61fd66554dc8aaf7c2ac8183e6e9a3b0ba69805884b77de534902b8360546",
+      "source_sha256": "9516dab683426d9cb83fa6e5b2928d5153d69e7e78c56d0d13b911ba9cc82ceb",
       "pdf": "output/pdf/conjugate-fibres-rigidity.pdf",
-      "pdf_sha256": "e1445e798fc7d410493308a63d0e8c158498cd8cc1b215dbd0984977cde05afd",
-      "pages": 21
+      "pdf_sha256": "f7cceee00d3d1e809f309edf0d4a88597edeaf92e219cf60e84182446811e0bc",
+      "pages": 26
     }
   ]
 }
