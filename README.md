@@ -53,7 +53,7 @@ Extends OpenAI: [The irrationality exponent of π is 2](https://github.com/opena
 
 For an algebraic exponential certificate $e^{ax}=b$ of degree $d$, the manuscript proves an irrationality-exponent bound of $2d$, improved to $d$ when the unique inversion involution exists. The equivalent compatible-fibre form is $2d/r$, and a rigidity theorem shows that the minimal-field compatible count $r$ is always 1 or 2.
 
-All scalar certificates for a fixed real number lie on one rational line. Consequently, optimization reduces to power saturation of any one certificate and produces an attained positive-integer complexity. Complexity one is classified by split rational logarithms and quadratic norm-one tori. The public quadratic artanh family identified by Eric Naslund is credited as prior provenance; the paper’s new content is the converse classification and higher-degree bounds.
+All scalar certificates for a fixed real number lie on one rational line. Consequently, optimization reduces to power saturation of any one certificate and produces an attained positive-integer complexity. Complexity one is classified by split rational logarithms and quadratic norm-one tori.
 
 Further consequences include the power-degree bound for logarithms of positive algebraic numbers, relative norm-one estimates, and finite bounds for algebraic multiples of π and arguments of algebraic numbers. The paper does not claim exponent 2 for every algebraic exponential fibre.
 
@@ -62,7 +62,6 @@ Further consequences include the power-degree bound for logarithms of positive a
 - [Theorem status](THEOREM_STATUS.md) records proved statements, scope boundaries, and open strengthenings.
 - [Dependency map](DEPENDENCIES.md) identifies the exact OpenAI inputs and which directions use them.
 - [Initial audit](audits/2026-10-11-initial-audit.md) records the first repository-level audit and repair pass.
-- [Paper IV replacement audit](audits/2026-10-13-paper-iv-rigidity-rewrite.md) records the strengthened rewrite, provenance changes, and repository integration.
 
 Compilation, exact symbolic checks, and finite computations check the written artifacts; they are not independent peer review or formal verification.
 
