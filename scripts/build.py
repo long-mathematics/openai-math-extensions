@@ -14,7 +14,7 @@ DOCUMENTS = [
     ("papers/01-heterogeneous-potts-capacity/heterogeneous-potts-capacity.tex", "heterogeneous-potts-capacity.pdf"),
     ("papers/02-robust-random-k-sat-variance/robust-random-k-sat-variance.tex", "robust-random-k-sat-variance.pdf"),
     ("papers/03-brownian-sampler-stabilization/brownian-sampler-stabilization.tex", "brownian-sampler-stabilization.pdf"),
-    ("papers/04-conjugate-fibres-irrationality-exponents/conjugate-fibres-irrationality-exponents.tex", "conjugate-fibres-irrationality-exponents.pdf"),
+    ("papers/04-conjugate-fibres-rigidity/conjugate-fibres-rigidity.tex", "conjugate-fibres-rigidity.pdf"),
 ]
 
 README_ALLOWED_COMMANDS = {
@@ -47,7 +47,7 @@ def check_sources() -> None:
 
 def check_readme_math() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    for token in (r"\\(", r"\\)", r"\\[", r"\\]", r"\\newcommand", r"\\renewcommand", r"\\def"):
+    for token in (r"\(", r"\)", r"\[", r"\]", r"\newcommand", r"\renewcommand", r"\def"):
         if token in text:
             raise RuntimeError("README contains forbidden TeX syntax: " + token)
     commands = set(re.findall(r"\\([A-Za-z]+)", text))

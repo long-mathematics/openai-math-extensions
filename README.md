@@ -9,7 +9,7 @@ Four independent research manuscripts by **Christopher D. Long** extending recen
 | **I** | **A Sharp Capacity Criterion for Heterogeneous Four-State Potts Broadcasting on Trees** | [Read PDF](output/pdf/heterogeneous-potts-capacity.pdf) | [Source](papers/01-heterogeneous-potts-capacity/heterogeneous-potts-capacity.tex) |
 | **II** | **A Robust Linear Upper Bound for the Variance of Random $k$-SAT Hitting Times** | [Read PDF](output/pdf/robust-random-k-sat-variance.pdf) | [Source](papers/02-robust-random-k-sat-variance/robust-random-k-sat-variance.tex) |
 | **III** | **Exact Observation-Time Stabilization Laws for the Brownian Factor-of-IID Sampler** | [Read PDF](output/pdf/brownian-sampler-stabilization.pdf) | [Source](papers/03-brownian-sampler-stabilization/brownian-sampler-stabilization.tex) |
-| **IV** | **Conjugate Fibres and Irrationality Exponents** | [Read PDF](output/pdf/conjugate-fibres-irrationality-exponents.pdf) | [Source](papers/04-conjugate-fibres-irrationality-exponents/conjugate-fibres-irrationality-exponents.tex) |
+| **IV** | **Conjugate Fibres, Certificate Rigidity, and Irrationality Exponents** | [Read PDF](output/pdf/conjugate-fibres-rigidity.pdf) | [Source](papers/04-conjugate-fibres-rigidity/conjugate-fibres-rigidity.tex) |
 
 The PDFs are committed snapshots compiled from the linked canonical sources. Intermediate LaTeX files are kept out of the repository. The numbering gives these manuscripts stable identities inside this repository; it is not a logical dependency order.
 
@@ -45,21 +45,24 @@ For the natural midpoint readout of the OpenAI Brownian sampler, the coordinate 
 
 These are observation-time statements after the reconstructed path has been formed. They are not finitary-factor or coding-radius statements.
 
-### Paper IV — Conjugate fibres and irrationality exponents
+### Paper IV — Conjugate fibres, certificate rigidity, and irrationality exponents
 
-[Read PDF](output/pdf/conjugate-fibres-irrationality-exponents.pdf) · [LaTeX](papers/04-conjugate-fibres-irrationality-exponents/conjugate-fibres-irrationality-exponents.tex)
+[Read PDF](output/pdf/conjugate-fibres-rigidity.pdf) · [LaTeX](papers/04-conjugate-fibres-rigidity/conjugate-fibres-rigidity.tex)
 
 Extends OpenAI: [The irrationality exponent of π is 2](https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/The-irrationality-exponent-of-pi-is-2-September-24-2026/README.md).
 
-For an algebraic exponential certificate $e^{ax}=b$, let $d$ be the degree of the certificate field and let $r$ be the number of field embeddings for which the conjugate exponential relation remains valid. The manuscript proves the irrationality-exponent bound $2d/r$, then optimizes over all certificates, powers of a certificate, and integer combinations of several certificates.
+For an algebraic exponential certificate $e^{ax}=b$ of degree $d$, the manuscript proves an irrationality-exponent bound of $2d$, improved to $d$ when the unique inversion involution exists. The equivalent compatible-fibre form is $2d/r$, and a rigidity theorem shows that the minimal-field compatible count $r$ is always 1 or 2.
 
-Full compatibility after a power gives irrationality exponent exactly 2. Consequences include a power-degree bound for logarithms of positive algebraic numbers and exact exponent 2 for several saturated families, including rational arctangents and normalized quadratic-unit logarithms. The paper does not claim exponent 2 for every algebraic exponential fibre.
+All scalar certificates for a fixed real number lie on one rational line. Consequently, optimization reduces to power saturation of any one certificate and produces an attained positive-integer complexity. Complexity one is classified by split rational logarithms and quadratic norm-one tori. The public quadratic artanh family identified by Eric Naslund is credited as prior provenance; the paper’s new content is the converse classification and higher-degree bounds.
+
+Further consequences include the power-degree bound for logarithms of positive algebraic numbers, relative norm-one estimates, and finite bounds for algebraic multiples of π and arguments of algebraic numbers. The paper does not claim exponent 2 for every algebraic exponential fibre.
 
 ## Status and provenance
 
 - [Theorem status](THEOREM_STATUS.md) records proved statements, scope boundaries, and open strengthenings.
 - [Dependency map](DEPENDENCIES.md) identifies the exact OpenAI inputs and which directions use them.
 - [Initial audit](audits/2026-10-11-initial-audit.md) records the first repository-level audit and repair pass.
+- [Paper IV replacement audit](audits/2026-10-13-paper-iv-rigidity-rewrite.md) records the strengthened rewrite, provenance changes, and repository integration.
 
 Compilation, exact symbolic checks, and finite computations check the written artifacts; they are not independent peer review or formal verification.
 
