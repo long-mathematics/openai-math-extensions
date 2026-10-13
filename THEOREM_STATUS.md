@@ -63,16 +63,20 @@ This register describes the current claims of the four canonical manuscripts. Co
 - Scalar complexity one is classified by one-dimensional tori over $\mathbb Q$: split rational logarithms and quadratic norm-one tori, including the completed quadratic artanh/arctan family and its torsion boundary.
 - For positive algebraic $\alpha\ne1$, the exact scalar complexity of $\log\alpha$ is the power degree $d_{\mathrm{pow}}(\alpha)$, giving $\mu(\log\alpha)\le2d_{\mathrm{pow}}(\alpha)$.
 - Further applications include relative norm-one bounds, $\mu(\lambda\pi)\le[\mathbb Q(i/\lambda):\mathbb Q]$ for nonzero real algebraic $\lambda$, bounds for arguments of algebraic numbers, and $\operatorname{PGL}_2(\mathbb Q)$-invariance of irrationality exponent.
+- The compatible-place proof jointly optimizes the rational-approximation and Taylor-collision penalties. It also proves the row first-moment asymptotic $\bar\beta_H=\frac{m}{m+2}\theta+O(H^{-1})$ and a finite-dimensional barrier showing that the resulting aggregate scalar estimate cannot cross the threshold $2d/r$.
+- The compatible-place bound is uniform over all maximal minors, giving the corresponding analytic bound for every fixed norm of the full Plücker vector.
 
 **External mathematical input and provenance**
 
 - The determinant proof uses the bounded-fibre moving-centre interpolation theorem and the analytic row-translation/collision estimates of Liu–Jiang–Zhang, with the complex-centre and repeated-fibre transfer checked explicitly in the manuscript.
 - Dan Brown independently proved the positive-rational logarithm theorem, formalized that theorem in Lean 4, and recorded the degree bound for logarithms of positive real algebraic numbers.
 - Eric Naslund’s public posts of 9 and 12 October 2026 are credited as prior public identification of the quadratic exact-two family. The converse rigidity/classification and higher-degree bounds are claims of the present manuscript.
+- Sean Litsey’s Catalan irrationality-measure paper is cited as contemporary methodological context for mixed-determinant perturbation and continuous defect optimization; the collision-energy lemma in Paper IV is derived directly from the Liu–Jiang–Zhang row-translation and collision inputs.
 
 **Scope boundary and open strengthenings**
 
 - The manuscript classifies the exact-two locus of the scalar certificate method; it does not classify all real numbers of irrationality exponent 2.
 - It does not prove exponent 2 for every algebraic exponential fibre. The proposed algebraic exponential-fibre and algebraic linear-forms-in-logarithms statements remain conjectural.
-- The threshold $2d/r$ is sharp for the scalar product-formula parameter architecture, not necessarily for the underlying constants.
+- The threshold $2d/r$ is sharp for the optimized aggregate scalar estimate combining approximation and collision energy, not necessarily for the underlying constants. Improving it requires information not captured by that aggregate occupancy bound, such as detailed incidence, cancellation, finite-place structure, or non-scalar/full-Plücker arithmetic.
+- The unitary-defect exact-two principle and effective special-centre interpolation statement are conjectural.
 - The denominator threshold is qualitative because the imported moving-centre interpolation theorem has a centre-dependent Serre-vanishing threshold that is not made effective.
