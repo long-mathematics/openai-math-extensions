@@ -1,0 +1,1670 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1.08in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage[backend=biber,style=numeric-comp,sorting=nyt,maxbibnames=99]{biblatex}
+\addbibresource{references.bib}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[nameinlink,capitalise,noabbrev]{cleveref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+
+\hypersetup{
+  pdftitle={Conjugate fibres, certificate rigidity, and irrationality exponents},
+  pdfauthor={Christopher D. Long},
+  pdfsubject={Irrationality exponents of algebraic exponential fibres}
+}
+\setlist{topsep=4pt,itemsep=3pt}
+\setlength{\emergencystretch}{2em}
+
+\newcommand{\CC}{\mathbb C}
+\newcommand{\RR}{\mathbb R}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\ZZ}{\mathbb Z}
+\newcommand{\NN}{\mathbb Z_{\ge 0}}
+\newcommand{\Qbar}{\overline{\mathbb Q}}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Gm}{\mathbb G_m}
+\newcommand{\Comp}{\Sigma_{\xi}(a,b)}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Gal}{Gal}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\Nm}{N}
+\DeclareMathOperator{\PGL}{PGL}
+\DeclareMathOperator{\arctanh}{arctanh}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\numberwithin{equation}{section}
+\crefname{conjecture}{conjecture}{conjectures}
+\Crefname{conjecture}{Conjecture}{Conjectures}
+
+\title{Conjugate fibres, certificate rigidity, and irrationality exponents}
+\author{Christopher D. Long\\[2pt]\small \texttt{galizur@gmail.com}}
+\date{Draft of October 13, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $\xi\in\RR^\times$ and let $a,b\in\Qbar^\times$ satisfy
+$e^{a\xi}=b$.  We first prove two rigidity statements.  Every algebraic
+exponential certificate for a fixed $\xi$ has coefficient in one
+rational line, and every compatible embedding of the minimal
+certificate field is either the identity or a unique inversion
+involution.  Thus, if $F=\QQ(a,b)$ and $d=[F:\QQ]$, there are at most two
+compatible embeddings.  We prove
+\[
+  \mu(\xi)\le 2d,
+\]
+improved to $\mu(\xi)\le d$ when the inversion involution exists.
+Equivalently, if $r\in\{1,2\}$ is the number of compatible embeddings,
+then
+\[
+  \mu(\xi)\le \frac{2d}{r}.
+\]
+The proof combines the bounded-fibre interpolation determinant of
+Liu--Jiang--Zhang with simultaneous number-field denominator clearing
+and the product formula.
+
+Rigidity reduces optimization over all certificates to power saturation
+of any one certificate.  It produces an intrinsic integer
+$\kappa_{\exp}(\xi)\ge1$, attained by a sufficiently divisible power,
+such that
+\[
+  \mu(\xi)\le2\kappa_{\exp}(\xi).
+\]
+We classify $\kappa_{\exp}(\xi)=1$: it is precisely the union of split
+rational logarithms and logarithm coordinates of rational points on
+quadratic norm-one tori, including the completed quadratic
+$\arctanh/\arctan$ family and its torsion boundary.  Beyond complexity
+one we obtain, among other consequences, the optimal scalar bound
+$\mu(\log\alpha)\le2d_{\mathrm{pow}}(\alpha)$ for positive algebraic
+$\alpha$, relative norm-one bounds, and finite bounds for algebraic
+multiples of $\pi$ and arguments of algebraic numbers.
+\end{abstract}
+
+\section{Introduction}\label{sec:introduction}
+
+For an irrational real number $x$, its \emph{irrationality exponent} is
+\[
+ \mu(x)=\sup\left\{\nu>0:
+  0<\left|x-\frac pq\right|<q^{-\nu}
+  \text{ for infinitely many }p\in\ZZ,
+  \ q\in\ZZ_{>0}\right\}.
+\]
+Dirichlet's theorem gives $\mu(x)\ge2$ for every irrational $x$; see,
+for example, \cite[Chapter~I]{Cassels1957}.  Roth's theorem gives equality
+for every irrational algebraic number \cite{Roth1955}.  For explicit
+transcendental constants, proving exponent two is generally much harder.
+
+OpenAI recently proved $\mu(\pi)=2$ using a separated-weight
+interpolation determinant \cite{OpenAI2026}.  Two independent subsequent
+works moved the interpolation centres between fibres of the exponential
+coordinate.  Brown proved the rational-logarithm theorem and supplied a
+Lean~4 formalization of that theorem; he also recorded in
+\cite[Proposition~5.1]{Brown2026} the bound
+$\mu(\log\alpha)\le2[\QQ(\alpha):\QQ]$ for positive real algebraic
+$\alpha$.  Liu, Jiang, and Zhang proved
+\[
+  \mu(\log q)=2
+  \qquad(q\in\QQ_{>0}\setminus\{1\})
+\]
+and established the bounded-fibre moving-centre interpolation theorem
+that we use below \cite{LiuJiangZhang2026}.  Their paper explicitly
+isolates the next arithmetic obstruction: for an algebraic argument,
+clearing denominators produces a nonzero algebraic integer rather than a
+nonzero rational integer, so estimates are needed at its conjugate
+embeddings.  The first purpose of this note is to carry out that
+comparison whenever some conjugate exponential fibres remain compatible.
+
+Eric Naslund publicly pointed out, in posts on X on 9 and 12 October
+2026, the exact-two quadratic family
+\[
+ \frac{1}{\sqrt D}\arctanh(t\sqrt D),
+ \qquad t\in\QQ,
+\]
+with the appropriate real branches and torsion boundary; the later post
+linked a public Claude discussion \cite{Naslund2026}.  For non-torsion
+members of this family, the moving-fibre interpolation supplied by Brown
+and Liu--Jiang--Zhang is needed in addition to the fixed-fibre argument
+for $\pi$.  The new structural results here are the converse rigidity
+statement, the intrinsic power-saturation theorem, and the higher-degree
+bounds beyond that quadratic exact-two locus.
+
+Fix $\xi\in\RR^\times$ and $a,b\in\Qbar^\times$ with $e^{a\xi}=b$.
+Let
+\[
+ F=\QQ(a,b),\qquad d=[F:\QQ],\qquad
+ \Sigma_F=\Hom_{\QQ}(F,\CC),
+\]
+and define
+\begin{equation}\label{eq:compatible-set}
+ \Comp=
+ \left\{\sigma\in\Sigma_F:
+   e^{\sigma(a)\xi}=\sigma(b)\right\}.
+\end{equation}
+The distinguished inclusion belongs to $\Comp$, so
+$1\le r:=|\Comp|\le d$.
+
+\begin{theorem}[Rigid conjugate-fibre bound]\label{thm:main}
+Let $\xi\in\RR^\times$ and $a,b\in\Qbar^\times$ satisfy $e^{a\xi}=b$,
+and put $F=\QQ(a,b)$ and $d=[F:\QQ]$.
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item One always has
+\[
+ \boxed{\mu(\xi)\le2d.}
+\]
+\item If $F$ has an embedding $\tau:F\hookrightarrow\CC$ satisfying
+\[
+ \tau(a)=-a,
+ \qquad
+ \tau(b)=b^{-1},
+\]
+then $\tau$ is a unique involution and
+\[
+ \boxed{\mu(\xi)\le d.}
+\]
+\end{enumerate}
+Equivalently, if $r$ denotes the number of compatible embeddings, then
+$r\in\{1,2\}$ and
+\[
+ \boxed{\mu(\xi)\le\frac{2d}{r}.}
+\]
+More precisely, for every real $\nu>2d/r$ there is
+$Q=Q(a,b,\xi,\nu)$ such that
+\[
+  \left|\xi-\frac pq\right|\ge q^{-\nu}
+  \qquad(p\in\ZZ,\ q\in\ZZ_{>0},\ q\ge Q).
+\]
+In particular, $\mu(\xi)=2$ when $d=1$, or when $d=2$ and the inversion
+involution exists.
+\end{theorem}
+
+The exact-two assertions use Dirichlet's theorem and
+Hermite--Lindemann.  If $\xi$ were nonzero algebraic, then $a\xi$ would
+be nonzero algebraic, whereas $e^{a\xi}=b$ is algebraic, a contradiction;
+see \cite[Chapter~1]{Baker1975}.
+
+The second purpose of the note is to show that the scalar compatibility
+in \cref{thm:main} is rigid.  If $e^{c\xi}$ is algebraic for another
+nonzero algebraic coefficient $c$, then $c/a\in\QQ^\times$.  Moreover,
+every compatible embedding of $F$ sends
+\[
+ (a,b)\longmapsto(a,b)
+ \quad\text{or}\quad
+ (a,b)\longmapsto(-a,b^{-1}).
+\]
+Thus $r\le2$.  This turns the optimized scalar theory into an
+integer-valued one: after replacing $b$ by sufficiently divisible
+powers, the ratios $d/r$ decrease to a positive integer
+$\kappa_{\exp}(\xi)$, and
+\[
+ \mu(\xi)\le2\kappa_{\exp}(\xi).
+\]
+The case $\kappa_{\exp}(\xi)=1$ is classified by one-dimensional tori:
+the split torus gives rational logarithms, while a quadratic norm-one
+torus gives the $\arctanh/\arctan$ family and its period boundary.
+
+The paper is organized as follows.  \Cref{sec:rigidity} proves the
+rigidity theorems.  Sections~\ref{sec:interpolation}--\ref{sec:proof}
+prove \cref{thm:main}.  \Cref{sec:complexity} constructs the intrinsic
+integer complexity, and \cref{sec:classification} classifies complexity
+one.  \Cref{sec:applications} gives applications, and
+\cref{sec:conjectures} records conjectural strengthenings.
+
+\section{Rigidity of algebraic exponential certificates}\label{sec:rigidity}
+
+We use the Gelfond--Schneider theorem in the following standard form:
+if $\alpha\in\Qbar\setminus\{0,1\}$ and
+$\beta\in\Qbar\setminus\QQ$, then every value of $\alpha^\beta$ is
+transcendental; see \cite[Chapter~1]{Baker1975}.
+
+\begin{theorem}[Certificate-line rigidity]\label{thm:certificate-line}
+Let $\xi\in\RR^\times$, and suppose
+\[
+ e^{a\xi}=b,
+ \qquad
+ e^{c\xi}=u,
+ \qquad
+ a,b,c,u\in\Qbar^\times.
+\]
+Then
+\[
+ \boxed{\frac ca\in\QQ^\times.}
+\]
+Thus the coefficients of all algebraic exponential certificates for a
+fixed $\xi$ lie on one rational line.
+\end{theorem}
+
+\begin{proof}
+Put $q=c/a\in\Qbar^\times$.  Suppose first that $b\ne1$.  Since
+$a\xi$ is a logarithm of $b$,
+\[
+ u=e^{c\xi}=e^{q a\xi}
+\]
+is one value of $b^q$.  If $q$ were algebraic irrational,
+Gelfond--Schneider would make $u$ transcendental.  Hence $q\in\QQ$.
+
+Suppose now that $b=1$.  Since $a\ne0$ and $\xi\ne0$, there is a
+nonzero integer $n$ such that
+\[
+ a\xi=2\pi i n.
+\]
+Then
+\[
+ u=e^{2\pi i n q}
+\]
+is the value of $(-1)^{2nq}$ obtained from the logarithm
+$\log(-1)=\pi i$.  If $q$ were algebraic irrational,
+Gelfond--Schneider would again make $u$ transcendental.  Thus
+$q\in\QQ^\times$ in all cases.
+\end{proof}
+
+\begin{theorem}[Compatible-fibre rigidity]\label{thm:compatible-rigidity}
+Let $e^{a\xi}=b$ and $F=\QQ(a,b)$ as above.  If
+$\sigma:F\hookrightarrow\CC$ is compatible, then
+\[
+ \boxed{
+  (\sigma(a),\sigma(b))=(a,b)
+  \quad\text{or}\quad
+  (\sigma(a),\sigma(b))=(-a,b^{-1}).}
+\]
+The first possibility is the distinguished inclusion.  The second, if it
+occurs, is a unique involution in $\Aut(F/\QQ)$.  In particular,
+\[
+ \boxed{r\in\{1,2\}.}
+\]
+\end{theorem}
+
+\begin{proof}
+Put $q=\sigma(a)/a$.  If $b\ne1$, compatibility gives
+\[
+ \sigma(b)=e^{\sigma(a)\xi}=e^{q a\xi},
+\]
+so the same Gelfond--Schneider argument as in
+\cref{thm:certificate-line} gives $q\in\QQ^\times$.  If $b=1$, write
+$a\xi=2\pi i n$ and $\sigma(a)\xi=2\pi i m$ with nonzero integers
+$m,n$; then $q=m/n\in\QQ^\times$.
+
+Extend $\sigma$ to an automorphism $g$ of a normal closure of $F$.
+Such an extension exists by the standard extension theorem for field
+embeddings; see, for example, \cite[Chapter~I]{Neukirch1999}.  If $N$
+is the finite order of $g$, then
+\[
+ a=g^N(a)=q^N a.
+\]
+Hence $q^N=1$.  Since $q\in\QQ^\times$, one has $q=1$ or $q=-1$.
+
+If $q=1$, compatibility gives $\sigma(a)=a$ and $\sigma(b)=b$, so
+$\sigma$ fixes the generators of $F$ and is the distinguished
+inclusion.  If $q=-1$, then
+\[
+ \sigma(a)=-a,
+ \qquad
+ \sigma(b)=e^{-a\xi}=b^{-1}.
+\]
+These values on the generators determine at most one embedding.  Its
+image is contained in $F$, so it is an automorphism of $F$; applying it
+twice fixes both generators, hence it is an involution.
+\end{proof}
+
+\begin{remark}[Why a second compatible fibre occurs]
+\label{rem:complex-conjugation}
+Because $\xi$ is real, complex conjugation is always a compatible
+embedding:
+\[
+ e^{\overline a\,\xi}=\overline b.
+\]
+By \cref{thm:compatible-rigidity}, either
+$\overline a=a$ and $\overline b=b$, in which case the distinguished
+certificate field is real, or
+$\overline a=-a$ and $\overline b=b^{-1}$, in which case $a$ is purely
+imaginary and $|b|=1$.  Thus nonreal certificates obtain their second
+compatible fibre from complex conjugation.  For real certificates, a
+second fibre can only come from a real inversion involution; in the
+complexity-one case this is necessarily a real quadratic involution.
+\end{remark}
+
+\begin{corollary}\label{cor:integer-ratio}
+For every certificate, the ratio $d/r$ is a positive integer.  More
+precisely, if $r=1$ then $d/r=d$, while if $r=2$ and $\tau$ is the
+inversion involution, then
+\[
+ \frac dr=\frac d2=[F^\tau:\QQ].
+\]
+\end{corollary}
+
+\begin{proof}
+Only the case $r=2$ requires comment.  Then $\tau$ is a nontrivial
+involution of $F$, so $[F:F^\tau]=2$.
+\end{proof}
+
+\section{The interpolation input}\label{sec:interpolation}
+
+We recall the precise form of the geometric input that is needed.  The following is \cite[Theorem~9]{LiuJiangZhang2026}.  Fix
+positive rational weights
+\[
+ W=(w_0,w_1,\ldots,w_m),\qquad
+ V=(v_0,w_1/\theta,\ldots,w_m/\theta),
+ \qquad 0<\theta<1.
+\]
+Let $\mathcal P_W(H)$ be the span of the monomials $Y^hX^\alpha$ with
+\[
+ w_0h+\sum_{i=1}^m w_i\alpha_i\le H,
+\]
+and let $\mathcal J_V(H)$ be the quotient of
+$\CC[[t,u_1,\ldots,u_m]]$ retaining precisely the monomials
+$t^su^\beta$ with
+\[
+ v_0s+\frac1\theta\sum_{i=1}^m w_i\beta_i<H.
+\]
+
+\begin{theorem}[Bounded-fibre moving-centre interpolation]\label{thm:MI}
+Fix $m,K\ge1$, $1\le\varkappa\le K$, positive rational $w_0,v_0$, and
+$0<\theta<1$ such that
+\begin{equation}\label{eq:MI-volume}
+ K\left(\frac{w_0}{v_0}\right)\theta^m<1,
+ \qquad \varkappa\theta^m<1.
+\end{equation}
+There are successive lower thresholds for the positive rational weights
+$w_1,\ldots,w_m$, independent of the interpolation centres, with the
+following property.  Let
+\[
+ (y_j,c_{j1},\ldots,c_{jm})\in\CC^\times\times\CC^m,
+ \qquad 0\le j<K,
+\]
+assume that at most $\varkappa$ indices have a given value of $y_j$, and
+assume that
+\begin{equation}\label{eq:fibre-separation}
+ j\ne\ell,\ y_j=y_\ell
+ \quad\Longrightarrow\quad
+ c_{ji}\ne c_{\ell i}\quad(1\le i\le m).
+\end{equation}
+Then, for every sufficiently large admissible degree $H$, the map
+\[
+ \mathcal P_W(H)\longrightarrow
+ \bigoplus_{j=0}^{K-1}\mathcal J_V(H)
+\]
+obtained by substituting
+\[
+ Y=y_j(1+t),\qquad
+ X_i=c_{ji}+u_i+\log(1+t)
+\]
+is onto.  The divisibility modulus for $H$ depends only on the weights;
+the eventual threshold may depend on the centres.
+\end{theorem}
+
+The proof in \cite{LiuJiangZhang2026} uses a local intersection-length
+estimate, separated weights, a curve inequality, an ordinary blow-up,
+and Serre vanishing.  Brown independently proved a general-fibre version
+under the global condition $K\theta^m<1$
+\cite[Theorem~2.1]{Brown2026}.  We quote the bounded-fibre formulation
+of Liu--Jiang--Zhang because its second volume constraint depends only on
+the maximal fibre multiplicity $\varkappa$, which is sharper when many
+multiplicative fibres are distinct and still covers torsion.  We shall
+use the determinant translation and collision estimates from
+Sections~4--6 of Liu--Jiang--Zhang.  Those estimates are uniform over the
+selected full-row minor and its columns.
+
+\subsection{Parameters}
+
+The following elementary lemma isolates the only change from the
+parameter choice for a single rational logarithm.
+
+\begin{lemma}[Gap parameters]\label{lem:parameters}
+Let $d,r$ be positive integers and let $\nu>2d/r$.  There exist rational
+numbers
+\[
+ 0<\theta<A<B<1,\qquad 0<\eta<1,
+\]
+and rational numbers $C>1$ such that
+\begin{align}
+ &A^2<\theta<A,
+ \label{eq:param1}\\
+ &g:=r\nu\bigl(A(1-\eta)-\theta\bigr)-d(1-\theta)>0,
+ \label{eq:param-gap}\\
+ &\frac A\theta<C<\frac1A,
+ \qquad
+ A<B<\min\{C^{-1},C\theta\}.
+ \label{eq:param-CB}
+\end{align}
+In particular $C\theta<1$, $CB<1$, $C\theta/B>1$, and $B/A>1$.
+\end{lemma}
+
+\begin{proof}
+Choose a rational number
+\[
+ \frac12<\rho<1-\frac{d}{r\nu};
+\]
+this interval is nonempty because $r\nu>2d$.  For a sufficiently small
+positive rational $\delta$, put
+\[
+ \theta=1-\delta,\qquad A=1-\rho\delta.
+\]
+Then $A>\theta$ and
+\[
+ \theta-A^2=(2\rho-1)\delta-\rho^2\delta^2>0.
+\]
+Moreover
+\[
+ r\nu(A-\theta)-d(1-\theta)
+ =\delta\bigl(r\nu(1-\rho)-d\bigr)>0.
+\]
+Choose a sufficiently small positive rational $\eta$ to preserve this
+strict inequality after replacing $A$ by $A(1-\eta)$.  Since
+$A^2<\theta$, the interval $(A/\theta,1/A)$ is nonempty; choose rational
+$C$ in it.  Both $C^{-1}$ and $C\theta$ exceed $A$, so a rational $B$
+satisfying \eqref{eq:param-CB} exists.  Finally
+$C\theta<\theta/A<1$.
+\end{proof}
+
+For a positive integer $m$, set
+\begin{equation}\label{eq:dimension-parameters}
+ K=\lfloor C^m\rfloor,
+ \qquad w_0=B^{-m},
+ \qquad v_0=2K\theta^m w_0.
+\end{equation}
+Then
+\begin{equation}\label{eq:parameter-limits}
+ K\left(\frac{w_0}{v_0}\right)\theta^m=\frac12,
+ \qquad K\theta^m\longrightarrow0,
+ \qquad \frac K{w_0}\longrightarrow0,
+ \qquad v_0\longrightarrow\infty.
+\end{equation}
+For later use put
+\begin{equation}\label{eq:L-def}
+ L=\frac{\eta^2K\theta^m}{(m+1)v_0A^m}
+   =\frac{\eta^2}{2(m+1)}\left(\frac BA\right)^m.
+\end{equation}
+Thus $L\to\infty$ as $m\to\infty$.
+
+\section{The number-field determinant}\label{sec:determinant}
+
+Fix the data of \cref{thm:main}, and suppose for contradiction that
+there is a real $\nu>2d/r$ for which
+\begin{equation}\label{eq:good-approximations}
+ \left|\xi-\frac pq\right|\le q^{-\nu}
+\end{equation}
+holds for arbitrarily large positive integers $q$.  Replacing $\nu$ by
+a slightly smaller rational number still larger than $2d/r$, we may
+assume that $\nu$ is rational.
+
+Choose the parameters of \cref{lem:parameters}.  Fix a rational
+truncation parameter
+\begin{equation}\label{eq:Phi}
+ \Phi>\frac2\theta.
+\end{equation}
+We shall first take $m$ large, then choose $m$ approximations
+\[
+ x_i=\frac{p_i}{q_i},\qquad
+ \left|\xi-x_i\right|\le q_i^{-\nu},
+ \qquad w_i=\lceil\log q_i\rceil,
+ \qquad 1\le i\le m,
+\]
+successively.  The denominators are taken large enough that $x_i\ne0$,
+$|x_i|\le|\xi|+1$, and the weights meet the successive thresholds in
+\cref{thm:MI}.  This is possible because those thresholds are
+independent of the centres.
+
+Use the centres
+\begin{equation}\label{eq:centres}
+ y_j=b^j,\qquad c_{ji}=ja x_i,
+ \qquad 0\le j<K,\quad1\le i\le m.
+\end{equation}
+We apply \cref{thm:MI} with $\varkappa=K$.  The second inequality in
+\eqref{eq:MI-volume} holds for large $m$ by $K\theta^m\to0$.  If
+$y_j=y_\ell$ and $j\ne\ell$, then
+\[
+ c_{ji}-c_{\ell i}=(j-\ell)a x_i\ne0
+\]
+for every $i$, so \eqref{eq:fibre-separation} holds.  Thus the same
+argument covers roots of unity and non-torsion values of $b$.
+
+Set
+\begin{equation}\label{eq:truncations}
+ T_i=\left\lceil\frac{\Phi w_i}{v_0}\right\rceil,
+ \qquad
+ G_i(t)=\sum_{1\le k<T_i}\frac{(-1)^{k+1}}{k}t^k,
+ \qquad
+ L_i=\lcm(1,\ldots,T_i-1),
+\end{equation}
+where an empty sum and empty least common multiple are interpreted as
+$0$ and $1$.  Because $v_0T_i>w_i/\theta$, replacing $\log(1+t)$ by
+$G_i(t)$ is an invertible filtered change on every retained jet packet
+\cite[Section~4]{LiuJiangZhang2026}.
+
+For an admissible degree $H$, use the monomials
+\[
+ P=Y^hX^\alpha,
+ \qquad w_0h+\sum_iw_i\alpha_i\le H,
+\]
+as columns, and use the triples
+\[
+ \varrho=(j,s,\beta),\qquad
+ 0\le j<K,
+ \qquad v_0s+\frac1\theta\sum_iw_i\beta_i<H,
+\]
+as rows.  The matrix entry is
+\begin{equation}\label{eq:matrix-entry}
+ [t^su^\beta]\,
+ b^{jh}(1+t)^h
+ \prod_{i=1}^m(ja x_i+G_i(t)+u_i)^{\alpha_i}.
+\end{equation}
+For every sufficiently large admissible $H$, interpolation supplies a
+nonzero square minor $\Delta_H\in F^\times$ containing every row.  Let
+$M=M_H$ be its size, and put
+\begin{equation}\label{eq:bbar}
+ \bar\beta_H=\frac1{MH}
+ \sum_{\varrho=(j,s,\beta)}\sum_iw_i\beta_i.
+\end{equation}
+Then
+\begin{equation}\label{eq:row-asymptotic}
+ M\sim
+ \frac{K\theta^mH^{m+1}}
+ {(m+1)!v_0\prod_iw_i},
+ \qquad 0\le\bar\beta_H\le\theta.
+\end{equation}
+
+\subsection{Algebraic-integral clearing and the norm inequality}
+
+Choose an integer $D_0\ge1$ such that
+\[
+ D_0a,\ D_0b\in\OO_F.
+\]
+Put
+\[
+ \mathfrak D_H=\prod_{i=1}^mL_i^{\lfloor H/w_i\rfloor}.
+\]
+Scale the column $(h,\alpha)$ and the row $(j,s,\beta)$ by
+\begin{equation}\label{eq:scales}
+ C_{h,\alpha}=D_0^{(K-1)h}\prod_i(D_0q_i)^{\alpha_i},
+ \qquad
+ S_{j,s,\beta}=\mathfrak D_H\prod_i(D_0q_i)^{-\beta_i}.
+\end{equation}
+
+\begin{lemma}[Norm lower bound]\label{lem:norm}
+Let $\Lambda=4\log2$ and $w_*=\min_iw_i$.  Define
+\begin{equation}\label{eq:Ear}
+ E_{\mathrm{ar}}=
+ \frac{\Lambda\Phi m}{v_0}
+ +\Lambda\sum_{i=1}^m\frac1{w_i}
+ +\frac{\theta+\log D_0}{w_*}
+ +\frac{(K-1)\log D_0}{w_0}.
+\end{equation}
+Then
+\begin{equation}\label{eq:norm-inequality}
+ 0\le
+ \sum_{\sigma\in\Sigma_F}
+ \frac{\log|\sigma(\Delta_H)|}{MH}
+ +d\bigl(1-\bar\beta_H+E_{\mathrm{ar}}\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The entry obtained from \eqref{eq:matrix-entry} after the row and column
+scalings is zero unless $\beta\le\alpha$.  Otherwise it equals
+\begin{align*}
+ &\mathfrak D_H(D_0b)^{jh}D_0^{(K-1-j)h}
+ \binom\alpha\beta[t^s](1+t)^h\\
+ &\hspace{25mm}\cdot
+ \prod_{i=1}^m
+ \bigl(j(D_0a)p_i+D_0q_iG_i(t)\bigr)^{\alpha_i-\beta_i}.
+\end{align*}
+The denominator contributed by the $i$th truncated logarithm divides
+$L_i^{\alpha_i-\beta_i}$, and
+$\alpha_i-\beta_i\le\lfloor H/w_i\rfloor$.  Hence every scaled entry
+belongs to $\OO_F$.  The scaled determinant
+\[
+ \widetilde\Delta_H
+ =\Delta_H\prod_{\text{columns}}C_{h,\alpha}
+             \prod_{\text{rows}}S_{j,s,\beta}
+\]
+is therefore a nonzero algebraic integer.  Consequently
+\[
+ 1\le|\Nm_{F/\QQ}(\widetilde\Delta_H)|
+ =\prod_{\sigma\in\Sigma_F}|\sigma(\widetilde\Delta_H)|;
+\]
+we count complex embeddings separately, as in the usual product formula
+\cite[Chapter~I]{Neukirch1999}.
+
+It remains to bound the positive rational scaling factor.  As in
+\cite[Section~4]{LiuJiangZhang2026},
+\[
+ \frac{\log\mathfrak D_H}{H}
+ \le\frac{\Lambda\Phi m}{v_0}
+    +\Lambda\sum_i\frac1{w_i}.
+\]
+Every selected column satisfies
+\[
+ \sum_i\alpha_i\log q_i\le H,
+ \qquad |\alpha|\le\frac H{w_*},
+ \qquad h\le\frac H{w_0}.
+\]
+Moreover, since $0\le w_i-\log q_i<1$,
+\[
+ \sum_{\text{rows}}\sum_i\beta_i\log q_i
+ \ge MH\bar\beta_H-\frac{MH\theta}{w_*}.
+\]
+The negative row contribution involving $\log D_0$ may be discarded.
+Thus the logarithm of the total scaling factor, divided by $MH$, is at
+most $1-\bar\beta_H+E_{\mathrm{ar}}$.  Taking logarithms of the norm
+inequality proves \eqref{eq:norm-inequality}.
+\end{proof}
+
+\section{Archimedean determinant estimates}\label{sec:analytic}
+
+Set
+\[
+ C_a=\max_{\sigma\in\Sigma_F}\max\{1,|\sigma(a)|\},
+ \qquad
+ C_b=\max_{\sigma\in\Sigma_F}\max\{1,|\sigma(b)|\},
+ \qquad X=|\xi|+1.
+\]
+All constants in this section are uniform over the finite set
+$\Sigma_F$.  The verification below is included to make explicit that
+neither the row translation nor the collision argument requires real
+centres or distinct multiplicative fibres.  Reality enters only through
+the common rational approximants to $\xi$; repeated fibres are handled
+solely by the interpolation theorem that supplies the full-row minor.
+
+\subsection{Compatible embeddings}
+
+For $\sigma\in\Comp$, define
+\[
+ z_j(t)=j\sigma(a)\xi+\log(1+t),
+ \qquad
+ \epsilon_{ji}=j\sigma(a)(x_i-\xi),
+ \qquad
+ \tau_i(t)=G_i(t)-\log(1+t).
+\]
+Compatibility gives the exact identities
+\begin{equation}\label{eq:compatible-identities}
+ e^{z_j(t)}=\sigma(b)^j(1+t),
+ \qquad
+ j\sigma(a)x_i+G_i(t)+u_i
+ =z_j(t)+u_i+\epsilon_{ji}+\tau_i(t).
+\end{equation}
+For a selected column $P=Y^hX^\alpha$ and a multi-index $\lambda$, let
+\[
+ f_{\lambda,P}(z)
+ =[u^\lambda]P(e^z,z+u_1,\ldots,z+u_m)
+ =\binom\alpha\lambda e^{hz}z^{|\alpha|-|\lambda|},
+\]
+with the convention that this is zero unless $\lambda\le\alpha$.
+Expanding \eqref{eq:compatible-identities} gives the same exact row
+translation as in \cite[Section~5.1]{LiuJiangZhang2026}:
+\begin{align}\label{eq:row-translation}
+ \operatorname{row}_{j,s,\beta}^{\sigma}
+ ={}&\sum_{\substack{\lambda\ge\beta\\w\lambda\le H}}
+ \binom\lambda\beta
+ \sum_{0\le e\le\lambda-\beta}
+ \binom{\lambda-\beta}{e}
+ \epsilon_j^{\lambda-\beta-e}\\
+ &\quad\cdot\sum_{k=0}^s
+ [t^k]\prod_i\tau_i(t)^{e_i}
+ \bigl([t^{s-k}]f_{\lambda,P}(z_j(t))\bigr)_P.
+ \nonumber
+\end{align}
+Here and below $w\lambda=\sum_iw_i\lambda_i$.
+
+Since
+\[
+ |\epsilon_{ji}|
+ \le KC_aq_i^{-\nu}
+ \le KC_ae^{\nu}e^{-\nu w_i},
+\]
+and a nonzero tail coefficient in \eqref{eq:row-translation} uses
+$we<H/\Phi$, every scalar multiplying a translated test row is bounded
+by
+\begin{equation}\label{eq:translation-scalar}
+ \exp\{-\nu w(\lambda-\beta)+HE_{\mathrm{tr}}\},
+\end{equation}
+where one may take
+\begin{equation}\label{eq:Etr}
+ E_{\mathrm{tr}}
+ =\frac\nu\Phi+\frac{\log2}{v_0}
+ +\frac{\log4+\log(2KC_a)+\nu}{w_*}.
+\end{equation}
+
+Choose
+\[
+ R=100K(1+C_a|\xi|).
+\]
+On $|t|\le1/2$, every $z_j(t)$ lies in $|z|<R/2$.  The Taylor-collision
+argument of \cite[Section~5.2]{LiuJiangZhang2026}, originally appearing
+in this interpolation-determinant form in \cite{Laurent2000}, gives the
+following uniform estimate.  Put
+\begin{equation}\label{eq:Ehol}
+ E_{\mathrm{hol}}
+ =\frac R{w_0}+\frac{\log2}{v_0}
+  +\frac{\log(2R)}{w_*},
+ \qquad c=\frac{\log2}{4}.
+\end{equation}
+Let
+\[
+ S=\sum_iw_i,
+ \qquad
+ L_H=L\left(1+\frac{S}{AH}\right)^{-m}.
+\]
+Thus $L_H\to L$ as $H\to\infty$.
+
+\begin{lemma}[Compatible-place estimate]\label{lem:compatible}
+There is a quantity $\delta_H\to0$, independent of
+$\sigma\in\Comp$ and of the selected full-row minor, such that
+\begin{equation}\label{eq:compatible-bound}
+ \frac{\log|\sigma(\Delta_H)|}{MH}
+ \le E_{\mathrm{tr}}+E_{\mathrm{hol}}+\delta_H
+ +\max\left\{-cL_H,
+ -\nu\bigl(A(1-\eta)-\bar\beta_H\bigr)\right\}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We indicate the complete reduction to the cited collision estimate.
+The row expansion \eqref{eq:row-translation} has only polynomially many
+terms in $H$ for each row.  Choose one translated row from each original
+row and let $n_\lambda$ be the number chosen with transverse index
+$\lambda$.  Expanding the entire functions $f_{\lambda,P}$ in Taylor
+series in $z/R$, any nonzero determinant contribution uses distinct
+Taylor degrees within each fixed $\lambda$-group.  Hence
+\[
+ |\det T|
+ \le\exp\left\{-c\sum_\lambda n_\lambda^2
+ +MH(E_{\mathrm{hol}}+o(1))\right\}.
+\]
+To see explicitly why no reality or distinct-fibre hypothesis is
+hidden here, write
+\[
+ f_{\lambda,P}(z)=\sum_{d\ge0}c_{\lambda,d,P}(z/R)^d.
+\]
+The coefficient vector $(c_{\lambda,d,P})_P$ is independent of the
+centre index $j$ and of the row order $s$; all dependence on the complex
+point $z_j(t)$ occurs in a scalar coefficient.  Hence two selected rows
+with the same pair $(\lambda,d)$ are proportional in the corresponding
+determinant term, which is the sole source of the collision saving.
+Cauchy's estimate is taken on the complex disk $|z|\le R$, so the
+argument is indifferent to whether the points $j\sigma(a)\xi$ are real
+or imaginary.  It also does not require distinct multiplicative fibres.
+Indeed, if $\sigma(b)^j=\sigma(b)^\ell$ with $j\ne\ell$, then
+\[
+ z_j(0)-z_\ell(0)=(j-\ell)\sigma(a)\xi\ne0,
+\]
+although this additive distinctness is not used in the determinant
+cancellation.  This is exactly the collision estimate of
+\cite[Section~5.2]{LiuJiangZhang2026}; its proof is uniform in the
+columns and depends on the centres only through the radius $R$.
+
+Let
+\[
+ D_A(H)=\#\{\lambda\in\NN^m:w\lambda\le AH\}.
+\]
+The same unit-cube estimates as in \cite[Section~6]{LiuJiangZhang2026}
+give
+\[
+ M\ge\frac{K\theta^mH^{m+1}}
+ {(m+1)!v_0\prod_iw_i},
+ \qquad
+ D_A(H)\le\frac{(AH+S)^m}{m!\prod_iw_i}.
+\]
+If at least $\eta M$ selected indices have weight at most $AH$, then
+Cauchy--Schwarz yields
+\[
+ \frac1{MH}\sum_\lambda n_\lambda^2\ge L_H.
+\]
+Otherwise more than $(1-\eta)M$ indices have weight greater than $AH$.
+Combining this with the scalar estimate
+\eqref{eq:translation-scalar} gives the exponent
+$-\nu(A(1-\eta)-\bar\beta_H)$.  The number of multilinear expansion
+terms is polynomial to the power $M$; after division by $MH$ its
+contribution is $o(1)$.  This proves \eqref{eq:compatible-bound}.
+\end{proof}
+
+\subsection{The remaining embeddings}
+
+At an incompatible embedding no approximation gain is available, but
+none is needed.  A direct Cauchy estimate gives a normalized cost that
+can be made arbitrarily small by the separated parameter choices.
+
+\begin{lemma}[Crude estimate at every embedding]\label{lem:crude}
+For every $\sigma\in\Sigma_F$,
+\begin{equation}\label{eq:crude-bound}
+ \frac{\log|\sigma(\Delta_H)|}{MH}
+ \le E_{\mathrm{bad}}+\frac{\log M}{2H},
+\end{equation}
+where
+\begin{equation}\label{eq:Ebad}
+ E_{\mathrm{bad}}
+ =\frac{K\log C_b+\log(3/2)}{w_0}
+ +\frac{\log\bigl(2(1+KC_aX+\log2)\bigr)}{w_*}
+ +\frac{\log2}{v_0}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The conjugate of \eqref{eq:matrix-entry} is zero unless
+$\beta\le\alpha$.  Otherwise it is
+\[
+ \sigma(b)^{jh}\binom\alpha\beta[t^s](1+t)^h
+ \prod_i(j\sigma(a)x_i+G_i(t))^{\alpha_i-\beta_i}.
+\]
+On $|t|=1/2$ we have $|G_i(t)|\le\log2$, while
+$|x_i|\le X$, $j<K$, $s\le H/v_0$, $h\le H/w_0$, and
+$|\alpha|\le H/w_*$.  Cauchy's estimate and
+$\binom\alpha\beta\le2^{|\alpha|}$ therefore bound each entry by
+$\exp(HE_{\mathrm{bad}})$.  Hadamard's inequality contributes at most
+$M^{M/2}$, which gives \eqref{eq:crude-bound}.
+\end{proof}
+
+\subsection{Making the errors small}
+
+The choices are made in the following order.  First choose $\Phi$ so
+large that the contribution $r\nu/\Phi$ is smaller than any prescribed
+positive tolerance.  Next let $m$ tend to infinity.  By
+\eqref{eq:parameter-limits} and \eqref{eq:L-def},
+\[
+ \frac{m}{v_0}\to0,
+ \qquad \frac K{w_0}\to0,
+ \qquad \frac1{v_0}\to0,
+ \qquad L\to\infty.
+\]
+The constants $D_0,C_a,C_b,\xi,d,r$ are fixed.  Thus $m$ may be chosen so
+that all terms in \eqref{eq:Ear}, \eqref{eq:Ehol}, and
+\eqref{eq:Ebad} not involving $w_i$ are as small as desired, and also
+so that
+\begin{equation}\label{eq:low-gap}
+ rcL>d+1.
+\end{equation}
+Finally, because the interpolation thresholds are centre-independent,
+the approximations may be selected successively with all $w_i$ so
+large that
+\[
+ \sum_i\frac1{w_i},\qquad \frac{1+\log K}{w_*}
+\]
+are as small as desired.  Once all parameters and centres are fixed,
+$H$ tends to infinity through admissible degrees; then
+$L_H\to L$, $\delta_H\to0$, and $(\log M)/H\to0$.
+
+\section{Proof of the conjugate-fibre theorem}\label{sec:proof}
+
+Apply \cref{lem:compatible} at the $r$ embeddings in $\Comp$ and
+\cref{lem:crude} at the other $d-r$ embeddings.  Substitution in
+\eqref{eq:norm-inequality} gives
+\begin{align}\label{eq:final-master}
+ 0\le{}&d(1-\bar\beta_H)
+ +r\max\left\{-cL_H,
+ -\nu\bigl(A(1-\eta)-\bar\beta_H\bigr)\right\}
+ +\mathcal E_H,
+\end{align}
+where, by the choice order above, the nonnegative error
+$\mathcal E_H$ can be made arbitrarily small and then kept fixed while
+$H\to\infty$.
+
+For the collision alternative,
+\[
+ d(1-\bar\beta_H)-rcL_H\le d-rcL_H,
+\]
+which is strictly negative for all sufficiently large $H$ by
+\eqref{eq:low-gap}.  For the large-index alternative, since
+$r\nu>d$ and $0\le\bar\beta_H\le\theta$,
+\begin{align*}
+ &r\nu\bigl(A(1-\eta)-\bar\beta_H\bigr)
+   -d(1-\bar\beta_H)\\
+ &\qquad\ge
+ r\nu\bigl(A(1-\eta)-\theta\bigr)-d(1-\theta)
+ =g>0.
+\end{align*}
+This is exactly the positive gap displayed in \eqref{eq:param-gap}.  Thus both entries of the maximum in
+\eqref{eq:final-master}, after adding $d(1-\bar\beta_H)$, are bounded
+above by a fixed negative number.  Taking all fixed errors sufficiently
+small and then $H$ sufficiently large contradicts
+\eqref{eq:final-master}.
+
+Therefore \eqref{eq:good-approximations} cannot hold for arbitrarily
+large denominators when $\nu>2d/r$.  This proves the asserted eventual
+lower bound and hence $\mu(\xi)\le2d/r$.  As noted in the introduction,
+$\xi$ is transcendental.  When $d=r$---which by rigidity means either
+$d=r=1$ or $d=r=2$---Dirichlet's theorem supplies the opposite inequality
+$\mu(\xi)\ge2$.  This completes the proof of
+\cref{thm:main}.
+
+\begin{remark}[Why the scalar norm threshold is $2d/r$]
+The constraint $A^2<\theta<A<1$ implies
+\[
+ 1-\theta-2(A-\theta)=1-2A+\theta>(1-A)^2>0.
+\]
+Hence
+\[
+ \frac{1-\theta}{A-\theta}>2.
+\]
+The leading high-index inequality
+$r\nu(A-\theta)>d(1-\theta)$ therefore forces
+$\nu>2d/r$.  Conversely, \cref{lem:parameters} constructs admissible
+parameters for every strict inequality $\nu>2d/r$.  Thus $2d/r$ is the
+sharp threshold of this scalar product-formula architecture, although
+it need not be the true irrationality exponent when $r<d$.
+\end{remark}
+
+\begin{remark}[Effectivity]
+The theorem is qualitative.  As in \cite{LiuJiangZhang2026}, after the
+centres have been selected the analytic contradiction has an explicit
+large-degree threshold, but the centre-dependent Serre-vanishing
+threshold in the interpolation theorem is not made effective.
+\end{remark}
+
+
+\section{Power saturation and intrinsic complexity}\label{sec:complexity}
+
+Fix one certificate $e^{a\xi}=b$.  For $N\ge1$, put
+\begin{equation}\label{eq:power-data-new}
+ F_N=\QQ(a,b^N),
+ \qquad d_N=[F_N:\QQ],
+\end{equation}
+and let
+\begin{equation}\label{eq:rN-new}
+ r_N=\#\left\{\sigma:F_N\hookrightarrow\CC:
+ e^{N\sigma(a)\xi}=\sigma(b^N)\right\}.
+\end{equation}
+Define
+\[
+ \kappa_N=\frac{d_N}{r_N}.
+\]
+By \cref{thm:compatible-rigidity,cor:integer-ratio}, each $r_N$ is one
+or two and each $\kappa_N$ is a positive integer.
+
+\begin{lemma}[Divisibility monotonicity]\label{lem:divisibility}
+If $N\mid M$, then
+\[
+ \boxed{\kappa_M\le\kappa_N.}
+\]
+\end{lemma}
+
+\begin{proof}
+Since $N\mid M$, one has $F_M\subseteq F_N$.  Every compatible
+embedding of $F_N$ restricts to a compatible embedding of $F_M$, because
+the relation for $N$ can be raised to the power $M/N$.  Each embedding
+of $F_M$ has at most $[F_N:F_M]$ extensions to $F_N$.  Hence
+\[
+ r_N\le [F_N:F_M]r_M.
+\]
+Together with $d_N=[F_N:F_M]d_M$, this gives
+$d_N/r_N\ge d_M/r_M$.
+\end{proof}
+
+For an arbitrary certificate $e^{c\xi}=u$, write
+\[
+ \kappa(c,u;\xi)=
+ \frac{[\QQ(c,u):\QQ]}
+ {\#\{\sigma:\QQ(c,u)\hookrightarrow\CC:
+ e^{\sigma(c)\xi}=\sigma(u)\}}.
+\]
+
+\begin{lemma}[Rational roots do not improve the ratio]
+\label{lem:rational-roots}
+Let $e^{c\xi}=u$ be any algebraic exponential certificate.  Then there
+is a positive integer $M$ such that
+\[
+ \boxed{\kappa(c,u;\xi)\ge\kappa_M.}
+\]
+\end{lemma}
+
+\begin{proof}
+By \cref{thm:certificate-line}, $c=qa$ for some
+$q\in\QQ^\times$.  Replacing $(c,u)$ by $(-c,u^{-1})$ if necessary
+does not change its field or compatible-embedding count, so write
+$q=m/n$ with coprime positive integers $m,n$.  Then
+\[
+ u^n=b^m.
+\]
+Put
+\[
+ F'=\QQ(a,u),
+ \qquad
+ F_m=\QQ(a,b^m)\subseteq F',
+\]
+and let $r'$ be the number of compatible embeddings of $F'$ for the
+certificate $e^{c\xi}=u$.  Every such embedding restricts to a
+compatible embedding of $F_m$: raising
+$e^{(m/n)\sigma(a)\xi}=\sigma(u)$ to the $n$th power gives
+$e^{m\sigma(a)\xi}=\sigma(b^m)$.  Therefore
+\[
+ r'\le[F':F_m]r_m.
+\]
+Since $[F':\QQ]=[F':F_m]d_m$, one obtains
+\[
+ \kappa(c,u;\xi)=\frac{[F':\QQ]}{r'}
+ \ge\frac{d_m}{r_m}=\kappa_m.
+\]
+\end{proof}
+
+\begin{definition}[Exponential certificate complexity]
+\label{def:kappa-exp}
+For a real nonzero $\xi$ admitting an algebraic exponential certificate,
+set
+\[
+ \kappa_{\exp}(\xi)=
+ \inf_{e^{c\xi}=u}\kappa(c,u;\xi),
+\]
+where the infimum runs over all $c,u\in\Qbar^\times$.
+\end{definition}
+
+\begin{theorem}[Intrinsic power saturation]\label{thm:intrinsic-kappa}
+For any fixed certificate $e^{a\xi}=b$,
+\[
+ \boxed{
+ \kappa_{\exp}(\xi)
+ =\min_{N\ge1}\kappa_N
+ =\lim_{j\to\infty}\kappa_{j!}
+ \in\ZZ_{>0}.}
+\]
+The sequence $\kappa_{j!}$ is eventually constant.  In particular,
+the optimum is attained and is independent of the initial certificate.
+Moreover,
+\[
+ \boxed{\mu(\xi)\le2\kappa_{\exp}(\xi).}
+\]
+\end{theorem}
+
+\begin{proof}
+Powers of the fixed certificate are among all certificates, so
+$\kappa_{\exp}(\xi)\le\inf_N\kappa_N$.  Conversely,
+\cref{lem:rational-roots} shows that every certificate has ratio at
+least one of the $\kappa_N$.  Hence equality holds.
+
+By \cref{lem:divisibility}, the positive integers $\kappa_{j!}$ form a
+nonincreasing sequence and are therefore eventually constant.  For
+every fixed $N$, one has $N\mid j!$ for all sufficiently large $j$, so
+the eventual value is at most $\kappa_N$.  It is therefore the global
+minimum.  Finally, apply \cref{thm:main} to a power attaining this
+minimum.
+\end{proof}
+
+If one defines the optimized compatible-fibre density by
+\[
+ \rho_{\exp}(\xi)=
+ \sup_{e^{c\xi}=u}
+ \frac{r(c,u;\xi)}{[\QQ(c,u):\QQ]},
+\]
+then \cref{thm:intrinsic-kappa} says
+\begin{equation}\label{eq:density-reciprocal}
+ \boxed{\rho_{\exp}(\xi)=\frac1{\kappa_{\exp}(\xi)}.}
+\end{equation}
+Thus the only possible optimized densities are
+$1,1/2,1/3,\ldots$.
+
+\begin{corollary}[Torsion-defect criterion]\label{cor:torsion-new}
+Let $L$ be a normal closure of $\QQ(a,b)$.  Suppose that for every
+embedding $\tau:L\hookrightarrow\CC$ the defect
+\[
+ \delta_\tau=\frac{e^{\tau(a)\xi}}{\tau(b)}
+\]
+is a root of unity.  Then
+\[
+ \boxed{\kappa_{\exp}(\xi)=1,
+ \qquad \mu(\xi)=2.}
+\]
+\end{corollary}
+
+\begin{proof}
+Choose $N$ divisible by the orders of the finitely many roots of unity
+$\delta_\tau$.  Then
+\[
+ e^{N\tau(a)\xi}=\tau(b^N)
+\]
+for every $\tau$.  Every embedding of $F_N=\QQ(a,b^N)$ extends to an
+embedding of $L$, so every embedding of $F_N$ is compatible.  Hence
+$\kappa_N=1$ and \cref{thm:intrinsic-kappa} applies.
+\end{proof}
+
+\begin{remark}[Relation lattices]
+Suppose $e^{a_j\xi}=b_j$ for finitely many algebraic certificates.
+By \cref{thm:certificate-line}, all $a_j$ are rational multiples of
+one coefficient.  Any integer combination of the certificates is
+therefore another rational rescaling, and
+\cref{lem:rational-roots} shows that it cannot improve on power
+saturation.  Thus no separate relation-lattice optimization is needed.
+\end{remark}
+
+\section{Exact scalar complexity one and one-dimensional tori}
+\label{sec:classification}
+
+The point of the next theorem is a converse: Gelfond--Schneider
+rigidity shows that, after rational scaling, branch completion, and the
+torsion boundary, no other exact-two family can be reached by the scalar
+compatible-fibre method.
+
+\begin{theorem}[Classification of $\kappa_{\exp}=1$]
+\label{thm:kappa-one-classification}
+Let $\xi\in\RR^\times$ admit an algebraic exponential certificate.  The
+following are equivalent.
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $\kappa_{\exp}(\xi)=1$.
+\item Some powered certificate has all of its embeddings compatible.
+\item One of the following alternatives holds.
+  \begin{enumerate}[label=\textup{(\alph*)}]
+  \item There are $\lambda_0\in\QQ^\times$ and
+  $\alpha_0\in\QQ_{>0}\setminus\{1\}$ such that
+  \[
+    \xi=\lambda_0\log\alpha_0.
+  \]
+  \item There are a quadratic field $E=\QQ(\omega)$ with
+  $\omega^2\in\QQ^\times$, its nontrivial automorphism
+  $\tau(\omega)=-\omega$, and an element $B\in E^\times$ satisfying
+  \[
+    \tau(B)=B^{-1},
+    \qquad
+    e^{2\omega\xi}=B.
+  \]
+  \end{enumerate}
+\end{enumerate}
+In alternative \textup{(iii)(b)}, if $B\ne-1$ then
+\[
+ t=\frac{B-1}{\omega(B+1)}\in\QQ
+\]
+and, for some $k\in\ZZ$ and a compatible branch of $\arctanh$,
+\begin{equation}\label{eq:artanh-parametrization}
+ \boxed{
+ \xi=\frac1\omega\arctanh(t\omega)
+      +\frac{\pi i k}{\omega}.}
+\end{equation}
+If $B=-1$, then
+\begin{equation}\label{eq:torsion-boundary}
+ \boxed{
+ \xi=\frac{(2k+1)\pi i}{2\omega}}
+ \qquad(k\in\ZZ).
+\end{equation}
+Every number in the theorem has irrationality exponent two.
+\end{theorem}
+
+\begin{proof}
+The equivalence of \textup{(i)} and \textup{(ii)} follows from the
+attainment statement in \cref{thm:intrinsic-kappa}.  Assume
+\textup{(ii)}, and choose a powered certificate
+\[
+ e^{A\xi}=B,
+ \qquad
+ F=\QQ(A,B),
+\]
+with every embedding compatible.  By
+\cref{thm:compatible-rigidity}, $[F:\QQ]\le2$.
+
+If $F=\QQ$, then $A,B\in\QQ^\times$.  Since $A$ and $\xi$ are real,
+$B=e^{A\xi}$ is positive, and $B\ne1$.  Thus
+\[
+ \xi=A^{-1}\log B,
+\]
+which is alternative \textup{(iii)(a)}.
+
+Suppose $[F:\QQ]=2$, and let $\tau$ be its nontrivial automorphism.
+Compatibility and \cref{thm:compatible-rigidity} give
+\[
+ \tau(A)=-A,
+ \qquad
+ \tau(B)=B^{-1}.
+\]
+Put $\omega=A/2$.  Then $\omega\notin\QQ$,
+$F=\QQ(\omega)$, and $\omega^2\in\QQ^\times$.  This is alternative
+\textup{(iii)(b)}.
+
+If $B\ne-1$, define $t$ by the displayed formula.  Direct calculation
+using $\tau(\omega)=-\omega$ and $\tau(B)=B^{-1}$ gives
+$\tau(t)=t$, hence $t\in\QQ$.  Solving for $B$ yields
+\[
+ B=\frac{1+t\omega}{1-t\omega}.
+\]
+Since $e^{2\omega\xi}=B$, the logarithms of the two sides differ by
+$2\pi i k$, which gives \eqref{eq:artanh-parametrization}.  If $B=-1$,
+then $2\omega\xi=(2k+1)\pi i$, giving
+\eqref{eq:torsion-boundary}.
+
+Conversely, alternative \textup{(iii)(a)} gives the rational
+certificate $e^{\xi/\lambda_0}=\alpha_0$.  In alternative \textup{(iii)(b)}, the
+identity and $\tau$ are both compatible with the certificate
+$e^{2\omega\xi}=B$.  Hence $\kappa_{\exp}(\xi)=1$ in either case.
+The exponent-two conclusion now follows from
+\cref{thm:intrinsic-kappa} and Dirichlet's theorem.
+\end{proof}
+
+\begin{remark}[Torus interpretation]
+Alternative \textup{(iii)(a)} is the split torus $\Gm$.  Alternative
+\textup{(iii)(b)} is the quadratic norm-one torus
+$\operatorname{Res}^{1}_{E/\QQ}\Gm$; the parameter
+$B=(1+t\omega)/(1-t\omega)$ is its Cayley parametrization away from
+$B=-1$.  Thus scalar complexity one is exactly the locus of nonzero real
+logarithm coordinates of $\QQ$-rational points on one-dimensional
+$\QQ$-tori.  For general background on algebraic tori, see
+\cite[Chapter~12]{Milne2017}.
+\end{remark}
+
+\begin{corollary}[Quadratic artanh family]
+\label{cor:quadratic-artanh}
+Let $D\in\QQ^\times$, let $t\in\QQ$ with $1-t^2D\ne0$, and choose a branch for which
+\[
+ \xi=\frac1{\sqrt D}\arctanh(t\sqrt D)
+      +\frac{\pi i k}{\sqrt D}
+\]
+is real and nonzero.  Then
+\[
+ \boxed{\mu(\xi)=2.}
+\]
+The torsion boundary
+\[
+ \xi=\frac{(2k+1)\pi i}{2\sqrt D}
+\]
+is included as well whenever it is real and nonzero.
+\end{corollary}
+
+\begin{proof}
+If $\sqrt D\in\QQ$, the value is a rational multiple of a logarithm of
+a positive rational number.  Otherwise apply
+\cref{thm:kappa-one-classification} with
+$\omega=\sqrt D$ and
+$B=(1+t\sqrt D)/(1-t\sqrt D)$.
+\end{proof}
+
+For $D>0$, the principal real branch has $k=0$ and
+$|t|\sqrt D<1$.  Taking $D=1$ and
+$t=(\alpha_0-1)/(\alpha_0+1)$ shows that, up to the rational factor $2$, the
+family contains every $\log\alpha_0$ with
+$\alpha_0\in\QQ_{>0}\setminus\{1\}$.  For $D=-s<0$,
+\[
+ \frac1{\sqrt D}\arctanh(t\sqrt D)
+ =\frac1{\sqrt s}\arctan(t\sqrt s),
+\]
+so it contains rational arctangents.  Its period boundary contains the
+square-root rescalings of $\pi$.
+
+\begin{corollary}[Concrete exact-two values]\label{cor:concrete-values}
+For every integer $k\ge2$,
+\[
+ \mu\!\left(\arctan\frac1k\right)=2,
+ \qquad
+ \mu\!\left(\frac\pi{\sqrt3}\right)=2,
+\]
+and
+\[
+ \boxed{
+ \mu\!\left(
+  \sqrt{2k-1}\,
+  \arctan\frac{\sqrt{2k-1}}{k-1}
+ \right)=2.}
+\]
+\end{corollary}
+
+\begin{proof}
+The first assertion is the case $D=-1$, $t=1/k$.  For the second, take
+$D=-3$, $t=1$ and multiply the resulting number
+$\pi/(3\sqrt3)$ by $3$.  For the last, put
+$s=2k-1$ and $t=1/(k-1)$ in the negative-$D$ form above, then multiply
+by the rational number $s$.  Irrationality exponent is invariant under
+nonzero rational scaling.
+\end{proof}
+
+\begin{corollary}[Quadratic norm-one elements]
+\label{cor:quadratic-norm-one}
+Let $E=\QQ(\sqrt D)$ be real quadratic, and let
+$u\in E^\times$ satisfy
+\[
+ u>0,
+ \qquad u\ne1,
+ \qquad \Nm_{E/\QQ}(u)=1.
+\]
+Then
+\[
+ \boxed{
+ \mu\left(\frac{\log u}{\sqrt D}\right)=2.}
+\]
+If $\Nm_{E/\QQ}(u)=-1$, the same conclusion follows after squaring the
+certificate.
+\end{corollary}
+
+\begin{proof}
+The nontrivial automorphism sends $\sqrt D$ to $-\sqrt D$ and $u$ to
+$u^{-1}$.  Apply \cref{thm:kappa-one-classification}; for norm $-1$,
+use $u^2$.
+\end{proof}
+
+\section{Applications beyond complexity one}\label{sec:applications}
+
+\subsection{Positive algebraic logarithms}
+
+Brown independently obtained the degree bound
+$\mu(\log\alpha)\le2[\QQ(\alpha):\QQ]$ for positive real algebraic
+$\alpha$ \cite[Proposition~5.1]{Brown2026}.  The theorem below replaces
+the degree by the generally smaller power degree and proves that this is
+the best possible bound within the entire scalar certificate
+architecture.  Liu--Jiang--Zhang already obtain exact exponent two when
+a positive power of $\alpha$ is rational
+\cite[Corollary~7]{LiuJiangZhang2026}.
+
+For $\alpha\in\Qbar_{>0}\setminus\{1\}$, define
+\begin{equation}\label{eq:power-degree-new}
+ d_{\mathrm{pow}}(\alpha)=
+ \min_{N\ge1}[\QQ(\alpha^N):\QQ].
+\end{equation}
+
+\begin{theorem}[Exact scalar complexity of an algebraic logarithm]
+\label{thm:alglog-complexity}
+For every positive algebraic $\alpha\ne1$,
+\[
+ \boxed{
+ \kappa_{\exp}(\log\alpha)=d_{\mathrm{pow}}(\alpha)}
+\]
+and consequently
+\[
+ \boxed{
+ \mu(\log\alpha)\le2d_{\mathrm{pow}}(\alpha).}
+\]
+If some positive power of $\alpha$ is rational, then
+$\mu(\log\alpha)=2$.
+\end{theorem}
+
+\begin{proof}
+Use the initial certificate $e^{\log\alpha}=\alpha$.  For its $N$th
+power, the coefficient $N$ is rational and
+$F_N=\QQ(\alpha^N)$.  A compatible embedding must satisfy
+\[
+ \sigma(\alpha^N)=e^{N\log\alpha}=\alpha^N,
+\]
+so it fixes the generator of $F_N$ and is the identity.  Thus $r_N=1$
+and $\kappa_N=[\QQ(\alpha^N):\QQ]$.  Apply
+\cref{thm:intrinsic-kappa}.  The rational-power case also follows
+directly from \cite[Corollary~7]{LiuJiangZhang2026}.
+\end{proof}
+
+\begin{remark}[Algebraic rescaling asymmetry]
+The norm-one theorem gives
+\[
+ \mu\!\left(\frac{\log(3+2\sqrt2)}{\sqrt2}\right)=2,
+\]
+whereas the scalar complexity of $\log(1+\sqrt2)$ is $2$, so the present
+method gives only
+\[
+ \mu(\log(1+\sqrt2))\le4.
+\]
+Thus the scalar theory is not invariant under multiplication by a
+nonrational algebraic number.  This sharp asymmetry is one motivation
+for the full-Pl\"ucker conjectural mechanism discussed in
+\cref{sec:conjectures}.
+\end{remark}
+
+The power degree has a useful Galois description.
+
+\begin{proposition}[Conjugates modulo torsion]\label{prop:power-degree-galois}
+Let $L$ be a normal closure of $\QQ(\alpha)$, put
+$G=\Gal(L/\QQ)$, and define
+\[
+ H_\alpha=
+ \left\{g\in G:
+ \frac{g(\alpha)}{\alpha}\text{ is a root of unity}\right\}.
+\]
+Then $H_\alpha$ is a subgroup of $G$ and
+\[
+ \boxed{d_{\mathrm{pow}}(\alpha)=[G:H_\alpha].}
+\]
+\end{proposition}
+
+\begin{proof}
+The root-of-unity condition is preserved under products and inverses,
+so $H_\alpha$ is a subgroup.  Choose $N$ divisible by the orders of all
+root-of-unity ratios $g(\alpha)/\alpha$ with $g\in H_\alpha$.  Then
+$H_\alpha$ fixes $\alpha^N$.  Conversely, if $g(\alpha^N)=\alpha^N$,
+then $g(\alpha)/\alpha$ is an $N$th root of unity, so
+$g\in H_\alpha$.  Thus
+$H_\alpha=\Gal(L/\QQ(\alpha^N))$, and
+$[\QQ(\alpha^N):\QQ]=[G:H_\alpha]$.  This value is minimal over all
+powers.
+\end{proof}
+
+\subsection{Relative norm-one fibres}
+
+\begin{theorem}[Relative norm-one bound]\label{thm:relative-norm-one}
+Let $E$ be a number field, let $\omega,t\in\Qbar$ satisfy
+\[
+ E=\QQ(\omega^2,t),
+ \qquad
+ \omega\notin E,
+\]
+and assume $1-t\omega\ne0$.  Put
+\[
+ u=\frac{1+t\omega}{1-t\omega}.
+\]
+Suppose
+\[
+ \xi=\frac1\omega\arctanh(t\omega)
+\]
+is real and nonzero for a chosen branch.  Then, with
+$F=\QQ(\omega,u)$,
+\[
+ \boxed{
+ \mu(\xi)\le[F:\QQ]\le2[E:\QQ].}
+\]
+\end{theorem}
+
+\begin{proof}
+The extension $E(\omega)/E$ is quadratic with involution
+$\tau(\omega)=-\omega$.  Since $t\in E$,
+\[
+ \tau(u)=u^{-1}.
+\]
+The relation $e^{2\omega\xi}=u$ therefore has the identity and $\tau$
+as compatible embeddings of its minimal certificate field $F$.  Hence
+$r=2$, and \cref{thm:main} gives
+$\mu(\xi)\le[F:\QQ]$.  Finally
+$F\subseteq E(\omega)$.
+\end{proof}
+
+The rational quadratic-artanh family is the case $E=\QQ$.  For example,
+with $\omega=\sqrt[4]{2}$ and rational $t$ in the real domain,
+\[
+ \mu\left(
+ \frac1{\sqrt[4]{2}}\arctanh(t\sqrt[4]{2})
+ \right)\le4.
+\]
+
+\subsection{\texorpdfstring{Algebraic multiples of $\pi$}{Algebraic multiples of pi}}
+
+\begin{corollary}\label{cor:algebraic-pi}
+For every nonzero real algebraic number $\lambda$,
+\[
+ \boxed{
+ \mu(\lambda\pi)
+ \le[\QQ(i/\lambda):\QQ]
+ \le2[\QQ(\lambda):\QQ].}
+\]
+If $\lambda^2\in\QQ^\times$, then $\mu(\lambda\pi)=2$.  For
+example,
+\[
+ \mu(2^{1/3}\pi)\le6.
+\]
+\end{corollary}
+
+\begin{proof}
+Use the certificate
+\[
+ e^{(i/\lambda)(\lambda\pi)}=-1.
+\]
+Complex conjugation fixes $\lambda$ and sends $i/\lambda$ to its
+negative, so the minimal field has two compatible embeddings.  The
+first bound follows from \cref{thm:main}; the second follows from
+$\QQ(i/\lambda)\subseteq\QQ(i,\lambda)$.  If $\lambda^2$ is rational,
+then $\QQ(i/\lambda)$ is quadratic and both embeddings are compatible.
+\end{proof}
+
+\subsection{Arguments of algebraic numbers}
+
+\begin{corollary}\label{cor:algebraic-arguments}
+Let $z\in\Qbar^\times$, and let $\vartheta\in\RR^\times$ be an argument
+of $z$.  Put
+\[
+ \beta=\frac z{\overline z}.
+\]
+Then
+\[
+ \boxed{
+ \mu(\vartheta)
+ \le
+ \min_{N\ge1}
+ [\QQ(i,\beta^N):\QQ].}
+\]
+In particular, for every nonzero real algebraic $\alpha$,
+\[
+ \boxed{
+ \mu(\arctan\alpha)
+ \le2[\QQ(\alpha):\QQ].}
+\]
+For rational $\alpha\ne0$, equality $\mu(\arctan\alpha)=2$ holds.
+\end{corollary}
+
+\begin{proof}
+Since $e^{2i\vartheta}=\beta$, complex conjugation sends the coefficient
+$2i$ to $-2i$ and $\beta$ to $\beta^{-1}$.  The powered certificate
+therefore has two compatible embeddings in
+$\QQ(i,\beta^N)$, so \cref{thm:main} gives the first bound.  For
+$\vartheta=\arctan\alpha$, take
+$z=1+i\alpha$ and use
+$\QQ(i,\beta)\subseteq\QQ(i,\alpha)$.  The rational case has field
+$\QQ(i)$ and complexity one.
+\end{proof}
+
+\subsection{Rational projective invariance}
+
+\begin{proposition}[$\PGL_2(\QQ)$-invariance]\label{prop:pgl-invariance}
+Let $x$ be irrational and let
+\[
+ g(X)=\frac{AX+B}{CX+D}\in\PGL_2(\QQ)
+\]
+be defined at $x$.  Then
+\[
+ \boxed{\mu(g(x))=\mu(x).}
+\]
+\end{proposition}
+
+\begin{proof}
+After multiplying the coefficients by a common denominator, assume
+$A,B,C,D\in\ZZ$.  For a rational $p/q$ tending to $x$,
+\[
+ g(x)-g(p/q)
+ =\frac{(AD-BC)(x-p/q)}
+ {(Cx+D)(Cp/q+D)}.
+\]
+The two denominator factors stay bounded above and away from zero.  The
+rational number
+\[
+ g(p/q)=\frac{Ap+Bq}{Cp+Dq}
+\]
+has reduced denominator $O(q)$.  Hence approximations to $x$ of every
+exponent $\nu$ yield approximations to $g(x)$ of every smaller exponent.
+Thus $\mu(g(x))\ge\mu(x)$.  Applying the same argument to $g^{-1}$ gives
+the reverse inequality.
+\end{proof}
+
+Consequently every exact-two family above produces an entire rational
+Möbius orbit of exact-two constants, including reciprocals and rational
+affine transforms.
+
+\section{Conjectures and further directions}\label{sec:conjectures}
+
+Rigidity shows that the scalar product-formula method is now essentially
+classified.  When $\kappa_{\exp}(\xi)>1$, no hidden collection of three
+or more compatible scalar fibres can improve the bound.  Any general
+passage from $2\kappa_{\exp}(\xi)$ to $2$ must therefore use a genuinely
+non-scalar arithmetic input.
+
+\begin{conjecture}[Algebraic exponential-fibre conjecture]
+\label{conj:full-fibre}
+If
+\[
+ \xi\in\RR^\times,
+ \qquad
+ a,b\in\Qbar^\times,
+ \qquad
+ e^{a\xi}=b,
+\]
+then
+\[
+ \boxed{\mu(\xi)=2.}
+\]
+\end{conjecture}
+
+The first benchmark beyond the scalar theory is
+\[
+ \mu(\log\alpha)=2
+ \qquad
+ (\alpha\in\Qbar_{>0}\setminus\{1\}),
+\]
+for which \cref{thm:alglog-complexity} currently gives the optimal
+scalar bound $2d_{\mathrm{pow}}(\alpha)$.
+
+\begin{conjecture}[Algebraic linear forms in logarithms]
+\label{conj:linear-forms}
+Let $\alpha_1,\ldots,\alpha_s\in\Qbar^\times$, choose logarithm
+branches, and let $\beta_1,\ldots,\beta_s\in\Qbar$.  If
+\[
+ \Lambda=\sum_{j=1}^s\beta_j\log\alpha_j
+\]
+is real and nonzero, then
+\[
+ \boxed{\mu(\Lambda)=2.}
+\]
+\end{conjecture}
+
+Baker's theorem implies that such a nonzero $\Lambda$ is transcendental
+\cite[Chapter~2]{Baker1975}; the conjecture asks for the optimal rational
+approximation exponent.  It contains \cref{conj:full-fibre} as the
+one-logarithm case.
+
+A plausible route to \cref{conj:full-fibre} is to retain the entire
+vector of maximal minors of the interpolation matrix rather than one
+scalar minor.  The scalar norm argument records only one Pl\"ucker
+coordinate and is forced to pay the integer complexity
+$\kappa_{\exp}$.  An adelic full-Pl\"ucker argument, potentially combined
+with the Subspace Theorem \cite{Schmidt1980}, could instead convert
+simultaneous smallness of all maximal minors at the distinguished place
+into an exceptional functional relation.  The moving-centre
+interpolation theorem is designed to exclude precisely such relations.
+Making this mechanism quantitative remains open.
+
+\section*{Acknowledgments and provenance}
+
+We thank Eric Naslund for publicly drawing attention, in posts on X on
+9 and 12 October 2026, to the quadratic
+$\arctanh(t\sqrt D)/\sqrt D$ family; the later post linked a public
+Claude discussion \cite{Naslund2026}.  We cite those posts as prior
+public identification of the family.  The converse rigidity, intrinsic
+power-saturation, and higher-degree bounds are contributions of the
+present paper.
+
+The geometric interpolation theorem and the analytic row-translation
+and collision estimates used here are those of Liu--Jiang--Zhang
+\cite{LiuJiangZhang2026}, building on the interpolation-determinant
+method of Laurent \cite{Laurent1991,Laurent2000} and the proof for
+$\pi$ in \cite{OpenAI2026}.  Brown independently obtained the
+rational-logarithm theorem and a general-fibre interpolation theorem
+under a global fibre-count condition, together with a Lean~4
+formalization of the rational theorem, and recorded the real-algebraic
+degree bound \cite{Brown2026}.  The new determinant step
+in this paper is the simultaneous number-field denominator clearing and
+product-formula comparison across compatible and incompatible conjugate
+fibres.  The rigidity, intrinsic power-saturation, and torus
+classification are obtained by combining that comparison with
+Gelfond--Schneider.
+
+\renewcommand*{\bibfont}{\small}
+\printbibliography
+
+\end{document}

@@ -40,18 +40,32 @@ Logical dependency:
 - After that representation, the stabilization law, independent marking, extreme-value point process, clock transforms, and finite-dimensional Bayes comparison are derived in the Long manuscript.
 - The manuscript explicitly does not infer any coding-radius or finitary-factor property from the path-law input.
 
-## Paper IV — conjugate fibres and irrationality exponents
+## Paper IV — conjugate fibres, certificate rigidity, and irrationality exponents
 
 Primary OpenAI source:
 
 - OpenAI, [*The irrationality exponent of π is 2*](https://github.com/openai/math/blob/fd4aeeb2ee4fc729c18d98444fed42fd0529eeeb/preprints/The-irrationality-exponent-of-pi-is-2-September-24-2026/README.md) (September 24, 2026).
 
-Additional geometric input:
+Geometric and analytic input:
 
-- Jingwen Liu, Kai Jiang, and Pingwen Zhang, *Irrationality exponents of logarithms of positive rational numbers*, arXiv:2610.10192v2 (October 8, 2026).
+- Jingwen Liu, Kai Jiang, and Pingwen Zhang, [*Irrationality exponents of logarithms of positive rational numbers*](https://arxiv.org/abs/2610.10192), arXiv:2610.10192v2 (October 8, 2026).
+- The Long manuscript imports their bounded-fibre moving-centre interpolation theorem and their row-translation/Taylor-collision estimates. It writes out the conjugated row identity and checks explicitly that the collision estimate is holomorphic in complex centres and does not require distinct multiplicative fibres.
 
-Logical/provenance role:
+Concurrent comparison source:
 
-- The manuscript extends the separated-weight interpolation-determinant method used in the OpenAI π paper from the single rational-valued fibre to algebraic exponential certificates with several compatible conjugate fibres.
-- It imports the bounded-fibre moving-centre interpolation theorem and the row-translation/collision estimates from Liu--Jiang--Zhang, then adds simultaneous number-field denominator clearing and a product-formula comparison across embeddings.
-- The resulting scalar norm argument proves the bound $2d/r$ and its certificate-optimization, power-saturation, torsion-defect, and relation-lattice corollaries. It does not claim the conjectural exponent-2 statement for every algebraic exponential fibre.
+- Dan Brown, [*The irrationality measure of the logarithm of a rational number is 2*](https://jdb19937.github.io/log-irrationality-measure/logmeasure.pdf) (October 7, 2026), with [Lean 4 development](https://github.com/jdb19937/log-irrationality-measure).
+- Brown independently proves the positive-rational logarithm theorem and formalizes that theorem in Lean. His Proposition 5.1 records the bound $\mu(\log\alpha)\le2[\mathbb Q(\alpha):\mathbb Q]$ for positive real algebraic $\alpha$.
+- Brown's general-fibre interpolation theorem uses a global fibre-count condition. Liu–Jiang–Zhang's bounded-fibre theorem is the sharper input used here because its second volume condition depends on the maximum multiplicity within one multiplicative fibre.
+
+Public provenance for the quadratic exact-two family:
+
+- Eric Naslund, public posts on X dated 9 and 12 October 2026; the later post linked the [public Claude discussion](https://claude.ai/share/ee870f04-b05b-4bf9-86fa-9d5f8d5bbd89).
+- These posts are cited as prior public identification of the quadratic artanh family. They are not cited as sources for the converse rigidity, intrinsic saturation, higher-degree bounds, or determinant proof.
+
+New logical content in Paper IV:
+
+- Gelfond–Schneider is used to prove certificate-line rigidity and to show that every compatible embedding is the identity or a unique inversion involution. Thus the compatible count in a minimal certificate field is 1 or 2.
+- The OpenAI/Liu–Jiang–Zhang determinant architecture is globalized over a number field by simultaneous denominator clearing, a product-formula lower bound, compatible-place analytic estimates, and crude estimates at incompatible embeddings.
+- The scalar theorem is reframed as $\mu(\xi)\le2d$, improved to $\mu(\xi)\le d$ under inversion; equivalently $\mu(\xi)\le2d/r$.
+- Rigidity proves that arbitrary scalar-certificate optimization reduces to power saturation. The resulting integer complexity is attained and the complexity-one locus is classified by split and quadratic norm-one tori.
+- The conjectural exponent-two theorem for every algebraic exponential fibre is not imported from any source and remains open in this repository.

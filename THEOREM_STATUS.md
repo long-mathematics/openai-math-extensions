@@ -51,19 +51,28 @@ This register describes the current claims of the four canonical manuscripts. Co
 
 - These random times measure observation time after the reconstructed path is available. They are not coding radii and do not prove that the OpenAI factor map is finitary.
 
-## Paper IV — conjugate fibres and irrationality exponents
+## Paper IV — conjugate fibres, certificate rigidity, and irrationality exponents
 
 **Established in the manuscript**
 
-- For a real nonzero number with an algebraic exponential certificate, if the certificate field has degree $d$ and exactly $r$ embeddings preserve the conjugate exponential relation, then the irrationality exponent is at most $2d/r$.
-- Optimizing over all algebraic exponential certificates gives the corresponding conjugate-fibre-density bound.
-- Power saturation and relation-lattice saturation can improve the certificate ratio; full compatibility after a power gives irrationality exponent exactly 2.
-- If every conjugate defect is a root of unity, a common power gives full compatibility and hence exponent 2.
-- For every positive algebraic number $\alpha\ne1$, the manuscript gives the power-degree bound for the irrationality exponent of $\log\alpha$; if some positive power is rational, the exponent is exactly 2.
-- The worked exact-2 families include rational multiples of the square-root rescalings of π described in the manuscript, rational arctangents, and normalized logarithms of quadratic units.
+- If $e^{a\xi}=b$ is an algebraic exponential certificate with minimal certificate field $F=\mathbb Q(a,b)$ of degree $d$, then $\mu(\xi)\le2d$.
+- If $F$ has the inversion involution $a\mapsto-a$, $b\mapsto b^{-1}$, then $\mu(\xi)\le d$. Equivalently, $\mu(\xi)\le2d/r$, where the compatible count $r$ is proved to lie in $\{1,2\}$.
+- All algebraic exponential certificates for a fixed nonzero real $\xi$ have coefficients on one rational line.
+- Every compatible embedding is either the identity or the unique inversion involution. In particular, the scalar compatible-fibre mechanism cannot produce three or more distinct compatible embeddings in the minimal field.
+- Optimization over all scalar certificates reduces to powers of any one certificate. The resulting intrinsic complexity $\kappa_{\exp}(\xi)$ is a positive integer, is attained, and equals the eventual constant value along sufficiently divisible powers; $\mu(\xi)\le2\kappa_{\exp}(\xi)$.
+- Scalar complexity one is classified by one-dimensional tori over $\mathbb Q$: split rational logarithms and quadratic norm-one tori, including the completed quadratic artanh/arctan family and its torsion boundary.
+- For positive algebraic $\alpha\ne1$, the exact scalar complexity of $\log\alpha$ is the power degree $d_{\mathrm{pow}}(\alpha)$, giving $\mu(\log\alpha)\le2d_{\mathrm{pow}}(\alpha)$.
+- Further applications include relative norm-one bounds, $\mu(\lambda\pi)\le[\mathbb Q(i/\lambda):\mathbb Q]$ for nonzero real algebraic $\lambda$, bounds for arguments of algebraic numbers, and $\operatorname{PGL}_2(\mathbb Q)$-invariance of irrationality exponent.
 
-**Scope boundary**
+**External mathematical input and provenance**
 
-- The manuscript does not prove irrationality exponent 2 for every algebraic exponential fibre when not all relevant conjugates are compatible.
-- The threshold $2d/r$ is shown to be sharp for the scalar product-formula parameter architecture used in the proof, not necessarily for the underlying constants.
+- The determinant proof uses the bounded-fibre moving-centre interpolation theorem and the analytic row-translation/collision estimates of Liu–Jiang–Zhang, with the complex-centre and repeated-fibre transfer checked explicitly in the manuscript.
+- Dan Brown independently proved the positive-rational logarithm theorem, formalized that theorem in Lean 4, and recorded the degree bound for logarithms of positive real algebraic numbers.
+- Eric Naslund’s public posts of 9 and 12 October 2026 are credited as prior public identification of the quadratic exact-two family. The converse rigidity/classification and higher-degree bounds are claims of the present manuscript.
+
+**Scope boundary and open strengthenings**
+
+- The manuscript classifies the exact-two locus of the scalar certificate method; it does not classify all real numbers of irrationality exponent 2.
+- It does not prove exponent 2 for every algebraic exponential fibre. The proposed algebraic exponential-fibre and algebraic linear-forms-in-logarithms statements remain conjectural.
+- The threshold $2d/r$ is sharp for the scalar product-formula parameter architecture, not necessarily for the underlying constants.
 - The denominator threshold is qualitative because the imported moving-centre interpolation theorem has a centre-dependent Serre-vanishing threshold that is not made effective.
